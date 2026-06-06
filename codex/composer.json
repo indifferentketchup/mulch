@@ -1,0 +1,32 @@
+{
+  "name": "aternos/codex",
+  "description": "PHP library to read, parse, print and analyse log files.",
+  "license": "MIT",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Matthias Neid",
+      "email": "matthias@aternos.org"
+    }
+  ],
+  "require": {
+    "php": ">=8.4"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^12"
+  },
+  "autoload": {
+    "psr-4": {
+      "Aternos\\Codex\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Aternos\\Codex\\Test\\Src\\": "test/src/",
+      "Aternos\\Codex\\Test\\Tests\\": "test/tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit test/tests"
+  }
+}

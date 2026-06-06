@@ -1,0 +1,17 @@
+<?php
+
+namespace IndifferentKetchup\Iblogs\Api\Response;
+
+use IndifferentKetchup\CodexPz\Log\LogInterface;
+
+class CodexLogResponse extends ApiResponse
+{
+    public function __construct(protected LogInterface $codexLog)
+    {
+    }
+
+    public function jsonSerialize(): array
+    {
+        return array_merge(parent::jsonSerialize(), $this->codexLog->jsonSerialize());
+    }
+}

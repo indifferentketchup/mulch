@@ -1,0 +1,145 @@
+2026-01-23 12:13:52.1840|INFO|HytaleClient.Application.Program|HytaleClient v2026.01.17-4b0f30090 (Linux x64 Release - Unix 6.18.5.200 - .NET 10.0.2) 
+2026-01-23 12:13:52.1840|INFO|HytaleClient.Application.Program|Revision: 4b0f30090ab99c9ce84652006e40c825c555ad98, Environment: release (hytale.com), Patchline: release 
+2026-01-23 12:13:52.1996|INFO|HytaleClient.Application.Program|Initial window size 1280x720 
+2026-01-23 12:13:52.2841|INFO|HytaleClient.Application.Program|Video memory max: 4194304
+Video memory total available: 4194304
+Video memory current available: 3806464
+Video memory eviction count: 0
+Video memory evicted: 0
+ 
+2026-01-23 12:13:52.2841|WARN|HytaleClient.Application.Program|SDL_GL_DOUBLEBUFFER should be 1 but is 0 
+2026-01-23 12:13:52.2841|INFO|HytaleClient.Application.Program|
+System informations
+ OpenGL driver: 3.3.0 NVIDIA 580.119.02
+ GPU Renderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
+ GPU Memory Total: 4096 MB
+ GPU Memory Available: 3717 MB
+ 
+2026-01-23 12:13:52.4173|INFO|HytaleClient.Application.Program|Built 75 GPU programs successfully. 
+2026-01-23 12:13:52.4173|DEBUG|HytaleClient.Application.Program|GPU programs: BasicProgram, BasicFullScreenProgram, BasicFogProgram, BlockyModelForwardProgram, BlockyModelDitheringProgram, BlockyModelProgram, FirstPersonBlockyModelProgram, BlockyModelDistortionProgram, FirstPersonDistortionBlockyModelProgram, FirstPersonClippingBlockyModelProgram, MapChunkNearOpaqueProgram, MapChunkNearAlphaTestedProgram, MapChunkFarOpaqueProgram, MapChunkFarAlphaTestedProgram, MapChunkAlphaBlendedProgram, MapBlockAnimatedProgram, MapBlockAnimatedForwardProgram, SkyProgram, CloudsProgram, TextProgram, ParticleProgram, ParticleErosionProgram, ParticleDistortionProgram, ForceFieldProgram, BuilderToolProgram, WorldMapProgram, PostEffectProgram, InventoryPostEffectProgram, MainMenuPostEffectProgram, TemporalAAProgram, OITCompositeProgram, CubemapProgram, ZDownsampleProgram, LinearZDownsampleProgram, EdgeDetectionProgram, LinearZProgram, LightMixProgram, LightProgram, LightLowResProgram, LightClusteredProgram, MapChunkShadowMapProgram, MapBlockAnimatedShadowMapProgram, BlockyModelShadowMapProgram, BlockyModelOcclusionMapProgram, DeferredShadowProgram, SSAOProgram, BlurSSAOAndShadowProgram, DeferredProgram, ScreenBlitProgram, BlurProgram, DoFBlurProgram, DoFCircleOfConfusionProgram, DoFDownsampleProgram, DoFNearCoCMaxProgram, DoFNearCoCBlurProgram, DepthOfFieldAdvancedProgram, DoFFillProgram, BloomSelectProgram, BloomDownsampleBlurProgram, BloomUpsampleBlurProgram, BloomMaxProgram, BloomCompositeProgram, RadialGlowMaskProgram, RadialGlowLuminanceProgram, SunOcclusionDownsampleProgram, SceneBrightnessPackProgram, ZOnlyMapChunkProgram, ZOnlyMapChunkPlanesProgram, ZOnlyProgram, HiZReprojectProgram, HiZFillHoleProgram, HiZBuildProgram, HiZCullProgram, DebugDrawMapProgram, Batcher2DProgram 
+2026-01-23 12:13:52.4828|INFO|HytaleClient.Application.Program|Audio:
+OpenAL : 1.1 ALSOFT 1.24.3
+Renderer : OpenAL Soft
+Vendor : OpenAL Community
+Using device : Built-in Audio Analog Stereo
+Output mode : Stereo
+Output limiter : Enabled
+Frequency : 48000 Hz
+Max sources : 255 mono, 1 stereo
+HRTF status : Disabled
+Gain limit : 1000.00 (60.0 dB)
+ 
+2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Session Service client initialized for: https://sessions.hytale.com 
+2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Initializing authentication... 
+2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Starting initial certificate generation... 
+2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Generating new self-signed certificate... 
+2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Opened telemetry session file: /home/julian/.var/app/com.hypixel.HytaleLauncher/data/Hytale/UserData/Telemetry/2026-01-23_11-13-52_6084ff0d.jsonl 
+2026-01-23 12:13:52.4909|INFO|HytaleClient.Application.Program|Telemetry service initialized with session ID: 6084ff0d-db50-4a97-ab11-12c44231a583 
+2026-01-23 12:13:52.4909|INFO|HytaleClient.Application.Program|Telemetry data stored locally at: /home/julian/.var/app/com.hypixel.HytaleLauncher/data/Hytale/UserData/Telemetry 
+2026-01-23 12:13:52.4922|INFO|HytaleClient.Application.Program|Fetching unlocked cosmetics... 
+2026-01-23 12:13:52.4922|INFO|HytaleClient.Application.Program|Fetching game profile from service... 
+2026-01-23 12:13:52.5032|INFO|Noesis|: Noesis Init v3.2.10 (Linux on x86_64 Profile) 
+2026-01-23 12:13:52.5089|INFO|Noesis|: Inspector listening on port 17629 
+2026-01-23 12:13:52.5274|INFO|HytaleClient.Application.Program|Certificate generated successfully in 36.6219ms. Fingerprint: 9HGL_AajPJOgkD8_GQ_jVL3iCg1uMfWeEtTDoxQxw7c 
+2026-01-23 12:13:52.5274|INFO|HytaleClient.Application.Program|Auth config: mode=Authenticated, uuid=85505da5-80f0-4dca-b0c7-6e33869c689c, name=Feuerwehrmann 
+2026-01-23 12:13:52.5274|INFO||Session token expires at 2026-01-23T12:13:50.0000000+00:00 
+2026-01-23 12:13:52.5274|INFO||Scheduling session refresh in 54m 57s (at 2026-01-23T12:08:50.0000000+00:00) 
+2026-01-23 12:13:52.5274|INFO|HytaleClient.Application.Program|Authentication initialized 
+2026-01-23 12:13:52.5338|INFO|Noesis|: 'Theme/NoesisTheme.Colors.Dark.xaml' loaded 
+2026-01-23 12:13:52.5345|INFO|Noesis|: 'Theme/NoesisTheme.Brushes.DarkBlue.xaml' loaded 
+2026-01-23 12:13:52.5522|INFO|Noesis|: 'Theme/NoesisTheme.Styles.xaml' loaded 
+2026-01-23 12:13:52.5522|INFO|Noesis|: 'Theme/NoesisTheme.Fonts.xaml' loaded 
+2026-01-23 12:13:52.5542|INFO|Noesis|: 'DesignSystem/BusinessCard.xaml' loaded 
+2026-01-23 12:13:52.5552|INFO|Noesis|: 'DesignSystem/Button.xaml' loaded 
+2026-01-23 12:13:52.5568|INFO|Noesis|: 'DesignSystem/Colors.xaml' loaded 
+2026-01-23 12:13:52.5577|INFO|Noesis|: 'DesignSystem/Styles.xaml' loaded 
+2026-01-23 12:13:52.5583|INFO|Noesis|: 'DesignSystem/ComboBox.xaml' loaded 
+2026-01-23 12:13:52.5640|INFO|Noesis|: 'DesignSystem/ContextMenu.xaml' loaded 
+2026-01-23 12:13:52.5640|INFO|Noesis|: 'DesignSystem/ControlHint.xaml' loaded 
+2026-01-23 12:13:52.5640|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.5652|INFO|Noesis|: 'DesignSystem/CraftingBar.xaml' loaded 
+2026-01-23 12:13:52.5652|INFO|Noesis|: 'DesignSystem/Effects.xaml' loaded 
+2026-01-23 12:13:52.5795|INFO|Noesis|: 'Theme/NoesisTheme.Styles.xaml' loaded 
+2026-01-23 12:13:52.5810|INFO|Noesis|: 'DesignSystem/Expander.xaml' loaded 
+2026-01-23 12:13:52.5810|INFO|Noesis|: 'DesignSystem/ExperienceBar.xaml' loaded 
+2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem/HealthBar.xaml' loaded 
+2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem/ChargeControl.xaml' loaded 
+2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem/HotbarMenu.xaml' loaded 
+2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem/ListView.xaml' loaded 
+2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem/Message.xaml' loaded 
+2026-01-23 12:13:52.5839|INFO|Noesis|: 'DesignSystem/Modal.xaml' loaded 
+2026-01-23 12:13:52.5839|INFO|Noesis|: 'DesignSystem/NotificationAction.xaml' loaded 
+2026-01-23 12:13:52.5853|INFO|Noesis|: 'DesignSystem/NotificationCelebration.xaml' loaded 
+2026-01-23 12:13:52.5865|INFO|Noesis|: 'DesignSystem/NotificationItem.xaml' loaded 
+2026-01-23 12:13:52.5879|INFO|Noesis|: 'DesignSystem/RecipeListItem.xaml' loaded 
+2026-01-23 12:13:52.5879|INFO|Noesis|: 'DesignSystem/RecipeMaterialItem.xaml' loaded 
+2026-01-23 12:13:52.5889|INFO|Noesis|: 'DesignSystem/RecipeRequirementItem.xaml' loaded 
+2026-01-23 12:13:52.5904|INFO|Noesis|: 'DesignSystem/ScrollViewer.xaml' loaded 
+2026-01-23 12:13:52.5910|INFO|Noesis|: 'DesignSystem/Slot.xaml' loaded 
+2026-01-23 12:13:52.5910|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.5921|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.5929|INFO|Noesis|: 'DesignSystem/SlotCreative.xaml' loaded 
+2026-01-23 12:13:52.5929|INFO|Noesis|: 'DesignSystem/SlotDragged.xaml' loaded 
+2026-01-23 12:13:52.5940|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.5940|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.5951|INFO|Noesis|: 'DesignSystem/SlotEquipment.xaml' loaded 
+2026-01-23 12:13:52.5951|INFO|Noesis|: 'DesignSystem/SlotGamepad.xaml' loaded 
+2026-01-23 12:13:52.5962|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.5962|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.5971|INFO|Noesis|: 'DesignSystem/SlotHotbar.xaml' loaded 
+2026-01-23 12:13:52.5971|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.5981|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.5981|INFO|Noesis|: 'DesignSystem/SlotItem.xaml' loaded 
+2026-01-23 12:13:52.5991|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.5991|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.5991|INFO|Noesis|: 'DesignSystem/SlotMaterial.xaml' loaded 
+2026-01-23 12:13:52.6003|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.6003|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.6010|INFO|Noesis|: 'DesignSystem/SlotRequirement.xaml' loaded 
+2026-01-23 12:13:52.6010|INFO|Noesis|: 'DesignSystem/SlotTrash.xaml' loaded 
+2026-01-23 12:13:52.6020|INFO|Noesis|: 'DesignSystem/StaminaBar.xaml' loaded 
+2026-01-23 12:13:52.6020|INFO|Noesis|: 'DesignSystem/Styles.xaml' loaded 
+2026-01-23 12:13:52.6029|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.6029|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.6041|INFO|Noesis|: 'DesignSystem/Tabs.xaml' loaded 
+2026-01-23 12:13:52.6041|INFO|Noesis|: 'DesignSystem/TextBox.xaml' loaded 
+2026-01-23 12:13:52.6073|INFO|Noesis|: 'DesignSystem/Textures.xaml' loaded 
+2026-01-23 12:13:52.6093|INFO|Noesis|: 'DesignSystem/ToggleButton.xaml' loaded 
+2026-01-23 12:13:52.6093|INFO|Noesis|: 'DesignSystem/Converters.xaml' loaded 
+2026-01-23 12:13:52.6104|INFO|Noesis|: 'DesignSystem/Tooltip.xaml' loaded 
+2026-01-23 12:13:52.6104|INFO|Noesis|: 'DesignSystem/Typography.xaml' loaded 
+2026-01-23 12:13:52.6245|INFO|Noesis|: 'Common/Timeline.xaml' loaded 
+2026-01-23 12:13:52.6285|INFO|Noesis|: 'Common/ColorPicker.xaml' loaded 
+2026-01-23 12:13:52.7486|INFO|Noesis|: 'Gallery/Resources.xaml' loaded 
+2026-01-23 12:13:52.7486|INFO|Noesis|: 'GlobalResources.xaml' loaded 
+2026-01-23 12:13:52.7495|INFO|HytaleClient.Application.Program|Changing from Stage Initial to Startup 
+2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.Program|Successfully fetched unlocked cosmetics 
+2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.Program|Successfully fetched game profile 
+2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.Program|Saving settings... 
+2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.AppStartup|Loading built-in assets from /home/julian/.var/app/com.hypixel.HytaleLauncher/data/Hytale/install/release/package/game/latest/Assets.zip (immutable). 
+2026-01-23 12:13:52.8343|INFO|HytaleClient.Application.AppStartup|Spent 29ms loading hashes from CommonAssetsIndex.hashes. 
+2026-01-23 12:13:52.8343|INFO|HytaleClient.Application.AppStartup|Loading cached assets from /home/julian/.var/app/com.hypixel.HytaleLauncher/data/Hytale/UserData/CachedAssets... 
+2026-01-23 12:13:52.8343|INFO|HytaleClient.Application.AppStartup|Could not find CachedAssetsIndex.cache. 
+2026-01-23 12:13:52.8349|INFO|HytaleClient.Application.AppStartup|AssetManager initialized. 
+2026-01-23 12:13:52.9452|INFO|HytaleClient.Application.AppStartup|Took 0.08730979999999999s to load character part models 
+2026-01-23 12:13:52.9452|INFO|HytaleClient.Application.AppStartup|Character texture atlas cache not found, generating... 
+2026-01-23 12:13:52.9452|INFO|HytaleClient.Application.AppStartup|Re-generating character part atlas... 
+2026-01-23 12:13:52.9469|INFO|HytaleClient.Application.AppStartup|Failed to get PNG dimensions for: Characters/Haircuts/ThickBraid_Greyscale.png 
+2026-01-23 12:13:52.9855|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: event (seq: 1) 
+2026-01-23 12:13:52.9864|INFO|HytaleClient.Application.AppStartup|Took 0.0410432 to regenerate character part atlas 
+2026-01-23 12:13:52.9864|INFO|HytaleClient.Application.AppStartup|CharacterPartStore initialized. 
+2026-01-23 12:13:52.9864|INFO|HytaleClient.Application.AppStartup|Background startup loading done. 
+2026-01-23 12:13:52.9902|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: session_start (seq: 0) 
+2026-01-23 12:13:54.2120|INFO|HytaleClient.Application.AppStartup|Interface loaded. 
+2026-01-23 12:13:54.2120|INFO|HytaleClient.Application.Program|Changing from Stage Startup to MainMenu 
+2026-01-23 12:13:54.3749|INFO|HytaleClient.Application.Program|Built 75 GPU programs successfully. 
+2026-01-23 12:13:54.3749|DEBUG|HytaleClient.Application.Program|GPU programs: BasicProgram, BasicFullScreenProgram, BasicFogProgram, BlockyModelForwardProgram, BlockyModelDitheringProgram, BlockyModelProgram, FirstPersonBlockyModelProgram, BlockyModelDistortionProgram, FirstPersonDistortionBlockyModelProgram, FirstPersonClippingBlockyModelProgram, MapChunkNearOpaqueProgram, MapChunkNearAlphaTestedProgram, MapChunkFarOpaqueProgram, MapChunkFarAlphaTestedProgram, MapChunkAlphaBlendedProgram, MapBlockAnimatedProgram, MapBlockAnimatedForwardProgram, SkyProgram, CloudsProgram, TextProgram, ParticleProgram, ParticleErosionProgram, ParticleDistortionProgram, ForceFieldProgram, BuilderToolProgram, WorldMapProgram, PostEffectProgram, InventoryPostEffectProgram, MainMenuPostEffectProgram, TemporalAAProgram, OITCompositeProgram, CubemapProgram, ZDownsampleProgram, LinearZDownsampleProgram, EdgeDetectionProgram, LinearZProgram, LightMixProgram, LightProgram, LightLowResProgram, LightClusteredProgram, MapChunkShadowMapProgram, MapBlockAnimatedShadowMapProgram, BlockyModelShadowMapProgram, BlockyModelOcclusionMapProgram, DeferredShadowProgram, SSAOProgram, BlurSSAOAndShadowProgram, DeferredProgram, ScreenBlitProgram, BlurProgram, DoFBlurProgram, DoFCircleOfConfusionProgram, DoFDownsampleProgram, DoFNearCoCMaxProgram, DoFNearCoCBlurProgram, DepthOfFieldAdvancedProgram, DoFFillProgram, BloomSelectProgram, BloomDownsampleBlurProgram, BloomUpsampleBlurProgram, BloomMaxProgram, BloomCompositeProgram, RadialGlowMaskProgram, RadialGlowLuminanceProgram, SunOcclusionDownsampleProgram, SceneBrightnessPackProgram, ZOnlyMapChunkProgram, ZOnlyMapChunkPlanesProgram, ZOnlyProgram, HiZReprojectProgram, HiZFillHoleProgram, HiZBuildProgram, HiZCullProgram, DebugDrawMapProgram, Batcher2DProgram 
+2026-01-23 12:13:54.3807|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: event (seq: 2) 
+2026-01-23 12:18:53.1971|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 3) 
+2026-01-23 12:23:53.1489|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 4) 
+2026-01-23 12:28:53.2699|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 5) 
+2026-01-23 12:33:53.1555|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 6) 
+2026-01-23 12:38:53.1806|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 7) 
+2026-01-23 12:43:53.1454|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 8) 
+2026-01-23 12:48:53.1852|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 9) 
+2026-01-23 12:53:53.1529|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 10) 

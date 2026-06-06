@@ -1,0 +1,22 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> SLF4J(W): No SLF4J providers were found..
+[16-04-26 00:00:42.315] LOG  : General      f:0, t:1776297642314, st:48,648,157,492> SLF4J(W): Defaulting to no-operation (NOP) logger implementation.
+[16-04-26 00:00:42.407] LOG  : General      f:0, t:1776297642406, st:48,648,157,584> version=42.16.3 0000000000000000000000000000000000000000 2026-04-08 11:54:01 (ZB) demo=false.
+[16-04-26 00:00:42.407] LOG  : General      f:0, t:1776297642407, st:48,648,157,585> revision=0000000000000000000000000000000000000000 date=2026-04-08 time=11:54:01 (ZB).
+[16-04-26 00:01:19.080] ERROR: General      f:0, t:1776297679080, st:48,648,194,258> DebugFileWatcher.registerDir> Exception thrown
+	java.nio.file.NoSuchFileException: /placeholder/config/mods at UnixException.translateToIOException(null:-1).
+	Stack trace:
+		java.base/sun.nio.fs.UnixException.translateToIOException(Unknown Source)
+		java.base/sun.nio.fs.UnixException.asIOException(Unknown Source)
+		java.base/sun.nio.fs.LinuxWatchService$Poller.implRegister(Unknown Source)
+		java.base/sun.nio.fs.AbstractPoller.processRequests(Unknown Source)
+		java.base/sun.nio.fs.LinuxWatchService$Poller.run(Unknown Source)
+[16-04-26 00:01:19.131] LOG  : Mod          f:0, t:1776297679131, st:48,648,194,309> loading example_mod_alpha.
+[16-04-26 00:01:19.142] LOG  : Mod          f:0, t:1776297679142, st:48,648,194,320> loading example_mod_beta.
+[16-04-26 00:01:19.155] LOG  : Mod          f:0, t:1776297679155, st:48,648,194,333> loading example_mod_gamma.
+[16-04-26 00:01:19.200] WARN : Mod          f:0, t:1776297679200, st:48,648,194,378> ZomboidFileSystem.loadModAndRequired> required mod "absent_mod" not found.
+[16-04-26 00:01:45.937] ERROR: WorldGen     f:0, t:1776297705937, st:48,648,221,115> IsoPropertyType.lookupOrDefaultStr> Exception thrown
+	zombie.core.properties.IsoPropertyType$IsoPropertyTypeNotFoundException: Property Name not found: ladderW at IsoPropertyType.lookup(IsoPropertyType.java:269). Message: Property Name not found: ladderW
+		at zombie.core.properties.IsoPropertyType.lookup(IsoPropertyType.java:269)
+		at zombie.iso.IsoChunkData.PostProcessChunk(IsoChunkData.java:512)
+[16-04-26 00:02:00.000] LOG  : General      f:0, t:1776297720000, st:48,648,235,178> server initialised.
+[16-04-26 00:05:00.000] LOG  : General      f:0, t:1776297900000, st:48,648,415,178> shutdown requested.

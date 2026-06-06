@@ -1,0 +1,9 @@
+[11-05-26 20:56:34.807] LOG  : General     , 1778532994807> 12,335,145,754> GlobalModData initialized.
+[11-05-26 20:56:34.900] LOG  : Mod         , 1778532994900> 12,335,145,800> loading ExampleFramework.
+[12-05-26 14:06:26.336] ERROR: Multiplayer , 1778594786336> 12,396,937,283> DeadCharacterPacket.parseDeadBodyHumanVisuals> Exception thrown java.nio.BufferUnderflowException at Buffer.nextGetIndex. Message: Parse dead body HumanVisuals failed.
+[12-05-26 14:06:26.336] ERROR: Multiplayer , 1778594786336> 12,396,937,283> DebugLogStream.printException> Stack trace:.
+[12-05-26 14:07:10.000] ERROR: General     , 1778594830000> 12,397,000,000> GameClient.tick> Exception thrown java.lang.RuntimeException at LuaManager.call. Message: mod tick failed.
+[12-05-26 14:07:10.000] ERROR: General     , 1778594830000> 12,397,000,000> DebugLogStream.printException> Stack trace:.
+	at zombie.GameClient.tick(GameClient.java:88)
+	Lua((MOD:ExampleFramework)).OnClientTick(ExampleClient.lua:52)
+[12-05-26 14:07:30.000] LOG  : General     , 1778594850000> 12,397,020,000> server initialised.

@@ -1,0 +1,6 @@
+[2026/05/07 12:34:56 INFO] [HytaleServer] Starting HytaleServer 1.0.0
+[2026/05/07 12:34:57 INFO] Loading world data
+[2026/05/07 12:34:58 INFO] Server bound to 0.0.0.0:25565
+[2026/05/07 12:34:59 WARN] Slow tick: 120ms
+[2026/05/07 12:35:00 ERROR] Failed to load chunk (-12, 7)
+[2026/05/07 12:35:01 INFO] Server stopped cleanly

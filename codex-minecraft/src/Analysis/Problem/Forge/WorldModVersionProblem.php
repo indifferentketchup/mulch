@@ -1,0 +1,62 @@
+<?php
+
+namespace Aternos\Codex\Minecraft\Analysis\Problem\Forge;
+
+use Aternos\Codex\Minecraft\Analysis\Solution\DoNothingSolution;
+use Aternos\Codex\Minecraft\Analysis\Solution\Forge\ModInstallSolution;
+use Aternos\Codex\Minecraft\Translator\Translator;
+
+class WorldModVersionProblem extends ModProblem
+{
+    protected string $currentVersion;
+    protected string $expectedVersion;
+
+    /**
+     * @inheritDoc
+     */
+    public function getMessage(): string
+    {
+        return Translator::getInstance()->getTranslation("world-mod-version-problem", [
+            "mod-name" => $this->getModName(),
+            "mod-expected-version" => $this->getExpectedVersion(),
+            "mod-current-version" => $this->getCurrentVersion()
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getPatterns(): array
+    {
+        return ['/This world was saved with mod (\w+) version (\S+) and it is now at version ([^,]+), things may not work well/'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setMatches(array $matches, mixed $patternKey): void
+    {
+        $this->modName = $matches[1];
+        $this->expectedVersion = $matches[2];
+        $this->currentVersion = $matches[3];
+
+        $this->addSolution(new ModInstallSolution($this->getModName(), $this->getExpectedVersion()));
+        $this->addSolution(new DoNothingSolution());
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentVersion(): string
+    {
+        return $this->currentVersion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpectedVersion(): string
+    {
+        return $this->expectedVersion;
+    }
+}

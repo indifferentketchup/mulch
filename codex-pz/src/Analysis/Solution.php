@@ -1,0 +1,29 @@
+<?php
+
+namespace IndifferentKetchup\CodexPz\Analysis;
+
+/**
+ * Class Solution
+ *
+ * @package IndifferentKetchup\CodexPz\Analysis
+ */
+abstract class Solution implements SolutionInterface
+{
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getMessage();
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'message' => $this->getMessage()
+        ];
+    }
+}

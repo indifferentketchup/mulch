@@ -1,0 +1,8 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> server starting.
+[16-04-26 00:01:19.080] ERROR: General      f:0, t:1776297679080, st:48,648,194,258> DebugFileWatcher.registerDir> Exception thrown
+	java.nio.file.NoSuchFileException: /placeholder/config/mods at UnixException.translateToIOException(null:-1).
+	Stack trace:
+		at java.base/sun.nio.fs.UnixException.translateToIOException(Unknown Source)
+		at java.base/sun.nio.fs.UnixException.asIOException(Unknown Source)
+		at java.base/sun.nio.fs.LinuxWatchService$Poller.implRegister(Unknown Source)
+[16-04-26 00:01:19.090] LOG  : General      f:0, t:1776297679090, st:48,648,194,268> after.

@@ -1,0 +1,34 @@
+{
+    "name": "aternos/sherlock",
+    "description": "PHP library to apply minecraft mappings to log files",
+    "type": "library",
+    "require": {
+        "php": ">=8.0",
+        "ext-curl": "*",
+        "ext-simplexml": "*",
+        "ext-zlib": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Aternos\\Sherlock\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aternos\\Sherlock\\Test\\": "test/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Julian Vennen",
+            "email": "julian@aternos.org"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit test/tests"
+    }
+}

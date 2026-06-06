@@ -1,0 +1,6 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> server starting.
+[16-04-26 00:01:19.131] LOG  : Mod          f:0, t:1776297679131, st:48,648,194,309> loading example_mod_alpha.
+[16-04-26 00:05:00.000] ERROR: General      f:0, t:1776297900000, st:48,648,415,178> Lua((MOD:Test Mod Alpha)) something broke
+	at media/lua/client/Foo.lua:42
+	function: doStuff -- file: media/lua/client/Foo.lua line # 42
+[16-04-26 00:05:01.000] LOG  : General      f:0, t:1776297901000, st:48,648,416,178> after the error.

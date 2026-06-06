@@ -1,0 +1,34 @@
+<?php
+
+namespace Aternos\Sherlock\MapLocator;
+
+use Aternos\Sherlock\MapLocator\LauncherMeta\LauncherMetaFile;
+use Aternos\Sherlock\MapLocator\LauncherMeta\LauncherMetaVersionList;
+
+class LauncherMetaMapLocator extends MapLocator
+{
+    /**
+     * find the mappings file using launcher meta
+     * @return LauncherMetaFile|null
+     */
+    public function findMappingFile(): ?LauncherMetaFile
+    {
+        if (version_compare($this->version, '25', '>')) {
+            // Minecraft 26.1+ is unobfuscated
+            return null;
+        }
+
+        $versionInfo = LauncherMetaVersionList::getVersionList()->getVersion($this->version);
+        if ($versionInfo === null) {
+            throw new \InvalidArgumentException("Unknown version $this->version");
+        }
+
+        return $versionInfo->getVersion()->getDownloadOptions()->getMappings($this->mappingType) ?? null;
+    }
+
+    public function findMappingURL(): ?string
+    {
+        $file = $this->findMappingFile();
+        return $file?->getUrl();
+    }
+}

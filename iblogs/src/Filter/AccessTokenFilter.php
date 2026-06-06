@@ -1,0 +1,21 @@
+<?php
+
+namespace IndifferentKetchup\Iblogs\Filter;
+
+use IndifferentKetchup\Iblogs\Filter\Pattern\PatternWithReplacement;
+
+class AccessTokenFilter extends RegexFilter
+{
+    /**
+     * @inheritDoc
+     */
+    protected function getPatterns(): array
+    {
+        return [
+            new PatternWithReplacement('\(Session ID is token:[^:]+\:[^)]+\)', '(Session ID is token:****************:****************)'),
+            new PatternWithReplacement('--accessToken [^ ]+', '--accessToken ****************:****************'),
+            new PatternWithReplacement('"authToken":"[^"]+"', '"authToken":"****************"'),
+            new PatternWithReplacement('"refreshToken":"[^"]+"', '"refreshToken":"****************"'),
+        ];
+    }
+}

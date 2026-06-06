@@ -1,0 +1,13 @@
+[16-04-26 16:16:34.105][info] Start chat server initialization....
+[16-04-26 16:16:34.108][info] General chat has id = 0.
+[16-04-26 16:16:34.108][info] Say chat has id = 1.
+[16-04-26 16:16:34.108][info] Shout chat has id = 2.
+[16-04-26 16:16:34.108][info] Radio chat has id = 3.
+[16-04-26 17:05:03.280][info] Got message:ChatMessage{chat=Local, author='Player1', text='hello'}.
+[16-04-26 17:05:03.282][info] Message ChatMessage{chat=Local, author='Player1', text='hello'} sent to chat (id = 2) members.
+[16-04-26 17:22:55.182][info] Got message:ChatMessage{chat=Local, author='Player2', text='hi there'}.
+[16-04-26 17:22:55.184][info] Got message:ChatMessage{chat=Global, author='Player1', text='who is online'}.
+[16-04-26 17:22:55.186][info] Got message:ChatMessage{chat=Local, author='AdminUser', text='cleanup soon'}.
+[16-04-26 18:25:19.523] Server alert message: 'Test Server: Server will restart in 5 seconds for mod updates.' sent..
+[16-04-26 18:25:21.323] Server alert message: 'Test Server: Server will restart in 4 seconds for mod updates.' sent..
+[16-04-26 18:25:23.123] Server alert message: 'Test Server: Server will restart in 3 seconds for mod updates.' sent..

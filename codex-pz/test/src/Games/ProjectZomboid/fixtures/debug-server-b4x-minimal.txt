@@ -1,0 +1,6 @@
+[11-05-26 20:56:34.807] LOG  : General     , 1778532994807> 12,335,145,754> GlobalModData initialized.
+[11-05-26 20:56:34.900] LOG  : Mod         , 1778532994900> 12,335,145,800> loading ExampleMod.
+[11-05-26 20:56:35.001] WARN : General     , 1778532995001> 12,335,145,900> SomeSystem.doThing> some warning occurred.
+[11-05-26 20:56:35.100] ERROR: General     , 1778532995100> 12,335,146,000> SomeSystem.crash> Exception thrown
+	some.exception.Class: Something went wrong at SomeClass.someMethod(SomeClass.java:42)
+[11-05-26 20:56:36.000] LOG  : General     , 1778532996000> 12,335,147,000> server initialised.

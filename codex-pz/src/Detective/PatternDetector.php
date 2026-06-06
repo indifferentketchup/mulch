@@ -1,0 +1,25 @@
+<?php
+
+namespace IndifferentKetchup\CodexPz\Detective;
+
+/**
+ * Class PatternDetector
+ *
+ * @package IndifferentKetchup\CodexPz\Detective
+ */
+abstract class PatternDetector extends Detector
+{
+    protected ?string $pattern = null;
+
+    /**
+     * Set the matching pattern for one line
+     *
+     * @param string $pattern
+     * @return $this
+     */
+    public function setPattern(string $pattern): static
+    {
+        $this->pattern = $pattern;
+        return $this;
+    }
+}

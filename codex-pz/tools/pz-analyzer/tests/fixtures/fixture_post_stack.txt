@@ -1,0 +1,6 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> server starting.
+[16-04-26 00:01:00.000] ERROR: General      f:0, t:1776297660000, st:48,648,175,178> Lua((MOD:Test Mod Alpha)) crash now
+	at media/lua/client/X.lua:11
+	at media/lua/client/Y.lua:22
+	[string "media/lua/client/Z.lua"]:33: oops
+[16-04-26 00:01:04.000] LOG  : General      f:0, t:1776297664000, st:48,648,179,178> ok.

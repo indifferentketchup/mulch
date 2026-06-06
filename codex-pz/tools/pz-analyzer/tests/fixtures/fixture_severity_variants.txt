@@ -1,0 +1,5 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> server starting.
+[16-04-26 00:01:00.000] ERROR: General      f:0, t:1776297660000, st:48,648,175,178> ERROR: top-level error message
+[16-04-26 00:01:01.000] WARN : General      f:0, t:1776297661000, st:48,648,176,178> WARN: top-level warn message
+[16-04-26 00:01:02.000] ERROR: General      f:0, t:1776297662000, st:48,648,177,178> SEVERE: java-style severe message at zombie.Foo(Foo.java:5)
+[16-04-26 00:01:03.000] LOG  : General      f:0, t:1776297663000, st:48,648,178,178> ok.

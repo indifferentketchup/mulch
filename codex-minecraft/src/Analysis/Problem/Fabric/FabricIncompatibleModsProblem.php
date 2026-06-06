@@ -1,0 +1,61 @@
+<?php
+
+namespace Aternos\Codex\Minecraft\Analysis\Problem\Fabric;
+
+use Aternos\Codex\Minecraft\Analysis\Solution\Forge\ModRemoveSolution;
+use Aternos\Codex\Minecraft\Translator\Translator;
+
+class FabricIncompatibleModsProblem extends FabricModProblem
+{
+    protected string $secondModName;
+
+    /**
+     * @inheritDoc
+     */
+    public function getMessage(): string
+    {
+        return Translator::getInstance()->getTranslation("mod-incompatible-problem", [
+            "first-mod-name" => $this->getModName(),
+            "second-mod-name" => $this->getSecondModName(),
+        ]);
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecondModName(): string
+    {
+        return $this->secondModName;
+    }
+
+    /**
+     * @param string $modName
+     * @return $this
+     */
+    protected function setSecondModName(string $modName): static
+    {
+        $this->secondModName = $this->getReplacedModName($modName);
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getPatterns(): array
+    {
+        return [
+            "/\s*- Mod " . static::$modNamePattern . " [^\\n]+ (?:is incompatible|conflicts) with [^\\n]+ of (?:mod )?" . static::$modNamePattern . ",/"
+        ];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setMatches(array $matches, mixed $patternKey): void
+    {
+        $this->setModName($matches[1]);
+        $this->setSecondModName($matches[3]);
+        $this->addSolution(new ModRemoveSolution($this->getModName()));
+        $this->addSolution(new ModRemoveSolution($this->getSecondModName()));
+    }
+}

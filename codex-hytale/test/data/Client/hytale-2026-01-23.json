@@ -1,0 +1,1476 @@
+{
+    "id": "hytale\/client",
+    "name": "Hytale",
+    "type": "Client Log",
+    "version": "v2026.01.17-4b0f30090",
+    "title": "Hytale Client Log",
+    "entries": [
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.1840|INFO|",
+            "lines": [
+                {
+                    "number": 1,
+                    "content": "2026-01-23 12:13:52.1840|INFO|HytaleClient.Application.Program|HytaleClient v2026.01.17-4b0f30090 (Linux x64 Release - Unix 6.18.5.200 - .NET 10.0.2) "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.1840|INFO|",
+            "lines": [
+                {
+                    "number": 2,
+                    "content": "2026-01-23 12:13:52.1840|INFO|HytaleClient.Application.Program|Revision: 4b0f30090ab99c9ce84652006e40c825c555ad98, Environment: release (hytale.com), Patchline: release "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.1996|INFO|",
+            "lines": [
+                {
+                    "number": 3,
+                    "content": "2026-01-23 12:13:52.1996|INFO|HytaleClient.Application.Program|Initial window size 1280x720 "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.2841|INFO|",
+            "lines": [
+                {
+                    "number": 4,
+                    "content": "2026-01-23 12:13:52.2841|INFO|HytaleClient.Application.Program|Video memory max: 4194304"
+                },
+                {
+                    "number": 5,
+                    "content": "Video memory total available: 4194304"
+                },
+                {
+                    "number": 6,
+                    "content": "Video memory current available: 3806464"
+                },
+                {
+                    "number": 7,
+                    "content": "Video memory eviction count: 0"
+                },
+                {
+                    "number": 8,
+                    "content": "Video memory evicted: 0"
+                },
+                {
+                    "number": 9,
+                    "content": " "
+                }
+            ]
+        },
+        {
+            "level": 4,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.2841|WARN|",
+            "lines": [
+                {
+                    "number": 10,
+                    "content": "2026-01-23 12:13:52.2841|WARN|HytaleClient.Application.Program|SDL_GL_DOUBLEBUFFER should be 1 but is 0 "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.2841|INFO|",
+            "lines": [
+                {
+                    "number": 11,
+                    "content": "2026-01-23 12:13:52.2841|INFO|HytaleClient.Application.Program|"
+                },
+                {
+                    "number": 12,
+                    "content": "System informations"
+                },
+                {
+                    "number": 13,
+                    "content": " OpenGL driver: 3.3.0 NVIDIA 580.119.02"
+                },
+                {
+                    "number": 14,
+                    "content": " GPU Renderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU\/PCIe\/SSE2"
+                },
+                {
+                    "number": 15,
+                    "content": " GPU Memory Total: 4096 MB"
+                },
+                {
+                    "number": 16,
+                    "content": " GPU Memory Available: 3717 MB"
+                },
+                {
+                    "number": 17,
+                    "content": " "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4173|INFO|",
+            "lines": [
+                {
+                    "number": 18,
+                    "content": "2026-01-23 12:13:52.4173|INFO|HytaleClient.Application.Program|Built 75 GPU programs successfully. "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4173|DEBUG|",
+            "lines": [
+                {
+                    "number": 19,
+                    "content": "2026-01-23 12:13:52.4173|DEBUG|HytaleClient.Application.Program|GPU programs: BasicProgram, BasicFullScreenProgram, BasicFogProgram, BlockyModelForwardProgram, BlockyModelDitheringProgram, BlockyModelProgram, FirstPersonBlockyModelProgram, BlockyModelDistortionProgram, FirstPersonDistortionBlockyModelProgram, FirstPersonClippingBlockyModelProgram, MapChunkNearOpaqueProgram, MapChunkNearAlphaTestedProgram, MapChunkFarOpaqueProgram, MapChunkFarAlphaTestedProgram, MapChunkAlphaBlendedProgram, MapBlockAnimatedProgram, MapBlockAnimatedForwardProgram, SkyProgram, CloudsProgram, TextProgram, ParticleProgram, ParticleErosionProgram, ParticleDistortionProgram, ForceFieldProgram, BuilderToolProgram, WorldMapProgram, PostEffectProgram, InventoryPostEffectProgram, MainMenuPostEffectProgram, TemporalAAProgram, OITCompositeProgram, CubemapProgram, ZDownsampleProgram, LinearZDownsampleProgram, EdgeDetectionProgram, LinearZProgram, LightMixProgram, LightProgram, LightLowResProgram, LightClusteredProgram, MapChunkShadowMapProgram, MapBlockAnimatedShadowMapProgram, BlockyModelShadowMapProgram, BlockyModelOcclusionMapProgram, DeferredShadowProgram, SSAOProgram, BlurSSAOAndShadowProgram, DeferredProgram, ScreenBlitProgram, BlurProgram, DoFBlurProgram, DoFCircleOfConfusionProgram, DoFDownsampleProgram, DoFNearCoCMaxProgram, DoFNearCoCBlurProgram, DepthOfFieldAdvancedProgram, DoFFillProgram, BloomSelectProgram, BloomDownsampleBlurProgram, BloomUpsampleBlurProgram, BloomMaxProgram, BloomCompositeProgram, RadialGlowMaskProgram, RadialGlowLuminanceProgram, SunOcclusionDownsampleProgram, SceneBrightnessPackProgram, ZOnlyMapChunkProgram, ZOnlyMapChunkPlanesProgram, ZOnlyProgram, HiZReprojectProgram, HiZFillHoleProgram, HiZBuildProgram, HiZCullProgram, DebugDrawMapProgram, Batcher2DProgram "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4828|INFO|",
+            "lines": [
+                {
+                    "number": 20,
+                    "content": "2026-01-23 12:13:52.4828|INFO|HytaleClient.Application.Program|Audio:"
+                },
+                {
+                    "number": 21,
+                    "content": "OpenAL : 1.1 ALSOFT 1.24.3"
+                },
+                {
+                    "number": 22,
+                    "content": "Renderer : OpenAL Soft"
+                },
+                {
+                    "number": 23,
+                    "content": "Vendor : OpenAL Community"
+                },
+                {
+                    "number": 24,
+                    "content": "Using device : Built-in Audio Analog Stereo"
+                },
+                {
+                    "number": 25,
+                    "content": "Output mode : Stereo"
+                },
+                {
+                    "number": 26,
+                    "content": "Output limiter : Enabled"
+                },
+                {
+                    "number": 27,
+                    "content": "Frequency : 48000 Hz"
+                },
+                {
+                    "number": 28,
+                    "content": "Max sources : 255 mono, 1 stereo"
+                },
+                {
+                    "number": 29,
+                    "content": "HRTF status : Disabled"
+                },
+                {
+                    "number": 30,
+                    "content": "Gain limit : 1000.00 (60.0 dB)"
+                },
+                {
+                    "number": 31,
+                    "content": " "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4904|INFO|",
+            "lines": [
+                {
+                    "number": 32,
+                    "content": "2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Session Service client initialized for: https:\/\/sessions.hytale.com "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4904|INFO|",
+            "lines": [
+                {
+                    "number": 33,
+                    "content": "2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Initializing authentication... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4904|INFO|",
+            "lines": [
+                {
+                    "number": 34,
+                    "content": "2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Starting initial certificate generation... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4904|INFO|",
+            "lines": [
+                {
+                    "number": 35,
+                    "content": "2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Generating new self-signed certificate... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4904|INFO|",
+            "lines": [
+                {
+                    "number": 36,
+                    "content": "2026-01-23 12:13:52.4904|INFO|HytaleClient.Application.Program|Opened telemetry session file: \/home\/julian\/.var\/app\/com.hypixel.HytaleLauncher\/data\/Hytale\/UserData\/Telemetry\/2026-01-23_11-13-52_6084ff0d.jsonl "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4909|INFO|",
+            "lines": [
+                {
+                    "number": 37,
+                    "content": "2026-01-23 12:13:52.4909|INFO|HytaleClient.Application.Program|Telemetry service initialized with session ID: 6084ff0d-db50-4a97-ab11-12c44231a583 "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4909|INFO|",
+            "lines": [
+                {
+                    "number": 38,
+                    "content": "2026-01-23 12:13:52.4909|INFO|HytaleClient.Application.Program|Telemetry data stored locally at: \/home\/julian\/.var\/app\/com.hypixel.HytaleLauncher\/data\/Hytale\/UserData\/Telemetry "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4922|INFO|",
+            "lines": [
+                {
+                    "number": 39,
+                    "content": "2026-01-23 12:13:52.4922|INFO|HytaleClient.Application.Program|Fetching unlocked cosmetics... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.4922|INFO|",
+            "lines": [
+                {
+                    "number": 40,
+                    "content": "2026-01-23 12:13:52.4922|INFO|HytaleClient.Application.Program|Fetching game profile from service... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5032|INFO|",
+            "lines": [
+                {
+                    "number": 41,
+                    "content": "2026-01-23 12:13:52.5032|INFO|Noesis|: Noesis Init v3.2.10 (Linux on x86_64 Profile) "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5089|INFO|",
+            "lines": [
+                {
+                    "number": 42,
+                    "content": "2026-01-23 12:13:52.5089|INFO|Noesis|: Inspector listening on port 17629 "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5274|INFO|",
+            "lines": [
+                {
+                    "number": 43,
+                    "content": "2026-01-23 12:13:52.5274|INFO|HytaleClient.Application.Program|Certificate generated successfully in 36.6219ms. Fingerprint: 9HGL_AajPJOgkD8_GQ_jVL3iCg1uMfWeEtTDoxQxw7c "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5274|INFO|",
+            "lines": [
+                {
+                    "number": 44,
+                    "content": "2026-01-23 12:13:52.5274|INFO|HytaleClient.Application.Program|Auth config: mode=Authenticated, uuid=85505da5-80f0-4dca-b0c7-6e33869c689c, name=Feuerwehrmann "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5274|INFO|",
+            "lines": [
+                {
+                    "number": 45,
+                    "content": "2026-01-23 12:13:52.5274|INFO||Session token expires at 2026-01-23T12:13:50.0000000+00:00 "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5274|INFO|",
+            "lines": [
+                {
+                    "number": 46,
+                    "content": "2026-01-23 12:13:52.5274|INFO||Scheduling session refresh in 54m 57s (at 2026-01-23T12:08:50.0000000+00:00) "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5274|INFO|",
+            "lines": [
+                {
+                    "number": 47,
+                    "content": "2026-01-23 12:13:52.5274|INFO|HytaleClient.Application.Program|Authentication initialized "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5338|INFO|",
+            "lines": [
+                {
+                    "number": 48,
+                    "content": "2026-01-23 12:13:52.5338|INFO|Noesis|: 'Theme\/NoesisTheme.Colors.Dark.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5345|INFO|",
+            "lines": [
+                {
+                    "number": 49,
+                    "content": "2026-01-23 12:13:52.5345|INFO|Noesis|: 'Theme\/NoesisTheme.Brushes.DarkBlue.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5522|INFO|",
+            "lines": [
+                {
+                    "number": 50,
+                    "content": "2026-01-23 12:13:52.5522|INFO|Noesis|: 'Theme\/NoesisTheme.Styles.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5522|INFO|",
+            "lines": [
+                {
+                    "number": 51,
+                    "content": "2026-01-23 12:13:52.5522|INFO|Noesis|: 'Theme\/NoesisTheme.Fonts.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5542|INFO|",
+            "lines": [
+                {
+                    "number": 52,
+                    "content": "2026-01-23 12:13:52.5542|INFO|Noesis|: 'DesignSystem\/BusinessCard.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5552|INFO|",
+            "lines": [
+                {
+                    "number": 53,
+                    "content": "2026-01-23 12:13:52.5552|INFO|Noesis|: 'DesignSystem\/Button.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5568|INFO|",
+            "lines": [
+                {
+                    "number": 54,
+                    "content": "2026-01-23 12:13:52.5568|INFO|Noesis|: 'DesignSystem\/Colors.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5577|INFO|",
+            "lines": [
+                {
+                    "number": 55,
+                    "content": "2026-01-23 12:13:52.5577|INFO|Noesis|: 'DesignSystem\/Styles.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5583|INFO|",
+            "lines": [
+                {
+                    "number": 56,
+                    "content": "2026-01-23 12:13:52.5583|INFO|Noesis|: 'DesignSystem\/ComboBox.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5640|INFO|",
+            "lines": [
+                {
+                    "number": 57,
+                    "content": "2026-01-23 12:13:52.5640|INFO|Noesis|: 'DesignSystem\/ContextMenu.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5640|INFO|",
+            "lines": [
+                {
+                    "number": 58,
+                    "content": "2026-01-23 12:13:52.5640|INFO|Noesis|: 'DesignSystem\/ControlHint.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5640|INFO|",
+            "lines": [
+                {
+                    "number": 59,
+                    "content": "2026-01-23 12:13:52.5640|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5652|INFO|",
+            "lines": [
+                {
+                    "number": 60,
+                    "content": "2026-01-23 12:13:52.5652|INFO|Noesis|: 'DesignSystem\/CraftingBar.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5652|INFO|",
+            "lines": [
+                {
+                    "number": 61,
+                    "content": "2026-01-23 12:13:52.5652|INFO|Noesis|: 'DesignSystem\/Effects.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5795|INFO|",
+            "lines": [
+                {
+                    "number": 62,
+                    "content": "2026-01-23 12:13:52.5795|INFO|Noesis|: 'Theme\/NoesisTheme.Styles.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5810|INFO|",
+            "lines": [
+                {
+                    "number": 63,
+                    "content": "2026-01-23 12:13:52.5810|INFO|Noesis|: 'DesignSystem\/Expander.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5810|INFO|",
+            "lines": [
+                {
+                    "number": 64,
+                    "content": "2026-01-23 12:13:52.5810|INFO|Noesis|: 'DesignSystem\/ExperienceBar.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5829|INFO|",
+            "lines": [
+                {
+                    "number": 65,
+                    "content": "2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem\/HealthBar.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5829|INFO|",
+            "lines": [
+                {
+                    "number": 66,
+                    "content": "2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem\/ChargeControl.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5829|INFO|",
+            "lines": [
+                {
+                    "number": 67,
+                    "content": "2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem\/HotbarMenu.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5829|INFO|",
+            "lines": [
+                {
+                    "number": 68,
+                    "content": "2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem\/ListView.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5829|INFO|",
+            "lines": [
+                {
+                    "number": 69,
+                    "content": "2026-01-23 12:13:52.5829|INFO|Noesis|: 'DesignSystem\/Message.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5839|INFO|",
+            "lines": [
+                {
+                    "number": 70,
+                    "content": "2026-01-23 12:13:52.5839|INFO|Noesis|: 'DesignSystem\/Modal.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5839|INFO|",
+            "lines": [
+                {
+                    "number": 71,
+                    "content": "2026-01-23 12:13:52.5839|INFO|Noesis|: 'DesignSystem\/NotificationAction.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5853|INFO|",
+            "lines": [
+                {
+                    "number": 72,
+                    "content": "2026-01-23 12:13:52.5853|INFO|Noesis|: 'DesignSystem\/NotificationCelebration.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5865|INFO|",
+            "lines": [
+                {
+                    "number": 73,
+                    "content": "2026-01-23 12:13:52.5865|INFO|Noesis|: 'DesignSystem\/NotificationItem.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5879|INFO|",
+            "lines": [
+                {
+                    "number": 74,
+                    "content": "2026-01-23 12:13:52.5879|INFO|Noesis|: 'DesignSystem\/RecipeListItem.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5879|INFO|",
+            "lines": [
+                {
+                    "number": 75,
+                    "content": "2026-01-23 12:13:52.5879|INFO|Noesis|: 'DesignSystem\/RecipeMaterialItem.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5889|INFO|",
+            "lines": [
+                {
+                    "number": 76,
+                    "content": "2026-01-23 12:13:52.5889|INFO|Noesis|: 'DesignSystem\/RecipeRequirementItem.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5904|INFO|",
+            "lines": [
+                {
+                    "number": 77,
+                    "content": "2026-01-23 12:13:52.5904|INFO|Noesis|: 'DesignSystem\/ScrollViewer.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5910|INFO|",
+            "lines": [
+                {
+                    "number": 78,
+                    "content": "2026-01-23 12:13:52.5910|INFO|Noesis|: 'DesignSystem\/Slot.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5910|INFO|",
+            "lines": [
+                {
+                    "number": 79,
+                    "content": "2026-01-23 12:13:52.5910|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5921|INFO|",
+            "lines": [
+                {
+                    "number": 80,
+                    "content": "2026-01-23 12:13:52.5921|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5929|INFO|",
+            "lines": [
+                {
+                    "number": 81,
+                    "content": "2026-01-23 12:13:52.5929|INFO|Noesis|: 'DesignSystem\/SlotCreative.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5929|INFO|",
+            "lines": [
+                {
+                    "number": 82,
+                    "content": "2026-01-23 12:13:52.5929|INFO|Noesis|: 'DesignSystem\/SlotDragged.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5940|INFO|",
+            "lines": [
+                {
+                    "number": 83,
+                    "content": "2026-01-23 12:13:52.5940|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5940|INFO|",
+            "lines": [
+                {
+                    "number": 84,
+                    "content": "2026-01-23 12:13:52.5940|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5951|INFO|",
+            "lines": [
+                {
+                    "number": 85,
+                    "content": "2026-01-23 12:13:52.5951|INFO|Noesis|: 'DesignSystem\/SlotEquipment.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5951|INFO|",
+            "lines": [
+                {
+                    "number": 86,
+                    "content": "2026-01-23 12:13:52.5951|INFO|Noesis|: 'DesignSystem\/SlotGamepad.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5962|INFO|",
+            "lines": [
+                {
+                    "number": 87,
+                    "content": "2026-01-23 12:13:52.5962|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5962|INFO|",
+            "lines": [
+                {
+                    "number": 88,
+                    "content": "2026-01-23 12:13:52.5962|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5971|INFO|",
+            "lines": [
+                {
+                    "number": 89,
+                    "content": "2026-01-23 12:13:52.5971|INFO|Noesis|: 'DesignSystem\/SlotHotbar.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5971|INFO|",
+            "lines": [
+                {
+                    "number": 90,
+                    "content": "2026-01-23 12:13:52.5971|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5981|INFO|",
+            "lines": [
+                {
+                    "number": 91,
+                    "content": "2026-01-23 12:13:52.5981|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5981|INFO|",
+            "lines": [
+                {
+                    "number": 92,
+                    "content": "2026-01-23 12:13:52.5981|INFO|Noesis|: 'DesignSystem\/SlotItem.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5991|INFO|",
+            "lines": [
+                {
+                    "number": 93,
+                    "content": "2026-01-23 12:13:52.5991|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5991|INFO|",
+            "lines": [
+                {
+                    "number": 94,
+                    "content": "2026-01-23 12:13:52.5991|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.5991|INFO|",
+            "lines": [
+                {
+                    "number": 95,
+                    "content": "2026-01-23 12:13:52.5991|INFO|Noesis|: 'DesignSystem\/SlotMaterial.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6003|INFO|",
+            "lines": [
+                {
+                    "number": 96,
+                    "content": "2026-01-23 12:13:52.6003|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6003|INFO|",
+            "lines": [
+                {
+                    "number": 97,
+                    "content": "2026-01-23 12:13:52.6003|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6010|INFO|",
+            "lines": [
+                {
+                    "number": 98,
+                    "content": "2026-01-23 12:13:52.6010|INFO|Noesis|: 'DesignSystem\/SlotRequirement.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6010|INFO|",
+            "lines": [
+                {
+                    "number": 99,
+                    "content": "2026-01-23 12:13:52.6010|INFO|Noesis|: 'DesignSystem\/SlotTrash.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6020|INFO|",
+            "lines": [
+                {
+                    "number": 100,
+                    "content": "2026-01-23 12:13:52.6020|INFO|Noesis|: 'DesignSystem\/StaminaBar.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6020|INFO|",
+            "lines": [
+                {
+                    "number": 101,
+                    "content": "2026-01-23 12:13:52.6020|INFO|Noesis|: 'DesignSystem\/Styles.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6029|INFO|",
+            "lines": [
+                {
+                    "number": 102,
+                    "content": "2026-01-23 12:13:52.6029|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6029|INFO|",
+            "lines": [
+                {
+                    "number": 103,
+                    "content": "2026-01-23 12:13:52.6029|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6041|INFO|",
+            "lines": [
+                {
+                    "number": 104,
+                    "content": "2026-01-23 12:13:52.6041|INFO|Noesis|: 'DesignSystem\/Tabs.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6041|INFO|",
+            "lines": [
+                {
+                    "number": 105,
+                    "content": "2026-01-23 12:13:52.6041|INFO|Noesis|: 'DesignSystem\/TextBox.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6073|INFO|",
+            "lines": [
+                {
+                    "number": 106,
+                    "content": "2026-01-23 12:13:52.6073|INFO|Noesis|: 'DesignSystem\/Textures.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6093|INFO|",
+            "lines": [
+                {
+                    "number": 107,
+                    "content": "2026-01-23 12:13:52.6093|INFO|Noesis|: 'DesignSystem\/ToggleButton.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6093|INFO|",
+            "lines": [
+                {
+                    "number": 108,
+                    "content": "2026-01-23 12:13:52.6093|INFO|Noesis|: 'DesignSystem\/Converters.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6104|INFO|",
+            "lines": [
+                {
+                    "number": 109,
+                    "content": "2026-01-23 12:13:52.6104|INFO|Noesis|: 'DesignSystem\/Tooltip.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6104|INFO|",
+            "lines": [
+                {
+                    "number": 110,
+                    "content": "2026-01-23 12:13:52.6104|INFO|Noesis|: 'DesignSystem\/Typography.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6245|INFO|",
+            "lines": [
+                {
+                    "number": 111,
+                    "content": "2026-01-23 12:13:52.6245|INFO|Noesis|: 'Common\/Timeline.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.6285|INFO|",
+            "lines": [
+                {
+                    "number": 112,
+                    "content": "2026-01-23 12:13:52.6285|INFO|Noesis|: 'Common\/ColorPicker.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.7486|INFO|",
+            "lines": [
+                {
+                    "number": 113,
+                    "content": "2026-01-23 12:13:52.7486|INFO|Noesis|: 'Gallery\/Resources.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.7486|INFO|",
+            "lines": [
+                {
+                    "number": 114,
+                    "content": "2026-01-23 12:13:52.7486|INFO|Noesis|: 'GlobalResources.xaml' loaded "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.7495|INFO|",
+            "lines": [
+                {
+                    "number": 115,
+                    "content": "2026-01-23 12:13:52.7495|INFO|HytaleClient.Application.Program|Changing from Stage Initial to Startup "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8046|INFO|",
+            "lines": [
+                {
+                    "number": 116,
+                    "content": "2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.Program|Successfully fetched unlocked cosmetics "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8046|INFO|",
+            "lines": [
+                {
+                    "number": 117,
+                    "content": "2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.Program|Successfully fetched game profile "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8046|INFO|",
+            "lines": [
+                {
+                    "number": 118,
+                    "content": "2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.Program|Saving settings... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8046|INFO|",
+            "lines": [
+                {
+                    "number": 119,
+                    "content": "2026-01-23 12:13:52.8046|INFO|HytaleClient.Application.AppStartup|Loading built-in assets from \/home\/julian\/.var\/app\/com.hypixel.HytaleLauncher\/data\/Hytale\/install\/release\/package\/game\/latest\/Assets.zip (immutable). "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8343|INFO|",
+            "lines": [
+                {
+                    "number": 120,
+                    "content": "2026-01-23 12:13:52.8343|INFO|HytaleClient.Application.AppStartup|Spent 29ms loading hashes from CommonAssetsIndex.hashes. "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8343|INFO|",
+            "lines": [
+                {
+                    "number": 121,
+                    "content": "2026-01-23 12:13:52.8343|INFO|HytaleClient.Application.AppStartup|Loading cached assets from \/home\/julian\/.var\/app\/com.hypixel.HytaleLauncher\/data\/Hytale\/UserData\/CachedAssets... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8343|INFO|",
+            "lines": [
+                {
+                    "number": 122,
+                    "content": "2026-01-23 12:13:52.8343|INFO|HytaleClient.Application.AppStartup|Could not find CachedAssetsIndex.cache. "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.8349|INFO|",
+            "lines": [
+                {
+                    "number": 123,
+                    "content": "2026-01-23 12:13:52.8349|INFO|HytaleClient.Application.AppStartup|AssetManager initialized. "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9452|INFO|",
+            "lines": [
+                {
+                    "number": 124,
+                    "content": "2026-01-23 12:13:52.9452|INFO|HytaleClient.Application.AppStartup|Took 0.08730979999999999s to load character part models "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9452|INFO|",
+            "lines": [
+                {
+                    "number": 125,
+                    "content": "2026-01-23 12:13:52.9452|INFO|HytaleClient.Application.AppStartup|Character texture atlas cache not found, generating... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9452|INFO|",
+            "lines": [
+                {
+                    "number": 126,
+                    "content": "2026-01-23 12:13:52.9452|INFO|HytaleClient.Application.AppStartup|Re-generating character part atlas... "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9469|INFO|",
+            "lines": [
+                {
+                    "number": 127,
+                    "content": "2026-01-23 12:13:52.9469|INFO|HytaleClient.Application.AppStartup|Failed to get PNG dimensions for: Characters\/Haircuts\/ThickBraid_Greyscale.png "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9855|DEBUG|",
+            "lines": [
+                {
+                    "number": 128,
+                    "content": "2026-01-23 12:13:52.9855|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: event (seq: 1) "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9864|INFO|",
+            "lines": [
+                {
+                    "number": 129,
+                    "content": "2026-01-23 12:13:52.9864|INFO|HytaleClient.Application.AppStartup|Took 0.0410432 to regenerate character part atlas "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9864|INFO|",
+            "lines": [
+                {
+                    "number": 130,
+                    "content": "2026-01-23 12:13:52.9864|INFO|HytaleClient.Application.AppStartup|CharacterPartStore initialized. "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9864|INFO|",
+            "lines": [
+                {
+                    "number": 131,
+                    "content": "2026-01-23 12:13:52.9864|INFO|HytaleClient.Application.AppStartup|Background startup loading done. "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769170432,
+            "prefix": "2026-01-23 12:13:52.9902|DEBUG|",
+            "lines": [
+                {
+                    "number": 132,
+                    "content": "2026-01-23 12:13:52.9902|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: session_start (seq: 0) "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170434,
+            "prefix": "2026-01-23 12:13:54.2120|INFO|",
+            "lines": [
+                {
+                    "number": 133,
+                    "content": "2026-01-23 12:13:54.2120|INFO|HytaleClient.Application.AppStartup|Interface loaded. "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170434,
+            "prefix": "2026-01-23 12:13:54.2120|INFO|",
+            "lines": [
+                {
+                    "number": 134,
+                    "content": "2026-01-23 12:13:54.2120|INFO|HytaleClient.Application.Program|Changing from Stage Startup to MainMenu "
+                }
+            ]
+        },
+        {
+            "level": 6,
+            "time": 1769170434,
+            "prefix": "2026-01-23 12:13:54.3749|INFO|",
+            "lines": [
+                {
+                    "number": 135,
+                    "content": "2026-01-23 12:13:54.3749|INFO|HytaleClient.Application.Program|Built 75 GPU programs successfully. "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769170434,
+            "prefix": "2026-01-23 12:13:54.3749|DEBUG|",
+            "lines": [
+                {
+                    "number": 136,
+                    "content": "2026-01-23 12:13:54.3749|DEBUG|HytaleClient.Application.Program|GPU programs: BasicProgram, BasicFullScreenProgram, BasicFogProgram, BlockyModelForwardProgram, BlockyModelDitheringProgram, BlockyModelProgram, FirstPersonBlockyModelProgram, BlockyModelDistortionProgram, FirstPersonDistortionBlockyModelProgram, FirstPersonClippingBlockyModelProgram, MapChunkNearOpaqueProgram, MapChunkNearAlphaTestedProgram, MapChunkFarOpaqueProgram, MapChunkFarAlphaTestedProgram, MapChunkAlphaBlendedProgram, MapBlockAnimatedProgram, MapBlockAnimatedForwardProgram, SkyProgram, CloudsProgram, TextProgram, ParticleProgram, ParticleErosionProgram, ParticleDistortionProgram, ForceFieldProgram, BuilderToolProgram, WorldMapProgram, PostEffectProgram, InventoryPostEffectProgram, MainMenuPostEffectProgram, TemporalAAProgram, OITCompositeProgram, CubemapProgram, ZDownsampleProgram, LinearZDownsampleProgram, EdgeDetectionProgram, LinearZProgram, LightMixProgram, LightProgram, LightLowResProgram, LightClusteredProgram, MapChunkShadowMapProgram, MapBlockAnimatedShadowMapProgram, BlockyModelShadowMapProgram, BlockyModelOcclusionMapProgram, DeferredShadowProgram, SSAOProgram, BlurSSAOAndShadowProgram, DeferredProgram, ScreenBlitProgram, BlurProgram, DoFBlurProgram, DoFCircleOfConfusionProgram, DoFDownsampleProgram, DoFNearCoCMaxProgram, DoFNearCoCBlurProgram, DepthOfFieldAdvancedProgram, DoFFillProgram, BloomSelectProgram, BloomDownsampleBlurProgram, BloomUpsampleBlurProgram, BloomMaxProgram, BloomCompositeProgram, RadialGlowMaskProgram, RadialGlowLuminanceProgram, SunOcclusionDownsampleProgram, SceneBrightnessPackProgram, ZOnlyMapChunkProgram, ZOnlyMapChunkPlanesProgram, ZOnlyProgram, HiZReprojectProgram, HiZFillHoleProgram, HiZBuildProgram, HiZCullProgram, DebugDrawMapProgram, Batcher2DProgram "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769170434,
+            "prefix": "2026-01-23 12:13:54.3807|DEBUG|",
+            "lines": [
+                {
+                    "number": 137,
+                    "content": "2026-01-23 12:13:54.3807|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: event (seq: 2) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769170733,
+            "prefix": "2026-01-23 12:18:53.1971|DEBUG|",
+            "lines": [
+                {
+                    "number": 138,
+                    "content": "2026-01-23 12:18:53.1971|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 3) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769171033,
+            "prefix": "2026-01-23 12:23:53.1489|DEBUG|",
+            "lines": [
+                {
+                    "number": 139,
+                    "content": "2026-01-23 12:23:53.1489|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 4) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769171333,
+            "prefix": "2026-01-23 12:28:53.2699|DEBUG|",
+            "lines": [
+                {
+                    "number": 140,
+                    "content": "2026-01-23 12:28:53.2699|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 5) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769171633,
+            "prefix": "2026-01-23 12:33:53.1555|DEBUG|",
+            "lines": [
+                {
+                    "number": 141,
+                    "content": "2026-01-23 12:33:53.1555|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 6) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769171933,
+            "prefix": "2026-01-23 12:38:53.1806|DEBUG|",
+            "lines": [
+                {
+                    "number": 142,
+                    "content": "2026-01-23 12:38:53.1806|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 7) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769172233,
+            "prefix": "2026-01-23 12:43:53.1454|DEBUG|",
+            "lines": [
+                {
+                    "number": 143,
+                    "content": "2026-01-23 12:43:53.1454|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 8) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769172533,
+            "prefix": "2026-01-23 12:48:53.1852|DEBUG|",
+            "lines": [
+                {
+                    "number": 144,
+                    "content": "2026-01-23 12:48:53.1852|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 9) "
+                }
+            ]
+        },
+        {
+            "level": 7,
+            "time": 1769172833,
+            "prefix": "2026-01-23 12:53:53.1529|DEBUG|",
+            "lines": [
+                {
+                    "number": 145,
+                    "content": "2026-01-23 12:53:53.1529|DEBUG|HytaleClient.Application.Program|Telemetry packet sent: heartbeat (seq: 10) "
+                },
+                {
+                    "number": 146,
+                    "content": ""
+                }
+            ]
+        }
+    ],
+    "analysis": {
+        "problems": [],
+        "information": [
+            {
+                "message": "Hytale Version: v2026.01.17-4b0f30090",
+                "counter": 1,
+                "entry": {
+                    "level": 6,
+                    "time": 1769170432,
+                    "prefix": "2026-01-23 12:13:52.1840|INFO|",
+                    "lines": [
+                        {
+                            "number": 1,
+                            "content": "2026-01-23 12:13:52.1840|INFO|HytaleClient.Application.Program|HytaleClient v2026.01.17-4b0f30090 (Linux x64 Release - Unix 6.18.5.200 - .NET 10.0.2) "
+                        }
+                    ]
+                },
+                "label": "Hytale Version",
+                "value": "v2026.01.17-4b0f30090"
+            }
+        ]
+    }
+}

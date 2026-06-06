@@ -1,0 +1,10 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> server starting.
+[16-04-26 00:01:00.000] ERROR: General      f:0, t:1776297660000, st:48,648,175,178> Lua((MOD:Test Mod A)) format1
+	at media/lua/client/F1.lua:11
+[16-04-26 00:01:01.000] ERROR: General      f:0, t:1776297661000, st:48,648,176,178> Lua((MOD:Test Mod B)) format2
+	function: doStuff -- file: media/lua/client/F2.lua line # 22
+[16-04-26 00:01:02.000] ERROR: General      f:0, t:1776297662000, st:48,648,177,178> Lua((MOD:Test Mod C)) format3
+	[string "media/lua/client/F3.lua"]:33: bang
+[16-04-26 00:01:03.000] ERROR: General      f:0, t:1776297663000, st:48,648,178,178> Lua((MOD:Test Mod D)) format4 about "media/lua/client/F4.lua" failure
+[16-04-26 00:01:04.000] ERROR: General      f:0, t:1776297664000, st:48,648,179,178> Lua((MOD:Test Mod E)) format5 path media/lua/client/F5.lua mention
+[16-04-26 00:01:05.000] LOG  : General      f:0, t:1776297665000, st:48,648,180,178> ok.

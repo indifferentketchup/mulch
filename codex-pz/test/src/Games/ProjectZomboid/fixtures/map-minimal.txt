@@ -1,0 +1,10 @@
+[16-04-26 18:39:37.028] 76561198000000001 "Player1" added Base.Aerosolbomb at 1000,2000,0.
+[16-04-26 18:55:05.485] 76561198000000001 "Player1" added Base.Aerosolbomb at 1001,2001,0.
+[16-04-26 21:20:06.768] 76561198000000002 "Player2" added IsoObject (fencing_damaged_01_124) at 1010.0,2010.0,0.0.
+[16-04-26 22:02:43.043] 76561198000000001 "Player1" added Base.Aerosolbomb at 1002,2002,0.
+[16-04-26 22:03:31.620] 76561198000000001 "Player1" added Base.PipeBomb at 1003,2003,0.
+[16-04-26 22:10:00.100] 76561198000000003 "AdminUser" removed Base.Aerosolbomb at 1001,2001,0.
+[16-04-26 22:15:22.200] 76561198000000003 "AdminUser" removed IsoObject (fencing_damaged_01_124) at 1010.0,2010.0,0.0.
+[16-04-26 22:30:11.450] 76561198000000002 "Player2" added Base.Doorframe at 1011,2011,0.
+[16-04-26 22:35:00.812] 76561198000000002 "Player2" added IsoObject (window_01_01) at 1011.0,2011.0,0.0.
+[16-04-26 22:40:33.221] 76561198000000001 "Player1" added Base.Plank at 1004,2004,0.

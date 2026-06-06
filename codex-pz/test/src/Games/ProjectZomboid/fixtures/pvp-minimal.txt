@@ -1,0 +1,10 @@
+[16-04-26 16:17:49.731][LOG] Safety: "Player1" (1000,2000,0) restore true.
+[16-04-26 16:18:12.078][LOG] Safety: "Player2" (1010,2010,0) restore true.
+[16-04-26 16:20:34.144][LOG] Safety: "Player1" (1000,2000,0) store true.
+[16-04-26 16:25:41.402][LOG] Safety: "AdminUser" (1020,2020,0) restore true.
+[16-04-26 16:36:07.978][LOG] Safety: "Player2" (1011,2011,0) store true.
+[16-04-26 17:14:28.814][INFO] Combat: "Player1" (1005,2005,0) hit "Player2" (1005,2005,0) weapon="Bare Hands" damage=0.026675.
+[16-04-26 17:14:35.128][INFO] Combat: "Player1" (1005,2005,0) hit "Player2" (1006,2005,0) weapon="Tire Iron (Worn)" damage=0.112317.
+[16-04-26 17:42:49.022][INFO] Combat: "Player2" (1005,2005,0) hit "Player2" (1005,2005,0) weapon="zombie" damage=-1.000000.
+[16-04-26 17:45:14.028][INFO] Combat: "Player1" (1100,2200,0) hit "Player2" (1100,2201,0) weapon="vehicle" damage=0.000000.
+[16-04-26 18:00:01.515][INFO] Combat: "AdminUser" (1020,2020,-1) hit "Player1" (1020,2020,-1) weapon="Hunting Knife" damage=0.350000.

@@ -1,0 +1,34 @@
+{
+    "name": "aternos/codex-minecraft",
+    "description": "PHP library to read, parse, print and analyse Minecraft log files.",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Matthias",
+            "email": "matthias@aternos.org"
+        }
+    ],
+    "require": {
+        "php": ">=8.4.0",
+        "ext-json": "*",
+        "aternos/codex": "^v4.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12"
+    },
+    "autoload": {
+        "psr-4": {
+            "Aternos\\Codex\\Minecraft\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aternos\\Codex\\Minecraft\\Test\\": "test/tests/"
+        }
+    },
+    "scripts": {
+        "generate-tests": "php ./test/generate-tests.php",
+        "test": "phpunit --testdox --config phpunit.xml"
+    }
+}

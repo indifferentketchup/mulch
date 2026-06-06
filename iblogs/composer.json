@@ -1,0 +1,35 @@
+{
+    "name": "indifferentketchup/iblogs",
+    "description": "Paste, share, and analyse game-server logs.",
+    "authors": [
+        {
+            "name": "indifferentketchup",
+            "email": "samkintop@gmail.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/opt/ik-codex",
+            "options": { "symlink": false }
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=8.5",
+        "ext-frankenphp": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-mongodb": "*",
+        "ext-uri": "*",
+        "ext-zlib": "*",
+        "indifferentketchup/codex-pz": "^0.6.0",
+        "mongodb/mongodb": "2.1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "IndifferentKetchup\\Iblogs\\": "src/"
+        }
+    }
+}

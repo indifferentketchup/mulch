@@ -1,0 +1,5 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> server starting.
+[16-04-26 00:01:00.000] LOG  : General      f:0, t:1776297660000, st:48,648,175,178> Lua((MOD:Spongies Clothing)) initialised.
+[16-04-26 00:01:01.000] LOG  : General      f:0, t:1776297661000, st:48,648,176,178> ordinary log line.
+[16-04-26 00:01:03.000] ERROR: General      f:0, t:1776297663000, st:48,648,178,178> Disk full while writing chunk data
+[16-04-26 00:01:04.000] LOG  : General      f:0, t:1776297664000, st:48,648,179,178> ok.

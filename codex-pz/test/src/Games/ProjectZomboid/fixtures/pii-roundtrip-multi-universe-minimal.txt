@@ -1,0 +1,7 @@
+[29-04-26 18:35:41.512] Connection add index=0 guid=144118788000000001 id=null.
+	Lua((MOD:WaterPipes)) onPlayerConnect at ISCraftingUI.lua:42.
+[29-04-26 18:35:42.802] 76561197000000001 "Player1" attempting to join.
+[29-04-26 18:37:14.645] 76561198000000002 "Player2" attempting to join.
+[29-04-26 18:37:14.800] 76561198000000002 "Player2" allowed to join.
+[29-04-26 18:38:00.100] 76561199000000003 "AdminUser" attempting to join.
+[29-04-26 18:39:23.923] Connection disconnect index=0 guid=144118788000000001 id=76561197000000001.

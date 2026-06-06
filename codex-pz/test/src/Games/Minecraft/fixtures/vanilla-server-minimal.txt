@@ -1,0 +1,7 @@
+[12:34:56] [main/INFO]: Starting minecraft server version 1.21.4
+[12:34:57] [main/INFO]: Loading properties
+[12:34:58] [main/INFO]: Default game type: SURVIVAL
+[12:34:59] [Server thread/WARN]: Found Cracked World UUID: 00000000-0000-0000-0000-000000000000
+[12:35:00] [Server thread/INFO]: Player1 joined the game
+[12:35:01] [Server thread/ERROR]: Encountered an unexpected exception
+[12:35:02] [Server thread/INFO]: Stopping the server

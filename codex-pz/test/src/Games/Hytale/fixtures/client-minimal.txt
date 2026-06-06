@@ -1,0 +1,5 @@
+2026-05-07 12:34:56.0001|INFO|HytaleClient.Application.Program: Starting HytaleClient
+2026-05-07 12:34:57.0123|INFO|HytaleClient.Network: Connecting to server
+2026-05-07 12:34:58.0456|WARN|HytaleClient.Render: GPU memory low
+2026-05-07 12:34:59.0789|ERROR|HytaleClient.Audio: Audio device disconnected
+2026-05-07 12:35:00.1234|INFO|HytaleClient: Shutting down

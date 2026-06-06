@@ -1,0 +1,14 @@
+.idea
+vendor
+.phpunit.result.cache
+Logs.zip
+.scratch/
+.claude/
+.claude.local.md
+
+# Python bytecode caches from tools/pz-analyzer/.
+__pycache__/
+
+# Editor / manual backup files.
+*.bak
+*.bak-*

@@ -1,0 +1,5 @@
+[28-04-26 16:57:42.411] [BurdJournals] WARNING: Character ID mismatch in deleteBaseline! Client sent: local_a_b_c, Server computed: 0_a_b.
+[28-04-26 17:05:58.532] [BurdJournals] WARNING: Character ID mismatch in deleteBaseline! Client sent: local_d_e_f, Server computed: 0_d_e.
+[28-04-26 18:03:09.499] [BurdJournals] WARNING: No transferable recipes detected! authoritativeKnown=0 excludeStarting=false.
+[28-04-26 18:06:10.282] [BurdJournals] WARNING: Character ID mismatch in deleteBaseline! Client sent: local_g_h_i, Server computed: 0_g_h.
+[28-04-26 18:08:36.070] [BurdJournals] WARNING: No transferable recipes detected! authoritativeKnown=0 excludeStarting=false.

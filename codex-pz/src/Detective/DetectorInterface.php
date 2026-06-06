@@ -1,0 +1,38 @@
+<?php
+
+namespace IndifferentKetchup\CodexPz\Detective;
+
+use IndifferentKetchup\CodexPz\Log\File\LogFileInterface;
+
+/**
+ * Interface DetectorInterface
+ *
+ * @package IndifferentKetchup\CodexPz\Detective
+ */
+interface DetectorInterface
+{
+    /**
+     * Set the log file
+     *
+     * @param LogFileInterface $logFile
+     * @return $this
+     */
+    public function setLogFile(LogFileInterface $logFile): static;
+
+    /**
+     * Detect if the log matches
+     *
+     * Return true to directly force the detective to accept your result without considering any other detector
+     * Return false to force the detective to never use your result
+     * Return a number between 0 and 1 as probability for this detector
+     * Possible algorithm to get this number would be (matching lines) / (total lines)
+     *
+     * The detective decides which detector wins (and which related log class to use) in this order:
+     *     return === true
+     *     highest return
+     *     default log
+     *
+     * @return bool|float
+     */
+    public function detect(): float|bool;
+}

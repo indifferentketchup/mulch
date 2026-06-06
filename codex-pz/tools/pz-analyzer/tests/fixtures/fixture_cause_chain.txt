@@ -1,0 +1,7 @@
+[16-04-26 00:00:42.314] LOG  : General      f:0, t:1776297642254, st:48,648,157,434> server starting.
+[16-04-26 00:04:00.000] ERROR: General      f:0, t:1776297840000, st:48,648,355,178> Lua((MOD:Test Mod Alpha)) wrapper failure
+	java.lang.RuntimeException: outer wrapper at zombie.Foo(Foo.java:10)
+	Caused by: java.lang.IllegalStateException: middle layer
+	Caused by: java.lang.NullPointerException: deepest cause
+		at zombie.Bar(Bar.java:99)
+[16-04-26 00:04:01.000] LOG  : General      f:0, t:1776297841000, st:48,648,356,178> after.
