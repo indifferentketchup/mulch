@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <header className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between px-[--page-padding] py-[clamp(1rem,3vw,2rem)] transition-[max-width] duration-250">
+    <header className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between px-[var(--page-padding)] py-[clamp(1rem,3vw,2rem)] transition-[max-width] duration-250">
       <Link href="/" className="flex items-center gap-[0.9rem] transition-transform duration-150 ease-out active:scale-90">
         <svg
           className="h-[clamp(1.5rem,3vw,2rem)] w-auto text-[var(--accent)]"

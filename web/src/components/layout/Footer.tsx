@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-4 px-[--page-padding] py-[clamp(1rem,3vw,2rem)] text-[clamp(0.75rem,2vw,0.9rem)] text-[var(--text-muted)] max-[640px]:justify-center">
+    <footer className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-4 px-[var(--page-padding)] py-[clamp(1rem,3vw,2rem)] text-[clamp(0.75rem,2vw,0.9rem)] text-[var(--text-muted)] max-[640px]:justify-center">
       <nav className="flex gap-6 max-[640px]:w-full max-[640px]:order-1 max-[640px]:justify-center">
         <a
           href="https://github.com/indifferentketchup/iblogs"

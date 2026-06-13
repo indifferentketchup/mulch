@@ -19,7 +19,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "iblogs — Paste, share & analyse your logs",
+  title: "iblogs - Paste, share & analyse your logs",
   description: "Easily paste your game-server logs to share and analyse them.",
 };
 

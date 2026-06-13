@@ -13,6 +13,8 @@ export default function PastePage() {
   const [bufferInfo, setBufferInfo] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  // uploadRef always holds the TRUE full text to upload; content state is UI-only gating.
+  const uploadRef = useRef("");
   const router = useRouter();
 
   const showError = useCallback((msg: string) => {
@@ -24,7 +26,9 @@ export default function PastePage() {
   const handleInput = useCallback(() => {
     setError(null);
     setBufferInfo(null);
-    setContent(textareaRef.current?.value || "");
+    const val = textareaRef.current?.value || "";
+    setContent(val);
+    uploadRef.current = val;
   }, []);
 
   const handlePaste = useCallback((e: React.ClipboardEvent) => {
@@ -56,6 +60,7 @@ export default function PastePage() {
       if (text.length > PASTE_BUFFER_THRESHOLD) {
         loadBuffered(text);
       } else {
+        uploadRef.current = text;
         setContent(text);
         if (textareaRef.current) textareaRef.current.value = text;
       }
@@ -68,8 +73,10 @@ export default function PastePage() {
     const lines = text.split("\n");
     const sizeMb = (text.length / 1024 / 1024).toFixed(2);
     setBufferInfo(
-      `${lines.length.toLocaleString()} lines, ${sizeMb} MB — full content will upload on Save`
+      `${lines.length.toLocaleString()} lines, ${sizeMb} MB - full content will upload on Save`
     );
+    // Store the FULL text for upload; show only a preview in the textarea/state.
+    uploadRef.current = text;
     const preview = lines.slice(0, PASTE_PREVIEW_LINES).join("\n");
     setContent(preview);
     if (textareaRef.current) {
@@ -79,7 +86,10 @@ export default function PastePage() {
   }, []);
 
   const handleSave = useCallback(async () => {
-    if (!content.trim()) return;
+    // Use the ref so we always upload the full text even when the textarea shows
+    // only a buffered preview. The content state is used only to gate the button.
+    const payload = uploadRef.current;
+    if (!payload.trim()) return;
     setError(null);
     setSaving(true);
 
@@ -88,7 +98,7 @@ export default function PastePage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          content,
+          content: payload,
           source: window.location.host,
         }),
       });
@@ -97,11 +107,12 @@ export default function PastePage() {
         showError(data.error || `${res.status} ${res.statusText}`);
         return;
       }
+      // Leave saving=true through the redirect so the button stays disabled.
       router.push(data.url);
     } catch {
       showError("Network error");
     }
-  }, [content, router, showError]);
+  }, [router, showError]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -116,6 +127,7 @@ export default function PastePage() {
       if (text.length > PASTE_BUFFER_THRESHOLD) {
         loadBuffered(text);
       } else {
+        uploadRef.current = text;
         setContent(text);
         if (textareaRef.current) textareaRef.current.value = text;
       }

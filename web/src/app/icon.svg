@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-5 -5 51 52" width="32" height="32">
+  <!-- iblogs bars logo: 5 stacked rounded rects, centered with padding -->
+  <!-- fill is a literal hex because a standalone SVG favicon cannot use CSS custom properties -->
+  <rect width="41" height="5" rx="2" fill="#FF3838" />
+  <rect y="9.25" width="33" height="5" rx="2" fill="#FF3838" />
+  <rect y="18.5" width="19" height="5" rx="2" fill="#FF3838" />
+  <rect y="27.75" width="33" height="5" rx="2" fill="#FF3838" />
+  <rect y="37" width="41" height="5" rx="2" fill="#FF3838" />
+</svg>

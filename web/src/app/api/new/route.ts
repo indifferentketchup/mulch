@@ -40,8 +40,8 @@ export async function POST(request: Request) {
       url: `/${id}`,
     });
 
-    response.cookies.set("iblogs_token", token, {
-      path: `/${id}`,
+    response.cookies.set(`iblogs_token_${id}`, token, {
+      path: "/",
       httpOnly: true,
       sameSite: "lax",
       maxAge: 90 * 24 * 60 * 60,

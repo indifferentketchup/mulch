@@ -1,5 +1,5 @@
 import { getDb } from "./mongodb";
-import type { LogDocument, CreateLogRequest } from "./types";
+import type { LogDocument, CreateLogRequest, AnalysisData } from "./types";
 import { randomBytes } from "crypto";
 
 const ID_LENGTH = parseInt(process.env.IBLOGS_ID_LENGTH || "7");
@@ -57,7 +57,16 @@ async function analyzeLog(id: string, content: string): Promise<void> {
     console.error(`Analyzer returned ${res.status}`);
     return;
   }
-  const analysis = await res.json();
+  const raw = await res.json();
+  const analysis: AnalysisData = {
+    detected: raw.detected ?? "Generic",
+    title: raw.title ?? "",
+    lines: raw.lines ?? 0,
+    errors: raw.errors ?? 0,
+    entries: raw.entries ?? [],
+    problems: raw.analysis?.problems ?? [],
+    information: raw.analysis?.information ?? [],
+  };
   const db = await getDb();
   await db.collection<LogDocument>("logs").updateOne(
     { _id: id },

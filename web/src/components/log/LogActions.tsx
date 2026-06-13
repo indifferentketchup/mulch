@@ -7,9 +7,10 @@ interface LogActionsProps {
   logId: string;
   lines: number;
   bytes: number;
+  canDelete: boolean;
 }
 
-export function LogActions({ logId, lines, bytes }: LogActionsProps) {
+export function LogActions({ logId, lines, bytes, canDelete }: LogActionsProps) {
   const [showDelete, setShowDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -53,6 +54,7 @@ export function LogActions({ logId, lines, bytes }: LogActionsProps) {
       >
         Raw
       </Link>
+      {canDelete && (
       <div className="relative">
         <button
           className="inline-flex items-center gap-1 rounded-[8px] bg-[var(--accent)] px-[clamp(0.35rem,1.5vw,0.4rem)] py-[clamp(0.35rem,1.5vw,0.4rem)] font-semibold text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--bg)] transition-colors hover:bg-[color-mix(in_srgb,var(--accent)_78%,var(--bg)_22%)]"
@@ -86,6 +88,7 @@ export function LogActions({ logId, lines, bytes }: LogActionsProps) {
           </div>
         )}
       </div>
+      )}
     </div>
   );
 }

@@ -4,12 +4,16 @@ interface ProblemPanelProps {
   problems: ProblemData[];
   noiseCount: number;
   logId: string;
+  hideEngineNoise: boolean;
 }
 
-export function ProblemPanel({ problems, noiseCount, logId }: ProblemPanelProps) {
+export function ProblemPanel({ problems, noiseCount, logId, hideEngineNoise }: ProblemPanelProps) {
   if (problems.length === 0) return null;
 
-  const visibleProblems = problems.filter((p) => !p.is_noise);
+  const visibleProblems = hideEngineNoise
+    ? problems.filter((p) => !p.is_noise)
+    : problems;
+  const hiddenCount = hideEngineNoise ? noiseCount : 0;
 
   return (
     <div className="border-t border-[var(--border)] pt-[clamp(0.75rem,2vw,1rem)] mt-[clamp(0.75rem,2vw,1rem)]">
@@ -22,9 +26,9 @@ export function ProblemPanel({ problems, noiseCount, logId }: ProblemPanelProps)
           </span>
           <span className="text-[clamp(0.9rem,2vw,1rem)] font-semibold text-[var(--text)]">
             {visibleProblems.length === 1 ? "Problem" : "Problems"} detected
-            {noiseCount > 0 && (
+            {hiddenCount > 0 && (
               <span className="ml-1 font-medium text-[var(--text-muted)]">
-                ({noiseCount} noise hidden)
+                ({hiddenCount} noise hidden)
               </span>
             )}
           </span>

@@ -31,7 +31,7 @@ export async function DELETE(
 ) {
   const { id } = await params;
   const cookieStore = await cookies();
-  const token = cookieStore.get("iblogs_token")?.value;
+  const token = cookieStore.get(`iblogs_token_${id}`)?.value;
 
   if (!token) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
