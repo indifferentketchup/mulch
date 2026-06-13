@@ -1,0 +1,13 @@
+**
+!iblogs/
+!iblogs/**
+!codex-pz/
+!codex-pz/**
+!web/
+!web/**
+iblogs/vendor/
+codex-pz/vendor/
+codex-pz/.scratch/
+.git/
+openspec/
+.pi/

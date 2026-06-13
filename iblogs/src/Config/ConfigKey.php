@@ -50,7 +50,7 @@ enum ConfigKey
 
             ConfigKey::FRONTEND_COLOR_BACKGROUND => "#1a1a1a",
             ConfigKey::FRONTEND_COLOR_TEXT => "#e8e8e8",
-            ConfigKey::FRONTEND_COLOR_ACCENT => "#5cb85c",
+            ConfigKey::FRONTEND_COLOR_ACCENT => "#FF3838",
             ConfigKey::FRONTEND_COLOR_ERROR => "#f62451",
 
             ConfigKey::WORKER_REQUESTS => 500,

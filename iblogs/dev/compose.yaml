@@ -2,8 +2,8 @@ name: "iblogs"
 services:
   web:
     build:
-      context: ..
-      dockerfile: ./Dockerfile
+      context: ../..
+      dockerfile: ./iblogs/Dockerfile
     environment:
       - IBLOGS_WORKER_REQUESTS=1
       - FRANKENPHP_WORKERS=4

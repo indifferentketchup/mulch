@@ -28,6 +28,36 @@ enum Setting: string
     }
 
     /**
+     * @return string
+     */
+    function getGroup(): string
+    {
+        return match ($this) {
+            Setting::FULL_WIDTH,
+            Setting::NO_WRAP,
+            Setting::FLOATING_SCROLLBAR,
+            Setting::OVERFLOW => "Layout",
+            Setting::HIDE_ENGINE_NOISE,
+            Setting::SHOW_ALL_ENTRIES => "Content"
+        };
+    }
+
+    /**
+     * @return string
+     */
+    function getDescription(): string
+    {
+        return match ($this) {
+            Setting::FULL_WIDTH => "Remove the centered container to use the full viewport width.",
+            Setting::NO_WRAP => "Disable line wrapping to show each log line as a single horizontal row.",
+            Setting::FLOATING_SCROLLBAR => "Show a fixed bottom scrollbar for navigating wide log files.",
+            Setting::OVERFLOW => "Allow the log container to overflow the page width.",
+            Setting::HIDE_ENGINE_NOISE => "Filter out low-severity debug and engine noise from the problem panel.",
+            Setting::SHOW_ALL_ENTRIES => "Disable smart folding to show all log entries, including info and mod-loads."
+        };
+    }
+
+    /**
      * @return string|null
      */
     function getBodyClass(): ?string

@@ -13,17 +13,18 @@ COPY --from=composer/composer:2-bin /composer /usr/bin/composer
 WORKDIR /app
 
 # Dependencies (Cached)
-COPY composer.json composer.lock ./
+COPY iblogs/composer.json iblogs/composer.lock ./
+COPY codex-pz /codex-pz
 
 RUN --mount=type=cache,target=/tmp/cache/composer \
     COMPOSER_CACHE_DIR=/tmp/cache/composer \
     composer install --no-dev --no-interaction --no-scripts --no-autoloader --prefer-dist --ignore-platform-req=ext-frankenphp
 
 # Application Setup
-COPY docker/Caddyfile /etc/frankenphp/Caddyfile
-COPY docker/iblogs.ini /usr/local/etc/php/conf.d/iblogs.ini
+COPY iblogs/docker/Caddyfile /etc/frankenphp/Caddyfile
+COPY iblogs/docker/iblogs.ini /usr/local/etc/php/conf.d/iblogs.ini
 
-COPY . .
+COPY iblogs .
 
 RUN composer dump-autoload --optimize --no-dev --classmap-authoritative
 RUN php build.php

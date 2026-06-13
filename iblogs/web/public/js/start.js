@@ -6,6 +6,7 @@ const pasteSaveButtons = document.querySelectorAll('.paste-save');
 const fileSelectButton = document.getElementById('paste-select-file');
 const pasteClipboardButton = document.getElementById('paste-clipboard');
 const pasteError = document.getElementById('paste-error');
+let errorDismissTimer = null;
 
 /*
  * Large-paste buffering. <textarea> rendering is the bottleneck once content
@@ -55,7 +56,12 @@ async function sendLog() {
     }
 
     clearError();
-    pasteSaveButtons.forEach(button => button.classList.add("btn-working"));
+    pasteSaveButtons.forEach(button => {
+        button.classList.add("btn-working");
+        button.disabled = true;
+        button.dataset.originalText = button.textContent.trim();
+        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving\u2026';
+    });
 
     try {
         let log = bufferedContent ?? pasteArea.value;
@@ -230,15 +236,32 @@ function reevaluateContentStatus() {
 }
 
 function showError(message) {
-    pasteSaveButtons.forEach(button => button.classList.remove("btn-working"));
+    pasteSaveButtons.forEach(button => {
+        button.classList.remove("btn-working");
+        button.disabled = false;
+        if (button.dataset.originalText) {
+            button.innerHTML = button.dataset.originalText;
+            delete button.dataset.originalText;
+        }
+    });
     pasteError.innerText = message;
     pasteError.style.display = 'block';
+    if (errorDismissTimer) clearTimeout(errorDismissTimer);
+    errorDismissTimer = setTimeout(clearError, 5000);
 }
 
 function clearError() {
-    pasteSaveButtons.forEach(button => button.classList.remove("btn-working"));
+    pasteSaveButtons.forEach(button => {
+        button.classList.remove("btn-working");
+        button.disabled = false;
+        if (button.dataset.originalText) {
+            button.innerHTML = button.dataset.originalText;
+            delete button.dataset.originalText;
+        }
+    });
     pasteError.innerText = '';
     pasteError.style.display = 'none';
+    if (errorDismissTimer) { clearTimeout(errorDismissTimer); errorDismissTimer = null; }
 }
 
 /* File handling */

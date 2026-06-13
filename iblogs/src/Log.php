@@ -501,7 +501,7 @@ class Log
             $description .= " | " . $this->getErrorsString();
         }
 
-        $problems = $this->getAnalysis()->getProblems();
+        $problems = $this->getAnalysis()?->getProblems() ?? [];
 
         if (count($problems) > 0) {
             $problemString = "problems";

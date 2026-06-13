@@ -249,7 +249,8 @@ body::before {
 }
 
 .btn:disabled,
-.btn.disabled {
+.btn.disabled,
+.btn.btn-working {
     opacity: 0.5;
     cursor: not-allowed;
 }
@@ -290,8 +291,9 @@ body::before {
 }
 
 .btn-white {
-    background-color: #fff;
-    color: var(--bg);
+    background-color: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
 }
 
 .btn-dark {
@@ -790,6 +792,99 @@ main {
     gap: 0.5rem;
     flex-wrap: wrap;
     align-items: center;
+}
+
+.log-header .log-url-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+}
+
+.log-header .log-created-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: clamp(0.65rem, 1.6vw, 0.7rem);
+    color: var(--text-muted);
+    padding-left: 0.1rem;
+}
+
+.log-header .log-created-inline i {
+    font-size: 0.75em;
+    opacity: 0.6;
+}
+
+.log-header .log-build-info {
+    font-size: clamp(0.65rem, 1.6vw, 0.7rem);
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+}
+
+.log-header .log-build-hash {
+    font-family: var(--font-mono), monospace;
+    color: var(--text);
+}
+
+.mods-collapsible {
+    width: 100%;
+    margin-top: 0.25rem;
+}
+
+.mods-collapsible > summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: clamp(0.7rem, 1.8vw, 0.75rem);
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    list-style: none;
+    padding: 0.2rem 0.1rem;
+    border-radius: 4px;
+    transition: color 0.15s ease;
+}
+
+.mods-collapsible > summary:hover {
+    color: var(--text);
+}
+
+.mods-collapsible > summary::before {
+    content: '▶';
+    font-size: 0.6em;
+    opacity: 0.6;
+    transition: transform 0.15s ease;
+    display: inline-block;
+}
+
+.mods-collapsible[open] > summary::before {
+    transform: rotate(90deg);
+}
+
+.mods-collapsible > summary::-webkit-details-marker {
+    display: none;
+}
+
+.mods-count {
+    opacity: 0.65;
+    font-weight: 400;
+}
+
+.mods-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0.5rem 0.25rem 0.25rem;
+}
+
+.mod-name {
+    font-size: clamp(0.7rem, 1.8vw, 0.75rem);
+    font-family: var(--font-mono), monospace;
+    color: var(--text);
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.15rem 0.4rem;
 }
 
 /** Problems Panel **/
@@ -1919,6 +2014,31 @@ a.problem-mod-tag:focus-visible,
 .setting-label {
     font-size: 0.9rem;
     color: var(--text);
+}
+
+.setting-description {
+    font-size: clamp(0.7rem, 1.6vw, 0.75rem);
+    color: var(--text-muted);
+    line-height: 1.4;
+    padding: 0 0.75rem;
+    margin-top: -0.35rem;
+    margin-bottom: 0.25rem;
+}
+
+.settings-group-label {
+    font-size: clamp(0.65rem, 1.5vw, 0.7rem);
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.75rem 0.15rem;
+    user-select: none;
+}
+
+.settings-group-divider {
+    height: 1px;
+    background-color: var(--border);
+    margin: 0.25rem 0.5rem;
 }
 
 .setting-checkbox {

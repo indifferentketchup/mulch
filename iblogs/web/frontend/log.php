@@ -14,10 +14,52 @@ use IndifferentKetchup\CodexPz\Analysis\EngineNoiseInsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\ModAttributedInsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\Severity;
 use IndifferentKetchup\CodexPz\Analysis\SeverityAwareInsightInterface;
+use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\EngineVersionInformation;
+use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\ModLoadInformation;
+use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\MissingIconInformation;
+use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\MissingThumpSoundInformation;
+use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\SpriteConfigInvalidInformation;
 
 /** @var Log $log */
 
 $settings = new Settings();
+
+$allInformation = $log->getAnalysis()?->getInformation() ?? [];
+$modLoadItems = [];
+$assetWarningItems = [];
+$otherInfo = [];
+$engineVersionInfo = null;
+$buildHash = null;
+foreach ($allInformation as $info) {
+    if ($info instanceof EngineVersionInformation) {
+        $engineVersionInfo = $info;
+        if (preg_match('/build\s+([a-f0-9]+)/i', $info->getValue(), $bm)) {
+            $buildHash = substr($bm[1], 0, 12);
+        }
+    } elseif ($info instanceof ModLoadInformation) {
+        $modLoadItems[] = $info;
+    } elseif ($info instanceof MissingIconInformation || $info instanceof MissingThumpSoundInformation || $info instanceof SpriteConfigInvalidInformation) {
+        $assetWarningItems[] = $info;
+    } else {
+        $otherInfo[] = $info;
+    }
+}
+if ($engineVersionInfo !== null) {
+    $otherInfo[] = $engineVersionInfo;
+}
+$assetWarningGroups = [];
+foreach ($assetWarningItems as $item) {
+    $class = get_class($item);
+    if (!isset($assetWarningGroups[$class])) {
+        $assetWarningGroups[$class] = [
+            'label' => $item->getLabel(),
+            'count' => 0,
+            'severity' => $item instanceof SeverityAwareInsightInterface ? $item->getSeverity() : Severity::Low,
+            'isNoise' => $item instanceof EngineNoiseInsightInterface,
+        ];
+    }
+    $assetWarningGroups[$class]['count']++;
+}
 ?><!DOCTYPE html>
 <html lang="en">
     <head>
@@ -36,10 +78,19 @@ $settings = new Settings();
                                    <i class="fas fa-file-lines"></i>
                                    <?=htmlspecialchars($log->getCodexLog()->getTitle()); ?>
                                </h1>
-                               <button class="log-url-btn" data-clipboard="<?=htmlspecialchars($log->getURL()->toString()); ?>" title="Copy log URL to clipboard">
-                                   <span class="log-url"><?=htmlspecialchars($log->getDisplayURL()); ?></span>
-                                   <i class="fa-solid fa-copy"></i>
-                               </button>
+                               <div class="log-url-group">
+                                   <button class="log-url-btn" data-clipboard="<?=htmlspecialchars($log->getURL()->toString()); ?>" title="Copy log URL to clipboard">
+                                       <span class="log-url"><?=htmlspecialchars($log->getDisplayURL()); ?></span>
+                                       <i class="fa-solid fa-copy"></i>
+                                   </button>
+                                   <?php $created = $log->getCreated()?->toDateTime()->getTimestamp(); ?>
+                                   <?php if ($created): ?>
+                                       <div class="log-created-inline" title="Uploaded">
+                                           <i class="fa-solid fa-clock"></i>
+                                           <span class="created" data-time="<?=htmlspecialchars($created); ?>"></span>
+                                       </div>
+                                   <?php endif; ?>
+                               </div>
                            </div>
                        </div>
                        <div class="right">
@@ -60,11 +111,15 @@ $settings = new Settings();
                                        Raw
                                    </a>
                                </div>
+                               <?php if ($buildHash): ?>
+                                   <div class="log-build-info">
+                                       Build: <span class="log-build-hash"><?=htmlspecialchars($buildHash); ?></span>
+                                   </div>
+                               <?php endif; ?>
                            </div>
                        </div>
                    </div>
-                   <?php $information = $log->getAnalysis()->getInformation(); ?>
-                   <?php if(count($log->getVisibleMetadata()) > 0 || count($information) > 0): ?>
+                   <?php if(count($log->getVisibleMetadata()) > 0 || count($otherInfo) > 0 || count($modLoadItems) > 0): ?>
                        <div class="log-info-rows">
                            <?php if(count($log->getVisibleMetadata()) > 0): ?>
                                <div class="log-info-row">
@@ -82,19 +137,33 @@ $settings = new Settings();
                                    </div>
                                </div>
                            <?php endif; ?>
-                           <?php if(count($information) > 0): ?>
+                           <?php if(count($otherInfo) > 0 || count($modLoadItems) > 0): ?>
                                <div class="log-info-row">
                                    <div class="info-row-items">
                                        <div class="info-row-header">
                                            <i class="fa-solid fa-cube"></i>
                                            <span>Detected</span>
                                        </div>
-                                       <?php foreach($information as $info): ?>
+                                       <?php foreach($otherInfo as $info): ?>
                                            <span class="info-item">
                                                <span class="info-label"><?=htmlspecialchars($info->getLabel()); ?>:</span>
                                                <span class="info-value"><?=htmlspecialchars($info->getValue()); ?></span>
                                            </span>
                                        <?php endforeach; ?>
+                                       <?php if(count($modLoadItems) > 0): ?>
+                                           <details class="mods-collapsible">
+                                               <summary>
+                                                   <i class="fa-solid fa-puzzle-piece"></i>
+                                                   Mods loaded
+                                                   <span class="mods-count">(<?= count($modLoadItems); ?>)</span>
+                                               </summary>
+                                               <div class="mods-list">
+                                                   <?php foreach($modLoadItems as $mod): ?>
+                                                       <span class="mod-name"><?=htmlspecialchars($mod->getValue()); ?></span>
+                                                   <?php endforeach; ?>
+                                               </div>
+                                           </details>
+                                       <?php endif; ?>
                                    </div>
                                </div>
                            <?php endif; ?>
@@ -112,14 +181,20 @@ $settings = new Settings();
                         ? count(array_filter($problems, fn($p) => !($p instanceof EngineNoiseInsightInterface)))
                         : count($problems);
                     $noiseCount = count($problems) - $visibleCount;
+                    $visibleAssetGroupCount = $hideEngineNoise
+                        ? count(array_filter($assetWarningGroups, fn($g) => !$g['isNoise']))
+                        : count($assetWarningGroups);
+                    $hiddenAssetGroupCount = count($assetWarningGroups) - $visibleAssetGroupCount;
+                    $totalVisibleCount = $visibleCount + $visibleAssetGroupCount;
+                    $totalNoiseCount = $noiseCount + $hiddenAssetGroupCount;
                     ?>
-                    <?php if (count($problems) > 0): ?>
+                    <?php if (count($problems) > 0 || count($assetWarningGroups) > 0): ?>
                         <div class="problems-panel-container">
                             <div class="problems-panel">
                                 <div class="problems-header">
-                                    <span class="problems-count"><?= $visibleCount; ?></span>
+                                    <span class="problems-count"><?= $totalVisibleCount; ?></span>
                                     <span class="problems-title">
-                                        <?= $visibleCount === 1 ? 'Problem' : 'Problems'; ?> detected<?php if ($noiseCount > 0): ?> <span class="problems-noise-count">(<?= $noiseCount; ?> noise hidden)</span><?php endif; ?>
+                                        <?= $totalVisibleCount === 1 ? 'Problem' : 'Problems'; ?> detected<?php if ($totalNoiseCount > 0): ?> <span class="problems-noise-count">(<?= $totalNoiseCount; ?> noise hidden)</span><?php endif; ?>
                                     </span>
                                 </div>
                                 <div class="problems-list">
@@ -135,11 +210,17 @@ $settings = new Settings();
                                             Severity::Noise    => 'fa-volume-xmark',
                                         };
                                         $entry = $problem->getEntry();
+                                        $entryLine = null;
+                                        if ($entry !== null) {
+                                            $entryLines = $entry->getLines();
+                                            $entryLine = reset($entryLines) ?: null;
+                                        }
+                                        $entryLineNumber = $entryLine?->getNumber();
                                         $rowClasses = 'problem-item severity-' . strtolower($severity->name) . ($isEngineNoise ? ' engine-noise' : '');
                                         ?>
                                         <div class="<?= htmlspecialchars($rowClasses); ?>" aria-label="Severity: <?= htmlspecialchars($severity->name); ?>">
-                                            <?php if ($entry !== null): ?>
-                                                <a href="/<?= htmlspecialchars($log->getId()->get()); ?>#L<?= (int)$entry->getNumber(); ?>" class="problem-entry" onclick="updateLineNumber('#L<?= (int)$entry->getNumber(); ?>');">
+                                            <?php if ($entryLineNumber !== null): ?>
+                                                <a href="/<?= htmlspecialchars($log->getId()->get()); ?>#L<?= (int)$entryLineNumber; ?>" class="problem-entry" onclick="updateLineNumber('#L<?= (int)$entryLineNumber; ?>');">
                                             <?php else: ?>
                                                 <div class="problem-entry">
                                             <?php endif; ?>
@@ -148,13 +229,13 @@ $settings = new Settings();
                                                     <?= htmlspecialchars($severity->name); ?>
                                                 </span>
                                                 <span class="problem-text"><?= htmlspecialchars($problem->getMessage()); ?></span>
-                                                <?php if ($entry !== null): ?>
-                                                    <span class="problem-line">Line <?= (int)$entry->getNumber(); ?></span>
+                                                <?php if ($entryLineNumber !== null): ?>
+                                                    <span class="problem-line">Line <?= (int)$entryLineNumber; ?></span>
                                                 <?php endif; ?>
                                                 <?php if ($problem->getCounterValue() > 1): ?>
                                                     <span class="problem-counter" aria-label="<?= number_format($problem->getCounterValue()); ?> occurrences">×<?= number_format($problem->getCounterValue()); ?></span>
                                                 <?php endif; ?>
-                                            <?php if ($entry !== null): ?>
+                                            <?php if ($entryLineNumber !== null): ?>
                                                 </a>
                                             <?php else: ?>
                                                 </div>
@@ -197,6 +278,31 @@ $settings = new Settings();
                                                     <?php endforeach; ?>
                                                 </details>
                                             <?php endif; ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                    <?php foreach ($assetWarningGroups as $group):
+                                        if ($hideEngineNoise && $group['isNoise']) continue;
+                                        $severity = $group['severity'];
+                                        $severityIcon = match ($severity) {
+                                            Severity::Critical => 'fa-skull-crossbones',
+                                            Severity::High     => 'fa-triangle-exclamation',
+                                            Severity::Medium   => 'fa-flag',
+                                            Severity::Low      => 'fa-circle-info',
+                                            Severity::Noise    => 'fa-volume-xmark',
+                                        };
+                                        $rowClasses = 'problem-item severity-' . strtolower($severity->name) . ($group['isNoise'] ? ' engine-noise' : '');
+                                    ?>
+                                        <div class="<?= htmlspecialchars($rowClasses); ?>" aria-label="Severity: <?= htmlspecialchars($severity->name); ?>">
+                                            <div class="problem-entry">
+                                                <span class="problem-severity problem-label" aria-label="<?= htmlspecialchars($severity->name); ?>">
+                                                    <i class="fa-solid <?= $severityIcon; ?>"></i>
+                                                    <?= htmlspecialchars($severity->name); ?>
+                                                </span>
+                                                <span class="problem-text"><?= htmlspecialchars($group['label']); ?></span>
+                                                <?php if ($group['count'] > 1): ?>
+                                                    <span class="problem-counter" aria-label="<?= number_format($group['count']); ?> occurrences">×<?= number_format($group['count']); ?></span>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
                                     <?php endforeach; ?>
                                 </div>
@@ -242,7 +348,16 @@ $settings = new Settings();
                                 Settings
                             </button>
                             <div class="settings-overlay popover-content" id="settings-overlay" popover>
+                                <?php $currentGroup = null; ?>
                                 <?php foreach(Setting::cases() as $setting): ?>
+                                    <?php $group = $setting->getGroup(); ?>
+                                    <?php if ($group !== $currentGroup): ?>
+                                        <?php if ($currentGroup !== null): ?>
+                                            <div class="settings-group-divider"></div>
+                                        <?php endif; ?>
+                                        <div class="settings-group-label"><?=htmlspecialchars($group); ?></div>
+                                        <?php $currentGroup = $group; ?>
+                                    <?php endif; ?>
                                     <label class="setting" for="setting-<?=$setting->value; ?>">
                                         <span class="setting-label"><?=$setting->getLabel(); ?></span>
                                         <input type="checkbox"
@@ -252,31 +367,20 @@ $settings = new Settings();
                                                data-key="<?=$setting->value; ?>"
                                                 <?=($settings->get($setting)) ? " checked" : ""; ?>/>
                                     </label>
+                                    <span class="setting-description"><?=$setting->getDescription(); ?></span>
                                 <?php endforeach; ?>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="log-details">
-                <?php
-                    $source = $log->getSource();
-                    $created = $log->getCreated()?->toDateTime()->getTimestamp();
-                ?>
-                <?php if ($source || $created): ?>
+                <?php $source = $log->getSource(); ?>
+                <?php if ($source): ?>
                     <div class="meta-data">
-                        <?php if ($source): ?>
-                            <div class="source" title="Source">
-                                <i class="fa-solid fa-arrow-up-from-bracket"></i>
-                                <?=htmlspecialchars($source); ?>
-                            </div>
-                        <?php endif; ?>
-                        <?php if ($created): ?>
-                            <div class="created-time" title="Created">
-                                <i class="fa-solid fa-clock"></i>
-                                <span class="created" data-time="<?=htmlspecialchars($created); ?>">
-                                </span>
-                            </div>
-                        <?php endif; ?>
+                        <div class="source" title="Source">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                            <?=htmlspecialchars($source); ?>
+                        </div>
                     </div>
                 <?php endif; ?>
                     <div class="delete-notice">

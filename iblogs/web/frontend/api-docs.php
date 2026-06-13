@@ -626,11 +626,13 @@ $config = Config::getInstance();
                     <div class="api-docs-notes-content">
                         <h2>Notes</h2>
                         <p>The API has currently a rate limit of 60 requests per minute per IP address. This is set to ensure the operability of this service. If you have any use case that requires a higher limit, feel free to contact us.</p>
+                        <?php if ($abuseEmail = Config::getInstance()->get(ConfigKey::LEGAL_ABUSE)): ?>
                         <div class="api-docs-notes-actions">
-                            <a class="btn btn-small" href="mailto:matthias@aternos.org">
+                            <a class="btn btn-small" href="mailto:<?=htmlspecialchars($abuseEmail); ?>">
                                 <i class="fa-solid fa-envelope"></i> Contact via mail
                             </a>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </main>

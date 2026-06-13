@@ -4,15 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a42461e726fa8566f7bd4e8aba76397",
+    "content-hash": "4787b9f47271f618eba7c125f3036c6e",
     "packages": [
         {
             "name": "indifferentketchup/codex-pz",
-            "version": "dev-pz-enrichment-bootstrap",
+            "version": "0.6.x-dev",
             "dist": {
                 "type": "path",
-                "url": "/opt/ik-codex",
-                "reference": "ff0ea47934522bccfa990ec8d32e1396883e02b8"
+                "url": "../codex-pz",
+                "reference": "06fdbbeb9eef7f1fa775fe60f1ff0bb8ffc291fe"
             },
             "require": {
                 "php": ">=8.4"
@@ -54,7 +54,7 @@
             "description": "Generic PHP log parsing and analysis framework.",
             "transport-options": {
                 "symlink": false,
-                "relative": false
+                "relative": true
             }
         },
         {

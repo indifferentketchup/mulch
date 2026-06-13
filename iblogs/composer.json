@@ -10,8 +10,13 @@
     "repositories": [
         {
             "type": "path",
-            "url": "/opt/ik-codex",
-            "options": { "symlink": false }
+            "url": "../codex-pz",
+            "options": {
+                "symlink": false,
+                "versions": {
+                    "indifferentketchup/codex-pz": "0.6.x-dev"
+                }
+            }
         }
     ],
     "minimum-stability": "dev",

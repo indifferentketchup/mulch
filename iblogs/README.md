@@ -45,7 +45,7 @@ Here is a list of all available config options:
 | `IBLOGS_LEGAL_IMPRINT` <br> `legal.imprint`                         | `null`              | The imprint URL                             |
 | `IBLOGS_LEGAL_PRIVACY` <br> `legal.privacy`                         | `null`              | The privacy policy URL                      |
 | `IBLOGS_FRONTEND_NAME` <br> `frontend.name`                         | `null`              | Instance name (defaults to domain)          |
-| `IBLOGS_FRONTEND_COLOR_ACCENT` <br> `frontend.color.accent`         | `#5cb85c`           | The accent/primary color                    |
+| `IBLOGS_FRONTEND_COLOR_ACCENT` <br> `frontend.color.accent`         | `#FF3838`           | The accent/primary color                    |
 | `IBLOGS_FRONTEND_COLOR_BACKGROUND` <br> `frontend.color.background` | `#1a1a1a`           | The background color                        |
 | `IBLOGS_FRONTEND_COLOR_TEXT` <br> `frontend.color.text`             | `#e8e8e8`           | The text color                              |
 | `IBLOGS_FRONTEND_COLOR_ERROR` <br> `frontend.color.error`           | `#f62451`           | The error color                             |

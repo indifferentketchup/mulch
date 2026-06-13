@@ -480,7 +480,7 @@ settingCheckboxes.forEach(checkbox => checkbox.addEventListener("change", handle
 
 let settingsChannel = null;
 if (typeof BroadcastChannel !== "undefined") {
-    settingsChannel = new BroadcastChannel("mc-logs-settings");
+    settingsChannel = new BroadcastChannel("iblogs-settings");
     settingsChannel.onmessage = (e) => {
         if (e.data.type === "settings-updated") {
             for (const checkbox of settingCheckboxes) {
