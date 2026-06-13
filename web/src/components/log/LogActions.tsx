@@ -10,6 +10,9 @@ interface LogActionsProps {
   canDelete: boolean;
 }
 
+const ghost =
+  "inline-flex h-8 items-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-elevated)] px-3 font-[var(--font-mono)] text-[0.75rem] text-[var(--text-muted)] transition-colors duration-150 hover:border-[var(--text-muted)] hover:text-[var(--text)]";
+
 export function LogActions({ logId, lines, bytes, canDelete }: LogActionsProps) {
   const [showDelete, setShowDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -39,55 +42,60 @@ export function LogActions({ logId, lines, bytes, canDelete }: LogActionsProps) 
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 shrink-0">
+    <div className="flex shrink-0 flex-wrap items-center gap-2">
       <button
-        className="inline-flex items-center gap-1.5 rounded-[8px] bg-[var(--surface)] border border-[var(--border)] px-[clamp(0.35rem,1.5vw,0.4rem)] py-[clamp(0.35rem,1.5vw,0.4rem)] font-semibold text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--text)] transition-colors hover:bg-[var(--accent-bg)]"
+        type="button"
+        className={`${ghost} tabular-nums`}
+        title="Jump to end of log"
         onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })}
       >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7" /></svg>
         {lines.toLocaleString()} lines &middot; {formatBytes(bytes)}
       </button>
-      <Link
-        href={`/${logId}/raw`}
-        target="_blank"
-        className="inline-flex items-center gap-1 rounded-[8px] bg-[var(--surface)] border border-[var(--border)] px-[clamp(0.35rem,1.5vw,0.4rem)] py-[clamp(0.35rem,1.5vw,0.4rem)] font-semibold text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--text)] transition-colors hover:bg-[var(--accent-bg)]"
-      >
-        Raw
+      <Link href={`/${logId}/raw`} target="_blank" className={ghost}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+        raw
       </Link>
       {canDelete && (
-      <div className="relative">
-        <button
-          className="inline-flex items-center gap-1 rounded-[8px] bg-[var(--accent)] px-[clamp(0.35rem,1.5vw,0.4rem)] py-[clamp(0.35rem,1.5vw,0.4rem)] font-semibold text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--bg)] transition-colors hover:bg-[color-mix(in_srgb,var(--accent)_78%,var(--bg)_22%)]"
-          onClick={() => setShowDelete(!showDelete)}
-        >
-          Delete
-        </button>
-        {showDelete && (
-          <div className="absolute right-0 bottom-full mb-2 z-20 min-w-[250px] rounded-[8px] bg-[var(--bg-surface)] border border-[var(--border)] p-4 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-            <p className="mb-2 font-medium text-[var(--text)]">Delete this log permanently?</p>
-            {deleteError && (
-              <div className="mb-2 rounded-[8px] bg-[var(--error-bg)] border border-[var(--error-border)] p-2 text-sm text-[var(--text)]">
-                {deleteError}
+        <div className="relative">
+          <button
+            type="button"
+            className="inline-flex h-8 items-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--accent-border)] bg-transparent px-3 font-[var(--font-mono)] text-[0.75rem] font-medium text-[var(--accent)] transition-colors duration-150 hover:bg-[var(--accent)] hover:text-[var(--brand-ink)]"
+            onClick={() => setShowDelete(!showDelete)}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
+            delete
+          </button>
+          {showDelete && (
+            <div className="absolute right-0 top-full z-20 mt-2 min-w-[260px] rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-elevated)] p-4 shadow-[var(--shadow-panel)]">
+              <p className="mb-3 font-[var(--font-sans)] text-[0.88rem] text-[var(--text)]">
+                Delete this log permanently?
+              </p>
+              {deleteError && (
+                <div className="mb-3 rounded-[var(--radius-sm)] border border-[var(--error-border)] bg-[var(--error-bg)] p-2 font-[var(--font-mono)] text-[0.75rem] text-[var(--error)]">
+                  {deleteError}
+                </div>
+              )}
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  className="flex-1 rounded-[var(--radius-md)] border border-[var(--border)] bg-transparent px-3 py-1.5 font-[var(--font-mono)] text-[0.78rem] text-[var(--text)] transition-colors duration-150 hover:bg-[var(--bg-surface)]"
+                  onClick={() => setShowDelete(false)}
+                >
+                  cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={deleting}
+                  className="flex-1 rounded-[var(--radius-md)] bg-[var(--accent)] px-3 py-1.5 font-[var(--font-mono)] text-[0.78rem] font-semibold text-[var(--brand-ink)] transition-colors duration-150 hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-50"
+                  onClick={handleDelete}
+                >
+                  {deleting ? "deleting…" : "delete"}
+                </button>
               </div>
-            )}
-            <div className="flex gap-2">
-              <button
-                className="flex-1 rounded-[8px] bg-[var(--bg)] border border-[var(--border)] px-3 py-1.5 text-sm text-[var(--text)] transition-colors hover:bg-[var(--surface)]"
-                onClick={() => setShowDelete(false)}
-              >
-                Cancel
-              </button>
-              <button
-                disabled={deleting}
-                className="flex-1 rounded-[8px] bg-[var(--accent)] px-3 py-1.5 text-sm font-semibold text-[var(--bg)] transition-colors hover:bg-[color-mix(in_srgb,var(--accent)_78%,var(--bg)_22%)] disabled:opacity-50"
-                onClick={handleDelete}
-              >
-                {deleting ? "Deleting..." : "Delete"}
-              </button>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
       )}
     </div>
   );

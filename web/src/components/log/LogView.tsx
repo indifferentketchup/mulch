@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import type { LogEntry } from "@/lib/types";
+import { severityVar, severityBgVar } from "@/lib/severity";
 
 interface LogViewProps {
   content: string;
@@ -17,6 +18,7 @@ interface LogViewProps {
   overflow: boolean;
   floatingScrollbar: boolean;
   problemLines?: number[];
+  severityByLine?: Record<number, string>;
 }
 
 interface LineRow {
@@ -97,6 +99,7 @@ export function LogView({
   overflow,
   floatingScrollbar,
   problemLines = [],
+  severityByLine = {},
 }: LogViewProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
@@ -112,7 +115,6 @@ export function LogView({
     window.location.hash = `L${lineNum}`;
   }, []);
 
-  // Keep the floating scrollbar proxy in sync with the log container width.
   const showFloatingBar =
     floatingScrollbar && noWrap && scrollWidth > clientWidth + 1;
 
@@ -146,7 +148,7 @@ export function LogView({
   }, []);
 
   return (
-    <div className="border-b border-[var(--border)] bg-[var(--bg-elevated)]">
+    <div className="bg-[var(--bg-inset)]">
       <div
         ref={scrollRef}
         onScroll={floatingScrollbar ? onContentScroll : undefined}
@@ -154,10 +156,10 @@ export function LogView({
           overflow ? "overflow-x-visible" : "overflow-x-auto"
         }`}
         style={{
-          gridTemplateColumns: noWrap ? "auto max-content" : "auto 1fr",
+          gridTemplateColumns: noWrap ? "auto max-content" : "auto minmax(0, 1fr)",
           fontFamily: "var(--font-mono)",
-          fontSize: "clamp(0.75rem, 2vw, 0.9rem)",
-          lineHeight: 1.6,
+          fontSize: "clamp(0.75rem, 2vw, 0.875rem)",
+          lineHeight: 1.7,
           contain: "layout style paint",
         }}
       >
@@ -167,6 +169,7 @@ export function LogView({
               key={`l-${item.line.number}-${idx}`}
               line={item.line}
               noWrap={noWrap}
+              severity={severityByLine[item.line.number]}
               onClick={handleLineClick}
             />
           ) : (
@@ -174,6 +177,7 @@ export function LogView({
               key={`f-${item.id}`}
               lines={item.lines}
               noWrap={noWrap}
+              severityByLine={severityByLine}
               onLineClick={handleLineClick}
             />
           )
@@ -185,7 +189,7 @@ export function LogView({
           ref={barRef}
           onScroll={onBarScroll}
           aria-hidden="true"
-          className="sticky bottom-0 z-10 overflow-x-auto overflow-y-hidden border-t border-[var(--border)] bg-[var(--bg-elevated)]"
+          className="sticky bottom-0 z-10 overflow-x-auto overflow-y-hidden border-t border-[var(--border)] bg-[var(--bg-inset)]"
           style={{ height: "var(--scrollbar-height, 8px)" }}
         >
           <div style={{ width: scrollWidth, height: 1 }} />
@@ -198,27 +202,38 @@ export function LogView({
 function LineCells({
   line,
   noWrap,
+  severity,
   onClick,
 }: {
   line: LineRow;
   noWrap: boolean;
+  severity?: string;
   onClick: (n: number) => void;
 }) {
+  const isProblem = !!severity;
   return (
     <>
       <div
         id={`L${line.number}`}
         onClick={() => onClick(line.number)}
-        className="min-w-[2.75rem] scroll-mt-24 select-none border-r border-[var(--border)] px-[0.4rem] text-right text-[clamp(0.65rem,1.8vw,0.8rem)] font-medium text-[var(--text-muted)] cursor-pointer transition-colors target:bg-[var(--accent-bg)] target:text-[var(--accent)] hover:text-[var(--text)]"
+        title={isProblem ? `${severity} on line ${line.number}` : undefined}
+        className={`min-w-[3rem] scroll-mt-24 select-none border-r border-[var(--border)] px-[0.55rem] text-right text-[clamp(0.65rem,1.8vw,0.78rem)] tabular-nums cursor-pointer transition-colors target:bg-[var(--info-bg)] hover:text-[var(--text)] ${
+          isProblem ? "font-semibold" : "font-medium text-[var(--text-muted)]"
+        }`}
+        style={
+          isProblem
+            ? { backgroundColor: severityBgVar(severity), color: severityVar(severity) }
+            : undefined
+        }
       >
         {line.number}
       </div>
       <div
-        className={`px-[clamp(0.4rem,1vw,0.9rem)] text-[var(--text)] ${
+        className={`px-[clamp(0.55rem,1.2vw,1rem)] text-[var(--text)] ${
           noWrap ? "whitespace-pre" : "whitespace-pre-wrap break-words"
         }`}
       >
-        {line.text || " "}
+        {line.text || " "}
       </div>
     </>
   );
@@ -227,10 +242,12 @@ function LineCells({
 function FoldRegion({
   lines,
   noWrap,
+  severityByLine,
   onLineClick,
 }: {
   lines: LineRow[];
   noWrap: boolean;
+  severityByLine: Record<number, string>;
   onLineClick: (n: number) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -243,6 +260,7 @@ function FoldRegion({
             key={`fl-${line.number}-${idx}`}
             line={line}
             noWrap={noWrap}
+            severity={severityByLine[line.number]}
             onClick={onLineClick}
           />
         ))}
@@ -250,10 +268,10 @@ function FoldRegion({
           type="button"
           onClick={() => setOpen(false)}
           style={{ gridColumn: "1 / -1" }}
-          className="my-1 flex w-full items-center justify-center gap-2 border-y border-dashed border-[var(--border)] bg-[var(--surface)] py-1 text-[clamp(0.7rem,1.6vw,0.75rem)] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-[-2px]"
+          className="my-1 flex w-full items-center justify-center gap-2 border-y border-dashed border-[var(--border)] bg-[var(--bg-surface)] py-1 font-[var(--font-mono)] text-[clamp(0.68rem,1.6vw,0.74rem)] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--info)] focus-visible:outline-2 focus-visible:outline-[var(--info)] focus-visible:outline-offset-[-2px]"
         >
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M18 15l-6-6-6 6" /></svg>
-          Collapse {lines.length.toLocaleString()} {lines.length === 1 ? "line" : "lines"}
+          collapse {lines.length.toLocaleString()} {lines.length === 1 ? "line" : "lines"}
         </button>
       </>
     );
@@ -264,7 +282,7 @@ function FoldRegion({
       type="button"
       onClick={() => setOpen(true)}
       style={{ gridColumn: "1 / -1" }}
-      className="my-1 flex w-full items-center justify-center gap-2 border-y border-dashed border-[var(--border)] bg-[var(--surface)] py-1 font-[var(--font-mono)] text-[clamp(0.7rem,1.6vw,0.75rem)] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--accent)] focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-[-2px]"
+      className="my-1 flex w-full items-center justify-center gap-2 border-y border-dashed border-[var(--border)] bg-[var(--bg-surface)] py-1 font-[var(--font-mono)] text-[clamp(0.68rem,1.6vw,0.74rem)] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--info)] focus-visible:outline-2 focus-visible:outline-[var(--info)] focus-visible:outline-offset-[-2px]"
     >
       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
       {lines.length.toLocaleString()} {lines.length === 1 ? "line" : "lines"} hidden

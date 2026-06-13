@@ -42,6 +42,7 @@ export default async function LogPage({ params }: LogPageProps) {
       <LogShell
         id={id}
         title={title}
+        detected={analysis?.detected}
         createdLabel={created.toLocaleString()}
         source={log.source}
         metadata={log.metadata ?? []}

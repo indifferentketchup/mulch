@@ -7,6 +7,7 @@ import { LogSettings } from "./LogSettings";
 import { CopyUrlButton } from "./CopyUrlButton";
 import { ProblemPanel } from "@/components/problems/ProblemPanel";
 import { useLogSettings } from "./LogSettingsContext";
+import { severityRank } from "@/lib/severity";
 import type {
   InfoItem,
   LogEntry,
@@ -17,6 +18,7 @@ import type {
 interface LogShellProps {
   id: string;
   title: string;
+  detected?: string;
   createdLabel: string;
   source?: string;
   metadata: MetadataItem[];
@@ -30,9 +32,15 @@ interface LogShellProps {
   canDelete: boolean;
 }
 
+function prettyGame(detected?: string): string | null {
+  if (!detected || detected === "Generic") return null;
+  return detected.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase();
+}
+
 export function LogShell({
   id,
   title,
+  detected,
   createdLabel,
   source,
   metadata,
@@ -49,51 +57,59 @@ export function LogShell({
 
   const widthClass = settings.fullWidth
     ? "w-full"
-    : "mx-auto w-full max-w-[min(100%,calc(1400px-var(--page-padding)*2))]";
+    : "mx-auto w-full max-w-[1400px]";
 
-  const problemLines = problems
-    .filter((p) => !p.is_noise && p.entry_line != null)
+  const visibleProblems = settings.hideEngineNoise
+    ? problems.filter((p) => !p.is_noise)
+    : problems;
+
+  const problemLines = visibleProblems
+    .filter((p) => p.entry_line != null)
     .map((p) => p.entry_line as number);
 
+  const severityByLine: Record<number, string> = {};
+  for (const p of visibleProblems) {
+    if (p.entry_line == null) continue;
+    const cur = severityByLine[p.entry_line];
+    if (!cur || severityRank(p.severity) < severityRank(cur)) {
+      severityByLine[p.entry_line] = p.severity;
+    }
+  }
+
+  const game = prettyGame(detected);
+
   return (
-    <>
-      <main className={`relative z-10 flex flex-0 flex-col overflow-hidden rounded-t-[12px] bg-[var(--bg-surface)] ${widthClass}`}>
+    <main className={`relative z-10 px-[var(--page-padding)] py-[clamp(0.85rem,2.5vw,1.5rem)] ${widthClass}`}>
+      <div className="rounded-[var(--radius-panel)] bg-[var(--bg-surface)] shadow-[var(--shadow-panel)]">
+        {/* diagnostic head */}
         <div className="border-b border-[var(--border)] p-[clamp(1rem,3vw,1.5rem)]">
-          <div className="flex flex-wrap items-start justify-between gap-4 max-[640px]:flex-col">
-            <div className="min-w-0 flex-1 basis-[300px]">
-              <div className="flex flex-wrap items-center gap-3">
-                <h1 className="flex items-center gap-2 text-[clamp(1.1rem,3vw,1.25rem)] font-semibold text-[var(--text)]">
-                  <svg className="text-[var(--accent)]" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8" />
-                  </svg>
-                  {title}
-                </h1>
+          <div className="flex flex-wrap items-start justify-between gap-4 max-[700px]:flex-col">
+            <div className="min-w-0 flex-1 basis-[280px] max-[700px]:flex-none max-[700px]:basis-auto">
+              <h1 className="font-[var(--font-sans)] text-[clamp(1.05rem,3vw,1.3rem)] font-semibold tracking-[-0.01em] text-[var(--text)] [text-wrap:balance] [word-break:break-word]">
+                {title}
+              </h1>
+              <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
                 <CopyUrlButton id={id} />
-                <div className="flex items-center gap-1 text-[clamp(0.65rem,1.6vw,0.7rem)] text-[var(--text-muted)]">
-                  <svg className="opacity-60" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                {game && (
+                  <span className="inline-flex items-center rounded-[var(--radius-sm)] bg-[var(--info-bg)] px-2 py-0.5 font-[var(--font-mono)] text-[0.72rem] text-[var(--info)]">
+                    {game}
+                  </span>
+                )}
+                <span className="inline-flex items-center gap-1.5 font-[var(--font-mono)] text-[0.72rem] text-[var(--text-muted)]">
+                  <svg className="opacity-70" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
                   {createdLabel}
-                </div>
+                </span>
+                {metadata.map((m, i) => (
+                  <span key={`m-${i}`} className="font-[var(--font-mono)] text-[0.72rem] text-[var(--text-muted)]">
+                    {m.label}: <span className="text-[var(--text)]">{m.value}</span>
+                  </span>
+                ))}
+                {information.map((info, i) => (
+                  <span key={`i-${i}`} className="font-[var(--font-mono)] text-[0.72rem] text-[var(--text-muted)]">
+                    {info.label}: <span className="text-[var(--text)]">{info.value}</span>
+                  </span>
+                ))}
               </div>
-              {metadata.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-3">
-                  {metadata.map((m, i) => (
-                    <span key={i} className="text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--text-muted)]">
-                      <span className="font-medium">{m.label}:</span>{" "}
-                      <span className="font-medium font-[var(--font-mono)] text-[var(--text)]">{m.value}</span>
-                    </span>
-                  ))}
-                </div>
-              )}
-              {information.length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-3">
-                  {information.map((info, i) => (
-                    <span key={i} className="text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--text-muted)]">
-                      <span className="font-medium">{info.label}:</span>{" "}
-                      <span className="font-medium font-[var(--font-mono)] text-[var(--text)]">{info.value}</span>
-                    </span>
-                  ))}
-                </div>
-              )}
             </div>
             <LogActions
               logId={id}
@@ -102,6 +118,7 @@ export function LogShell({
               canDelete={canDelete}
             />
           </div>
+
           {problems.length > 0 && (
             <ProblemPanel
               problems={problems}
@@ -111,9 +128,8 @@ export function LogShell({
             />
           )}
         </div>
-      </main>
 
-      <div className={`relative z-10 bg-[var(--bg-surface)] ${widthClass}`}>
+        {/* console screen */}
         <LogView
           content={content}
           entries={entries}
@@ -122,32 +138,28 @@ export function LogShell({
           overflow={settings.overflow}
           floatingScrollbar={settings.floatingScrollbar}
           problemLines={problemLines}
+          severityByLine={severityByLine}
         />
-      </div>
 
-      <div className={`relative z-10 mb-0 rounded-b-[12px] bg-[var(--bg-surface)] px-[var(--page-padding)] ${widthClass}`}>
-        <div className="flex items-center justify-between border-b border-[var(--border)] py-[clamp(0.75rem,2vw,1rem)]">
-          <div className="flex items-center gap-2">
+        {/* foot bar */}
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-[var(--border)] px-[clamp(1rem,3vw,1.5rem)] py-[clamp(0.7rem,2vw,0.9rem)] font-[var(--font-mono)] text-[0.72rem] text-[var(--text-muted)]">
+          <div className="flex items-center gap-3">
             <LogSettings />
+            {source && (
+              <span className="inline-flex items-center gap-1.5">
+                <svg className="opacity-70" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                via {source}
+              </span>
+            )}
           </div>
-        </div>
-        <div className="grid grid-cols-2 items-center gap-[clamp(0.75rem,2vw,1.25rem)] border-t border-[var(--border)] py-[clamp(0.75rem,2vw,1rem)] text-[clamp(0.85rem,2vw,0.9rem)] text-[var(--text-muted)] max-[640px]:grid-cols-1 max-[640px]:gap-2 max-[640px]:text-center">
-          {source && (
-            <div className="flex items-center gap-2">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-              {source}
-            </div>
-          )}
-          <div className="text-center max-[640px]:text-center">
-            Log saved for 90 days from last view.
-          </div>
-          <div className="text-right max-[640px]:text-center">
-            <Link href="/" className="transition-colors hover:text-[var(--accent)]">
-              Paste a new log
+          <div className="flex items-center gap-4">
+            <span className="max-[480px]:hidden">kept 90 days from last view</span>
+            <Link href="/" className="transition-colors duration-150 hover:text-[var(--accent)]">
+              paste a new log
             </Link>
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }

@@ -2,42 +2,47 @@ import Link from "next/link";
 
 export function Header() {
   return (
-    <header className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between px-[var(--page-padding)] py-[clamp(1rem,3vw,2rem)] transition-[max-width] duration-250">
-      <Link href="/" className="flex items-center gap-[0.9rem] transition-transform duration-150 ease-out active:scale-90">
-        <svg
-          className="h-[clamp(1.5rem,3vw,2rem)] w-auto text-[var(--accent)]"
-          width="41"
-          height="42"
-          viewBox="0 0 41 42"
-          fill="none"
-          aria-hidden="true"
+    <header className="relative z-10 border-b border-[var(--border)]">
+      <div className="mx-auto flex w-full max-w-[1400px] flex-wrap items-center justify-between gap-x-4 gap-y-2 px-[var(--page-padding)] py-3">
+        <Link
+          href="/"
+          className="group flex min-w-0 items-center gap-3 transition-opacity duration-150 hover:opacity-90"
         >
-          <rect width="41" height="5" rx="2" fill="currentColor" />
-          <rect y="9.25" width="33" height="5" rx="2" fill="currentColor" />
-          <rect y="18.5" width="19" height="5" rx="2" fill="currentColor" />
-          <rect y="27.75" width="33" height="5" rx="2" fill="currentColor" />
-          <rect y="37" width="41" height="5" rx="2" fill="currentColor" />
-        </svg>
-        <span className="text-[clamp(1.75rem,3vw,2rem)] font-semibold text-[var(--text)]">
-          iblogs
-        </span>
-      </Link>
-      <div className="flex flex-col gap-1 text-right">
-        <h1 className="text-[clamp(1rem,3vw,1.5rem)] font-normal text-[var(--text)]">
-          <TypewriterVerb />
-        </h1>
-        <div className="text-[clamp(0.75rem,2vw,1rem)] text-[var(--text-muted)]">
-          Built for game-server logs
-        </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/ketchup_bottle.png"
+            alt=""
+            width={40}
+            height={40}
+            className="h-10 w-10 shrink-0 object-contain"
+          />
+          <span className="flex min-w-0 flex-col leading-none">
+            <span className="font-[var(--font-sans)] text-[1.35rem] font-semibold leading-none tracking-[-0.02em] text-[var(--text)]">
+              mulch<span className="text-[var(--accent)]">.</span>
+            </span>
+            <span className="mt-1 truncate font-[var(--font-sans)] text-[0.78rem] italic leading-none text-[var(--info)]">
+              logs. broken down.
+            </span>
+          </span>
+        </Link>
+
+        <nav className="flex items-center gap-1">
+          <a
+            href="https://github.com/indifferentketchup/mulch"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-8 items-center gap-1.5 rounded-[var(--radius-md)] px-3 font-[var(--font-mono)] text-[0.78rem] text-[var(--text-muted)] transition-colors duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text)]"
+          >
+            GitHub
+          </a>
+          <Link
+            href="/api"
+            className="inline-flex h-8 items-center gap-1.5 rounded-[var(--radius-md)] px-3 font-[var(--font-mono)] text-[0.78rem] text-[var(--text-muted)] transition-colors duration-150 hover:bg-[var(--bg-elevated)] hover:text-[var(--text)]"
+          >
+            API
+          </Link>
+        </nav>
       </div>
     </header>
-  );
-}
-
-function TypewriterVerb() {
-  return (
-    <span>
-      <span className="font-semibold text-[var(--accent)]">Paste</span> your logs.
-    </span>
   );
 }

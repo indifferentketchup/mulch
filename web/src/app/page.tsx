@@ -11,6 +11,7 @@ export default function PastePage() {
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [bufferInfo, setBufferInfo] = useState<string | null>(null);
+  const [dragActive, setDragActive] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   // uploadRef always holds the TRUE full text to upload; content state is UI-only gating.
@@ -136,82 +137,149 @@ export default function PastePage() {
     }
   }, [showError, loadBuffered]);
 
+  const handleClear = useCallback(() => {
+    setContent("");
+    setBufferInfo(null);
+    setError(null);
+    uploadRef.current = "";
+    if (textareaRef.current) {
+      textareaRef.current.value = "";
+      textareaRef.current.readOnly = false;
+      textareaRef.current.focus();
+    }
+  }, []);
+
+  const lines = content ? content.split("\n").length : 0;
+  const bytes = content ? new TextEncoder().encode(content).length : 0;
+  const formatBytes = (b: number) =>
+    b < 1024 ? `${b} B` : b < 1024 * 1024 ? `${(b / 1024).toFixed(1)} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`;
+
   return (
-    <main className="relative z-10 mx-auto flex w-full max-w-[min(100%,calc(1400px-var(--page-padding)*2))] flex-1 flex-col overflow-hidden rounded-[12px] bg-[var(--bg-surface)]">
+    <main className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-[var(--page-padding)] py-[clamp(0.85rem,2.5vw,1.5rem)]">
       <div
-        className="relative flex flex-1 flex-col rounded-[12px] border-2 border-dashed border-transparent transition-colors duration-250"
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={handleDrop}
+        onDragOver={(e) => {
+          e.preventDefault();
+          if (!dragActive) setDragActive(true);
+        }}
+        onDragLeave={() => setDragActive(false)}
+        onDrop={(e) => {
+          setDragActive(false);
+          handleDrop(e);
+        }}
+        className={`relative flex flex-1 flex-col overflow-hidden rounded-[var(--radius-panel)] bg-[var(--bg-surface)] shadow-[var(--shadow-panel)] outline outline-1 transition-[outline-color] duration-150 focus-within:ring-2 focus-within:ring-[var(--info)] focus-within:ring-inset ${
+          dragActive ? "outline-[var(--accent)]" : "outline-transparent"
+        }`}
       >
-        {!content && (
-          <div className="absolute top-1/2 left-1/2 z-[2] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center text-[clamp(1rem,3vw,1.5rem)] pointer-events-none">
-            <svg className="mb-[clamp(0.5rem,2vw,1.5rem)] h-[clamp(2rem,8vw,3.5rem)] w-[clamp(2rem,8vw,3.5rem)] text-[var(--text-muted)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" />
-            </svg>
-            <p className="mb-[clamp(1.2rem,2vw,1.5rem)] font-semibold text-[var(--text)]">
-              Paste or drop your log here
-            </p>
-            <div className="flex gap-[clamp(1rem,3vw,1.5rem)] text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--text-muted)]">
-              <button
-                type="button"
-                onClick={handleClipboard}
-                className="pointer-events-auto flex items-center gap-2 rounded-[8px] bg-transparent px-4 py-[clamp(0.35rem,1.5vw,0.4rem)] text-[var(--accent)] transition hover:bg-[#00000014]"
-              >
-                Paste
-              </button>
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                className="pointer-events-auto flex items-center gap-2 rounded-[8px] bg-transparent px-4 py-[clamp(0.35rem,1.5vw,0.4rem)] text-[var(--accent)] transition hover:bg-[#00000014]"
-              >
-                Browse
-              </button>
-              <span className="pointer-events-auto flex items-center gap-2">Drop</span>
+        {/* console head */}
+        <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] px-4 py-2.5">
+          <span className="flex items-center gap-2 font-[var(--font-mono)] text-[0.75rem] text-[var(--text-muted)]">
+            <span className="inline-block h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
+            log input
+          </span>
+          {content && (
+            <span className="font-[var(--font-mono)] text-[0.72rem] tabular-nums text-[var(--text-muted)]">
+              {lines.toLocaleString()} {lines === 1 ? "line" : "lines"} &middot; {formatBytes(bytes)}
+            </span>
+          )}
+        </div>
+
+        {/* console body */}
+        <div className="relative flex flex-1 flex-col">
+          {!content && (
+            <div className="pointer-events-none absolute inset-0 z-[2] flex flex-col items-center justify-center px-6 text-center">
+              <p className="font-[var(--font-sans)] text-[clamp(1.15rem,3.5vw,1.6rem)] font-semibold text-[var(--text)] [text-wrap:balance]">
+                Paste or drop a log.
+              </p>
+              <p className="mt-2 font-[var(--font-mono)] text-[clamp(0.78rem,2vw,0.85rem)] text-[var(--text-muted)]">
+                we read it and tell you what broke
+              </p>
+              <div className="pointer-events-auto mt-6 flex flex-wrap items-center justify-center gap-2 font-[var(--font-mono)] text-[0.8rem]">
+                <button
+                  type="button"
+                  onClick={handleClipboard}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--border)] bg-transparent px-4 text-[var(--text)] transition-colors duration-150 hover:border-[var(--info)] hover:bg-[var(--bg-elevated)]"
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                  paste
+                </button>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--border)] bg-transparent px-4 text-[var(--text)] transition-colors duration-150 hover:border-[var(--info)] hover:bg-[var(--bg-elevated)]"
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                  browse
+                </button>
+                <span className="text-[var(--text-muted)]">or drop a file</span>
+              </div>
             </div>
+          )}
+
+          <textarea
+            ref={textareaRef}
+            spellCheck={false}
+            onInput={handleInput}
+            onPaste={handlePaste}
+            className="relative z-[1] w-full flex-1 resize-none bg-transparent p-[clamp(0.85rem,2.5vw,1.25rem)] font-[var(--font-mono)] text-[clamp(0.78rem,2vw,0.875rem)] leading-[1.7] text-[var(--text)] outline-none"
+            placeholder=""
+            aria-label="Paste or drop your log here"
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) loadFile(file);
+              e.target.value = "";
+            }}
+          />
+
+          {bufferInfo && (
+            <div className="absolute bottom-4 left-1/2 z-[4] -translate-x-1/2 rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--bg-elevated)] px-3 py-1.5 font-[var(--font-mono)] text-[0.75rem] text-[var(--text-muted)] shadow-[var(--shadow-panel)]">
+              {bufferInfo}
+            </div>
+          )}
+        </div>
+
+        {/* action bar */}
+        <div className="flex items-center justify-between gap-3 border-t border-[var(--border)] px-4 py-3">
+          <span className="truncate font-[var(--font-mono)] text-[0.72rem] text-[var(--text-muted)]">
+            {content ? "kept 90 days from last view" : "minecraft · project zomboid · hytale"}
+          </span>
+          <div className="flex shrink-0 items-center gap-2">
+            {content && !saving && (
+              <button
+                type="button"
+                onClick={handleClear}
+                className="inline-flex h-10 items-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--border)] bg-transparent px-4 font-[var(--font-mono)] text-[0.8rem] text-[var(--text-muted)] transition-colors duration-150 hover:border-[var(--text-muted)] hover:text-[var(--text)]"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12" /></svg>
+                clear
+              </button>
+            )}
+            <button
+              type="button"
+              disabled={!content || saving}
+              onClick={handleSave}
+              className="inline-flex h-10 items-center gap-2 rounded-[var(--radius-md)] bg-[var(--accent)] px-6 font-[var(--font-sans)] text-[0.9rem] font-bold text-[var(--brand-ink)] transition-all duration-150 [transition-timing-function:var(--ease-out)] hover:bg-[var(--accent-hover)] hover:shadow-[var(--shadow-card)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:bg-[var(--accent)] disabled:hover:shadow-none disabled:active:scale-100"
+            >
+              {saving ? (
+                <svg className="motion-safe:animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><path d="M21 12a9 9 0 11-6.22-8.56" /></svg>
+              ) : (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 4l14 8-14 8z" /></svg>
+              )}
+              {saving ? "saving" : "save log"}
+            </button>
           </div>
-        )}
-
-        <textarea
-          ref={textareaRef}
-          spellCheck={false}
-          onInput={handleInput}
-          onPaste={handlePaste}
-          className="z-[1] flex-1 w-full resize-none bg-transparent p-[clamp(0.5rem,3vw,1.2rem)] font-[var(--font-mono)] text-[clamp(0.75rem,2vw,0.9rem)] text-[var(--text)] outline-none"
-          placeholder=""
-          aria-label="Paste or drop your log here"
-        />
-        <input
-          ref={fileInputRef}
-          type="file"
-          className="hidden"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) loadFile(file);
-            e.target.value = "";
-          }}
-        />
-
-        <div className="absolute bottom-0 left-0 right-0 z-[5] h-[120px] rounded-b-[12px] bg-gradient-to-b from-transparent via-[color-mix(in_srgb,var(--bg-surface)_40%,transparent)] to-[var(--bg-surface)] pointer-events-none" />
-
-        {bufferInfo && (
-          <div className="absolute bottom-28 left-1/2 z-10 -translate-x-1/2 rounded-[6px] bg-[var(--surface)] border border-[var(--border)] px-4 py-2 text-[clamp(0.75rem,1.8vw,0.8rem)] text-[var(--text-muted)] font-[var(--font-mono)]">
-            {bufferInfo}
-          </div>
-        )}
-
-        {content && (
-          <button
-            type="button"
-            disabled={saving}
-            onClick={handleSave}
-            className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 rounded-[8px] bg-[var(--accent)] px-8 py-[clamp(0.6rem,2vw,0.7rem)] text-[clamp(0.85rem,2vw,0.9rem)] font-semibold text-[var(--bg)] transition-all duration-150 hover:bg-[color-mix(in_srgb,var(--accent)_78%,var(--bg)_22%)] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-[var(--accent)] focus-visible:outline-offset-2 active:scale-[0.97]"
-          >
-            {saving ? "Saving..." : "Save"}
-          </button>
-        )}
+        </div>
 
         {error && (
-          <div className="absolute top-[clamp(1rem,2.5vw,1.5rem)] right-[clamp(1rem,2.5vw,1.5rem)] z-[1000] rounded-[8px] bg-[var(--error-bg)] border border-[var(--error-border)] px-[clamp(1rem,2.5vw,1.25rem)] py-[clamp(0.7rem,2vw,0.8rem)] text-[clamp(0.85rem,2vw,0.9rem)] font-semibold text-[var(--error)] animate-[errorSlideIn_0.3s_ease-out]">
+          <div className="absolute right-4 top-4 z-50 flex items-center gap-2 rounded-[var(--radius-md)] border border-[var(--error-border)] bg-[var(--error-bg)] px-4 py-2.5 font-[var(--font-mono)] text-[0.8rem] font-medium text-[var(--error)] shadow-[var(--shadow-panel)] animate-[errorSlideIn_0.3s_var(--ease-out)]">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+              <path d="M12 9v4M12 17h.01" />
+            </svg>
             {error}
           </div>
         )}

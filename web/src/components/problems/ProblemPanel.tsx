@@ -1,4 +1,5 @@
 import type { ProblemData } from "@/lib/types";
+import { severityVar, severityBgVar, severityRank } from "@/lib/severity";
 
 interface ProblemPanelProps {
   problems: ProblemData[];
@@ -15,105 +16,121 @@ export function ProblemPanel({ problems, noiseCount, logId, hideEngineNoise }: P
     : problems;
   const hiddenCount = hideEngineNoise ? noiseCount : 0;
 
+  // Worst severity present drives the count badge color (critical = red top).
+  const worst = visibleProblems.reduce(
+    (acc, p) => (severityRank(p.severity) < severityRank(acc) ? p.severity : acc),
+    "Low"
+  );
+
   return (
-    <div className="border-t border-[var(--border)] pt-[clamp(0.75rem,2vw,1rem)] mt-[clamp(0.75rem,2vw,1rem)]">
-      <div className="overflow-hidden rounded-[8px] border border-[var(--border)] bg-[var(--surface)]">
-        <div className="flex items-center gap-[clamp(0.5rem,1.5vw,0.6rem)] border-b border-[var(--border)] bg-[var(--surface)] p-[clamp(0.6rem,2vw,0.75rem)_clamp(0.85rem,2.5vw,1rem)]">
-          <span
-            className="inline-flex min-w-[clamp(1.25rem,2.5vw,1.4rem)] items-center justify-center rounded-[4px] bg-[var(--accent)] px-2 py-0.5 text-[clamp(0.75rem,1.8vw,0.8rem)] font-semibold text-[var(--bg)]"
-          >
-            {visibleProblems.length}
-          </span>
-          <span className="text-[clamp(0.9rem,2vw,1rem)] font-semibold text-[var(--text)]">
-            {visibleProblems.length === 1 ? "Problem" : "Problems"} detected
-            {hiddenCount > 0 && (
-              <span className="ml-1 font-medium text-[var(--text-muted)]">
-                ({hiddenCount} noise hidden)
-              </span>
-            )}
-          </span>
-        </div>
-        <div className="flex flex-col">
-          {visibleProblems.map((problem, i) => (
+    <div className="mt-[clamp(0.85rem,2vw,1.1rem)] border-t border-[var(--border)] pt-[clamp(0.85rem,2vw,1.1rem)]">
+      <div className="mb-3 flex items-center gap-2.5">
+        <span
+          className="inline-flex min-w-[1.5rem] items-center justify-center rounded-[var(--radius-xs)] px-1.5 py-0.5 font-[var(--font-mono)] text-[0.8rem] font-semibold tabular-nums"
+          style={{ backgroundColor: severityBgVar(worst), color: severityVar(worst) }}
+        >
+          {visibleProblems.length}
+        </span>
+        <span className="font-[var(--font-mono)] text-[clamp(0.85rem,2vw,0.92rem)] font-medium text-[var(--text)]">
+          {visibleProblems.length === 1 ? "problem detected" : "problems detected"}
+          {hiddenCount > 0 && (
+            <span className="ml-1.5 text-[var(--text-muted)]">
+              ({hiddenCount} noise hidden)
+            </span>
+          )}
+        </span>
+      </div>
+
+      <div className="flex flex-col gap-2.5">
+        {visibleProblems.map((problem, i) => {
+          const color = severityVar(problem.severity);
+          const bg = severityBgVar(problem.severity);
+          return (
             <div
               key={i}
-              className={`flex flex-col gap-[clamp(0.4rem,1vw,0.5rem)] border-b border-[var(--border)] p-[clamp(0.75rem,2vw,1rem)_clamp(0.85rem,2.5vw,1rem)] last:border-b-0`}
+              className="flex flex-col gap-2 motion-safe:animate-[fadeUp_0.35s_var(--ease-out)_both]"
+              style={{ animationDelay: `${Math.min(i, 8) * 55}ms` }}
             >
               <a
                 href={problem.entry_line ? `/${logId}#L${problem.entry_line}` : undefined}
-                className={`flex overflow-hidden rounded-[5px] border text-[clamp(0.85rem,2vw,0.9rem)] transition-colors duration-150 hover:border-[var(--error)] ${problem.entry_line ? "cursor-pointer" : ""}`}
-                style={{
-                  backgroundColor: "transparent",
-                  borderColor: `color-mix(in srgb, var(--error) 40%, transparent)`,
-                }}
+                className={`group flex items-stretch overflow-hidden rounded-[var(--radius-md)] bg-[var(--bg-elevated)] transition-[outline-color] duration-150 outline outline-1 outline-transparent ${
+                  problem.entry_line ? "cursor-pointer hover:outline-[var(--border)]" : ""
+                }`}
               >
                 <span
-                  className="flex items-center gap-1.5 whitespace-nowrap px-[clamp(0.55rem,1.5vw,0.65rem)] py-[clamp(0.3rem,1vw,0.4rem)] text-[clamp(0.75rem,1.8vw,0.8rem)] font-semibold"
-                  style={{ backgroundColor: "var(--error)", color: "#fff" }}
+                  className="flex items-center gap-1.5 whitespace-nowrap px-[clamp(0.6rem,1.5vw,0.75rem)] py-[clamp(0.45rem,1.2vw,0.55rem)] font-[var(--font-mono)] text-[0.72rem] font-semibold uppercase tracking-[0.04em]"
+                  style={{ backgroundColor: bg, color }}
                 >
                   <SeverityIcon severity={problem.severity} />
                   {problem.severity}
                 </span>
-                <span className="flex flex-1 items-center px-[clamp(0.55rem,1.5vw,0.65rem)] py-[clamp(0.3rem,1vw,0.4rem)] font-medium text-[var(--text)] [word-break:break-word]">
+                <span className="flex max-w-[72ch] flex-1 items-center px-[clamp(0.65rem,1.5vw,0.85rem)] py-[clamp(0.45rem,1.2vw,0.55rem)] font-[var(--font-sans)] text-[clamp(0.85rem,2vw,0.9rem)] text-[var(--text)] [text-wrap:pretty] [word-break:break-word]">
                   {problem.message}
                 </span>
-                {problem.entry_line && (
-                  <span className="my-[clamp(0.25rem,0.8vw,0.35rem)] mx-[clamp(0.55rem,1.5vw,0.65rem)] inline-flex items-center whitespace-nowrap rounded-[4px] border border-[var(--border)] bg-[var(--surface)] px-2 py-0.5 font-[var(--font-mono)] text-[clamp(0.7rem,1.6vw,0.75rem)] font-medium text-[var(--text-muted)]">
-                    Line {problem.entry_line}
+                {problem.count > 1 && (
+                  <span className="flex items-center whitespace-nowrap px-2 font-[var(--font-mono)] text-[0.72rem] font-semibold tabular-nums text-[var(--text-muted)]">
+                    &times;{problem.count.toLocaleString()}
                   </span>
                 )}
-                {problem.count > 1 && (
-                  <span className="ml-auto mr-[clamp(0.55rem,1.5vw,0.65rem)] inline-flex items-center font-[var(--font-mono)] text-[clamp(0.7rem,1.6vw,0.75rem)] font-semibold text-[var(--text-muted)] [font-variant-numeric:tabular-nums] whitespace-nowrap">
-                    x{problem.count.toLocaleString()}
+                {problem.entry_line && (
+                  <span className="flex items-center whitespace-nowrap border-l border-[var(--border)] px-[clamp(0.6rem,1.5vw,0.8rem)] font-[var(--font-mono)] text-[0.72rem] font-medium tabular-nums text-[var(--text-muted)]">
+                    L{problem.entry_line}
                   </span>
                 )}
               </a>
 
-              {problem.mod && (
-                <a
-                  href={
-                    problem.mod.workshop_id
-                      ? `https://steamcommunity.com/sharedfiles/filedetails/?id=${problem.mod.workshop_id}`
-                      : undefined
-                  }
-                  target={problem.mod.workshop_id ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className={`self-start inline-flex items-center gap-1.5 rounded-[999px] border border-[var(--border)] bg-[var(--surface)] px-[clamp(0.5rem,1.4vw,0.6rem)] py-[clamp(0.25rem,0.7vw,0.3rem)] text-[clamp(0.72rem,1.6vw,0.78rem)] font-medium text-[var(--text-muted)] transition-colors duration-150 hover:border-[var(--accent-border)] hover:bg-[var(--accent-bg)] hover:text-[var(--text)] ${!problem.mod.is_direct ? "border-dashed" : ""}`}
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-                  {problem.mod.name}
-                </a>
-              )}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pl-0.5">
+                {problem.mod && (
+                  <a
+                    href={
+                      problem.mod.workshop_id
+                        ? `https://steamcommunity.com/sharedfiles/filedetails/?id=${problem.mod.workshop_id}`
+                        : undefined
+                    }
+                    target={problem.mod.workshop_id ? "_blank" : undefined}
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1.5 rounded-[var(--radius-pill)] border bg-[var(--bg-elevated)] px-2.5 py-1 font-[var(--font-mono)] text-[0.72rem] font-medium text-[var(--text-muted)] transition-colors duration-150 hover:border-[var(--info)] hover:text-[var(--text)] ${
+                      problem.mod.is_direct ? "border-[var(--border)]" : "border-dashed border-[var(--border)]"
+                    }`}
+                    title={problem.mod.is_direct ? "Directly attributed mod" : "Inferred mod (lower confidence)"}
+                  >
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
+                    {problem.mod.name}
+                  </a>
+                )}
 
-              {problem.stack_trace && (
-                <details className="group">
-                  <summary className="flex w-fit cursor-pointer items-center gap-1.5 text-[clamp(0.75rem,1.8vw,0.8rem)] font-semibold text-[var(--text-muted)] transition-colors hover:text-[var(--text)] list-none">
-                    <span className="inline-block w-2 h-2 border-r-2 border-b-2 border-current transition-transform duration-200 rotate-[-45deg] group-open:rotate-[45deg]" />
-                    Stack trace
-                  </summary>
-                  <pre className="mt-[clamp(0.4rem,1vw,0.5rem)] overflow-x-auto whitespace-pre rounded-[5px] border border-[var(--border)] bg-[var(--bg-inset)] p-[clamp(0.5rem,1.5vw,0.65rem)] font-[var(--font-mono)] text-[clamp(0.75rem,1.7vw,0.8rem)] leading-relaxed text-[var(--text)]">
-                    {problem.stack_trace}
-                  </pre>
-                </details>
-              )}
+                {problem.stack_trace && (
+                  <details className="group w-full">
+                    <summary className="flex w-fit cursor-pointer list-none items-center gap-1.5 font-[var(--font-mono)] text-[0.74rem] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)]">
+                      <span className="inline-block h-1.5 w-1.5 rotate-[-45deg] border-b-2 border-r-2 border-current transition-transform duration-200 group-open:rotate-[45deg]" />
+                      stack trace
+                    </summary>
+                    <pre className="mt-2 overflow-x-auto whitespace-pre rounded-[var(--radius-sm)] border border-[var(--border)] bg-[var(--bg-inset)] p-3 font-[var(--font-mono)] text-[0.76rem] leading-relaxed text-[var(--text)]">
+                      {problem.stack_trace}
+                    </pre>
+                  </details>
+                )}
 
-              {problem.solutions.length > 0 && (
-                <details className="group">
-                  <summary className="flex w-fit cursor-pointer items-center gap-1.5 text-[clamp(0.75rem,1.8vw,0.8rem)] font-semibold text-[var(--text-muted)] transition-colors hover:text-[var(--text)] list-none">
-                    <span className="inline-block w-2 h-2 border-r-2 border-b-2 border-current transition-transform duration-200 rotate-[-45deg] group-open:rotate-[45deg]" />
-                    {problem.solutions.length === 1 ? "Solution" : "Solutions"}
-                  </summary>
-                  {problem.solutions.map((sol, j) => (
-                    <div key={j} className="mt-[clamp(0.3rem,0.8vw,0.4rem)] flex items-baseline gap-[clamp(0.4rem,1vw,0.5rem)] text-[clamp(0.8rem,1.8vw,0.85rem)]">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="shrink-0 text-[var(--accent)]"><path d="M9 18l6-6-6-6"/></svg>
-                      <span className="text-[var(--text)]">{sol.message}</span>
+                {problem.solutions.length > 0 && (
+                  <details className="group w-full">
+                    <summary className="flex w-fit cursor-pointer list-none items-center gap-1.5 font-[var(--font-mono)] text-[0.74rem] font-medium text-[var(--text-muted)] transition-colors hover:text-[var(--text)]">
+                      <span className="inline-block h-1.5 w-1.5 rotate-[-45deg] border-b-2 border-r-2 border-current transition-transform duration-200 group-open:rotate-[45deg]" />
+                      {problem.solutions.length === 1 ? "solution" : `solutions (${problem.solutions.length})`}
+                    </summary>
+                    <div className="mt-2 flex flex-col gap-1.5">
+                      {problem.solutions.map((sol, j) => (
+                        <div key={j} className="flex items-baseline gap-2 font-[var(--font-sans)] text-[clamp(0.82rem,1.8vw,0.88rem)]">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="mt-0.5 shrink-0 text-[var(--info)]" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                          <span className="text-[var(--text)]">{sol.message}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </details>
-              )}
+                  </details>
+                )}
+              </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -121,17 +138,29 @@ export function ProblemPanel({ problems, noiseCount, logId, hideEngineNoise }: P
 
 function SeverityIcon({ severity }: { severity: string }) {
   return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       {severity === "Critical" ? (
-        <path d="M12 2L2 7v10l10 5 10-5V7L12 2zM12 22V12M12 8v0" />
+        <>
+          <path d="M12 2L2 7v10l10 5 10-5V7L12 2z" />
+          <path d="M12 8v4M12 16h.01" />
+        </>
       ) : severity === "High" ? (
-        <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17v0" />
+        <>
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+          <path d="M12 9v4M12 17h.01" />
+        </>
       ) : severity === "Medium" ? (
-        <path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zM12 16v-4M12 8v0" />
+        <>
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 8v4M12 16h.01" />
+        </>
       ) : severity === "Low" ? (
-        <circle cx="12" cy="12" r="10" />
+        <>
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 16v-4M12 8h.01" />
+        </>
       ) : (
-        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" strokeLinecap="square" />
+        <rect x="3" y="3" width="18" height="18" rx="2" />
       )}
     </svg>
   );

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import { Sora, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-const jakarta = Plus_Jakarta_Sans({
+const sora = Sora({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-jakarta",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sora",
   display: "swap",
 });
 
@@ -19,8 +19,9 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "iblogs - Paste, share & analyse your logs",
-  description: "Easily paste your game-server logs to share and analyse them.",
+  title: "mulch - logs. broken down.",
+  description:
+    "Paste a game-server log and mulch breaks it down: detected problems, severity, mod attribution, and stack traces.",
 };
 
 export default function RootLayout({
@@ -29,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${sora.variable} ${jetbrains.variable}`}>
       <body>
         <Header />
         {children}
