@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# mulch web
 
-## Getting Started
+The mulch web application: a [Next.js 16](https://nextjs.org) (React 19) frontend
+and API that stores logs in MongoDB and delegates parsing/analysis to the PHP
+analyzer microservice in [`analyze/`](analyze/).
 
-First, run the development server:
+For the project overview and architecture, see the [repository README](../README.md).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Layout
+
+```
+src/app/        routes: paste UI (page.tsx), log viewer ([id]), REST API (api/*)
+src/components/ React components (layout, log viewer, problem panels)
+src/lib/        domain logic: log-service, mongodb, filters, severity, rate-limit
+analyze/        PHP analysis microservice (its own Dockerfile + bundled codex-pz)
+compose.yaml    full stack: web + analyzer + mongo
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Upload-time PII filters (`src/lib/filters.ts`) strip IP addresses, usernames, and
+access tokens before a log is persisted. `src/lib/log-service.ts` validates and
+runs that pipeline, so the route handlers stay thin.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Running the stack (Docker)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The compose file brings up the web app, the analyzer, and MongoDB:
 
-## Learn More
+```bash
+docker compose up          # http://localhost:4217
+docker compose down -v     # stop and drop the mongo volume
+```
 
-To learn more about Next.js, take a look at the following resources:
+| Service | Port | Purpose |
+|---------|------|---------|
+| web | `4217` → 3000 | Next.js app and API |
+| analyzer | `4219` → 8080 | PHP service wrapping codex-pz |
+| mongo | internal | log + metadata storage |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Developing the frontend directly
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The Next.js app alone (you'll still need a MongoDB and the analyzer reachable via
+the env vars below):
 
-## Deploy on Vercel
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run lint
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+> Note: this repo pins a Next.js version with breaking changes from older
+> releases. See [`AGENTS.md`](AGENTS.md) before editing app code.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Configuration
+
+All settings are environment variables (defaults in parentheses):
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `IBLOGS_MONGODB_URL` | `mongodb://mongo:27017` | MongoDB connection string |
+| `IBLOGS_MONGODB_DATABASE` | `iblogs` | Database name |
+| `ANALYZER_URL` | `http://analyzer:8080` | Base URL of the PHP analyzer service |
+| `IBLOGS_ID_LENGTH` | `7` | Length of generated short IDs |
+| `IBLOGS_STORAGE_LIMIT_BYTES` | `52428800` (50 MB) | Max upload size |
+| `IBLOGS_STORAGE_LIMIT_LINES` | `1000000` | Max upload line count |
+| `IBLOGS_STORAGE_TTL` | `7776000` (90 days) | Log retention, in seconds |
+| `IBLOGS_RATE_LIMIT_MAX` | `30` | Requests per window per client |
+| `IBLOGS_RATE_LIMIT_WINDOW_MS` | `60000` | Rate-limit window, in ms |
+| `IBLOGS_REDACT_DISABLED` | unset | Set to `1` to skip render-time redaction |
+| `IBLOGS_LEGAL_ABUSE` | unset | Abuse/legal contact shown in the footer |
+
+## API
+
+The REST API lives under `src/app/api/`. The stable surface is `/api/v1/*`
+(`log`, `insights`, `limits`); `/api/new` and `/api/[id]` are the internal
+routes the UI uses. Interactive docs render at `/api`.
