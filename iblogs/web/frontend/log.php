@@ -171,22 +171,19 @@ foreach ($assetWarningItems as $item) {
                    <?php endif; ?>
                     <?php
                     $problems = $log->getAnalysis()?->getProblems() ?? [];
-                    usort($problems, function ($a, $b) {
-                        $aScore = ($a instanceof SeverityAwareInsightInterface ? $a->getSeverity()->value : Severity::Medium->value) * $a->getCounterValue();
-                        $bScore = ($b instanceof SeverityAwareInsightInterface ? $b->getSeverity()->value : Severity::Medium->value) * $b->getCounterValue();
-                        return $bScore <=> $aScore;
-                    });
+                    usort($problems, fn($a, $b) => $b->getRankScore() <=> $a->getRankScore());
+                    $analysis = $log->getAnalysis();
+                    $gatedCount = count($analysis?->getGatedInsights() ?? []);
                     $hideEngineNoise = $settings->get(Setting::HIDE_ENGINE_NOISE);
                     $visibleCount = $hideEngineNoise
-                        ? count(array_filter($problems, fn($p) => !($p instanceof EngineNoiseInsightInterface)))
+                        ? count(array_filter($problems, fn($p) => !$p->isGated()))
                         : count($problems);
-                    $noiseCount = count($problems) - $visibleCount;
                     $visibleAssetGroupCount = $hideEngineNoise
                         ? count(array_filter($assetWarningGroups, fn($g) => !$g['isNoise']))
                         : count($assetWarningGroups);
                     $hiddenAssetGroupCount = count($assetWarningGroups) - $visibleAssetGroupCount;
                     $totalVisibleCount = $visibleCount + $visibleAssetGroupCount;
-                    $totalNoiseCount = $noiseCount + $hiddenAssetGroupCount;
+                    $totalNoiseCount = $gatedCount + $hiddenAssetGroupCount;
                     ?>
                     <?php if (count($problems) > 0 || count($assetWarningGroups) > 0): ?>
                         <div class="problems-panel-container">
@@ -200,7 +197,7 @@ foreach ($assetWarningItems as $item) {
                                 <div class="problems-list">
                                     <?php foreach ($problems as $problem): ?>
                                         <?php
-                                        $severity = $problem instanceof SeverityAwareInsightInterface ? $problem->getSeverity() : Severity::Medium;
+                                        $severity = $problem instanceof SeverityAwareInsightInterface ? $problem->getSeverity() : Severity::Low;
                                         $isEngineNoise = $problem instanceof EngineNoiseInsightInterface;
                                         $severityIcon = match ($severity) {
                                             Severity::Critical => 'fa-skull-crossbones',

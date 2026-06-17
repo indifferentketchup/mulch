@@ -4,6 +4,8 @@ namespace IndifferentKetchup\CodexPz\Analysis\ProjectZomboid;
 
 use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\Problem;
+use IndifferentKetchup\CodexPz\Analysis\Severity;
+use IndifferentKetchup\CodexPz\Analysis\SeverityAwareInsightInterface;
 use IndifferentKetchup\CodexPz\Log\EntryInterface;
 
 /**
@@ -12,7 +14,7 @@ use IndifferentKetchup\CodexPz\Log\EntryInterface;
  * context. Coalesced by 1-based entryIndex so re-adding the same hit
  * never produces duplicate problems.
  */
-class ErrorContextProblem extends Problem
+class ErrorContextProblem extends Problem implements SeverityAwareInsightInterface
 {
     private string $type = 'error';
     private int $entryIndex = 0;
@@ -110,6 +112,11 @@ class ErrorContextProblem extends Problem
     public function getContext(): array
     {
         return [...$this->before, $this->getEntry(), ...$this->after];
+    }
+
+    public function getSeverity(): Severity
+    {
+        return Severity::Low;
     }
 
     public function getMessage(): string

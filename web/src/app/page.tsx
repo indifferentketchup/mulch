@@ -32,19 +32,21 @@ export default function PastePage() {
     uploadRef.current = val;
   }, []);
 
-  const handlePaste = useCallback((e: React.ClipboardEvent) => {
-    const file = e.clipboardData.files?.[0];
-    if (file) {
-      e.preventDefault();
-      loadFile(file);
-      return;
+  const loadBuffered = (text: string) => {
+    const lines = text.split("\n");
+    const sizeMb = (text.length / 1024 / 1024).toFixed(2);
+    setBufferInfo(
+      `${lines.length.toLocaleString()} lines, ${sizeMb} MB - full content will upload on Save`
+    );
+    // Store the FULL text for upload; show only a preview in the textarea/state.
+    uploadRef.current = text;
+    const preview = lines.slice(0, PASTE_PREVIEW_LINES).join("\n");
+    setContent(preview);
+    if (textareaRef.current) {
+      textareaRef.current.value = `[Large paste buffered: ${lines.length.toLocaleString()} lines, ${sizeMb} MB.\n Full content uploads on Save. Edit this textarea to clear the buffer.]\n\n--- preview: first ${PASTE_PREVIEW_LINES} of ${lines.length.toLocaleString()} lines ---\n${preview}\n--- ${lines.length - PASTE_PREVIEW_LINES} more lines hidden ---`;
+      textareaRef.current.readOnly = true;
     }
-    const text = e.clipboardData.getData("text");
-    if (text && text.length > PASTE_BUFFER_THRESHOLD) {
-      e.preventDefault();
-      loadBuffered(text);
-    }
-  }, []);
+  };
 
   const loadFile = useCallback(async (file: File) => {
     if (file.size > 100 * 1024 * 1024) {
@@ -70,21 +72,19 @@ export default function PastePage() {
     }
   }, [showError]);
 
-  const loadBuffered = useCallback((text: string) => {
-    const lines = text.split("\n");
-    const sizeMb = (text.length / 1024 / 1024).toFixed(2);
-    setBufferInfo(
-      `${lines.length.toLocaleString()} lines, ${sizeMb} MB - full content will upload on Save`
-    );
-    // Store the FULL text for upload; show only a preview in the textarea/state.
-    uploadRef.current = text;
-    const preview = lines.slice(0, PASTE_PREVIEW_LINES).join("\n");
-    setContent(preview);
-    if (textareaRef.current) {
-      textareaRef.current.value = `[Large paste buffered: ${lines.length.toLocaleString()} lines, ${sizeMb} MB.\n Full content uploads on Save. Edit this textarea to clear the buffer.]\n\n--- preview: first ${PASTE_PREVIEW_LINES} of ${lines.length.toLocaleString()} lines ---\n${preview}\n--- ${lines.length - PASTE_PREVIEW_LINES} more lines hidden ---`;
-      textareaRef.current.readOnly = true;
+  const handlePaste = useCallback((e: React.ClipboardEvent) => {
+    const file = e.clipboardData.files?.[0];
+    if (file) {
+      e.preventDefault();
+      loadFile(file);
+      return;
     }
-  }, []);
+    const text = e.clipboardData.getData("text");
+    if (text && text.length > PASTE_BUFFER_THRESHOLD) {
+      e.preventDefault();
+      loadBuffered(text);
+    }
+  }, [loadFile]);
 
   const handleSave = useCallback(async () => {
     // Use the ref so we always upload the full text even when the textarea shows
@@ -135,7 +135,7 @@ export default function PastePage() {
     } catch {
       showError("Clipboard is not accessible.");
     }
-  }, [showError, loadBuffered]);
+  }, [showError]);
 
   const handleClear = useCallback(() => {
     setContent("");

@@ -2,6 +2,7 @@
 vendor
 .phpunit.result.cache
 Logs.zip
+Logs*.zip
 .scratch/
 .claude/
 .claude.local.md

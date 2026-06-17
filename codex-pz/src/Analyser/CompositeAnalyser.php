@@ -43,6 +43,10 @@ class CompositeAnalyser extends Analyser
             }
         }
 
+        foreach ($this->children as $child) {
+            $merged = $child->postProcessAnalysis($merged);
+        }
+
         return $merged;
     }
 }

@@ -4,6 +4,7 @@ namespace IndifferentKetchup\CodexPz\Log\ProjectZomboid;
 
 use IndifferentKetchup\CodexPz\Analyser\AnalyserInterface;
 use IndifferentKetchup\CodexPz\Analyser\CompositeAnalyser;
+use IndifferentKetchup\CodexPz\Analyser\ProjectZomboid\ErrorContextAnalyser;
 use IndifferentKetchup\CodexPz\Analyser\ProjectZomboid\StackTraceClassificationAnalyser;
 use IndifferentKetchup\CodexPz\Analyser\ProjectZomboid\WarningPatternAnalyser;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\AnimClipNotFoundInformation;
@@ -65,7 +66,7 @@ class ProjectZomboidServerLog extends ProjectZomboidLog
             ->addPossibleInsightClass(UnknownSandboxOptionInformation::class)
             ->addPossibleInsightClass(UnknownItemParamInformation::class);
 
-        return new CompositeAnalyser($patternAnalyser, new StackTraceClassificationAnalyser());
+        return new CompositeAnalyser($patternAnalyser, new StackTraceClassificationAnalyser(), new ErrorContextAnalyser());
     }
 
     public static function getDetectors(): array
@@ -79,6 +80,16 @@ class ProjectZomboidServerLog extends ProjectZomboidLog
                 ->setWeight(0.95),
             (new WeightedSinglePatternDetector())
                 ->setPattern('/^\[\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\] (?:LOG|WARN|ERROR):\s+\w+\s+f:\d+, t:\d+, st:[\d,]+>/m')
+                ->setWeight(0.80),
+            // B4x line shape (build 41.78.x): `[ts] LEVEL: Subsystem , <unix_ms>> <tick>> body`.
+            // These logs carry `version=41.78.x demo=false` with NO 40-char hash, and
+            // lack the `f:N st:` middle, so the two detectors above both miss them and
+            // the log falls through to Generic on upload (the existing dispatch tests
+            // detect B4x via filename, which StringLogFile uploads do not have). This
+            // matches the same shape DebugServerPattern::LINE_B4X parses, so B4x
+            // DebugLogs detect as a server log and get full level/error analysis.
+            (new WeightedSinglePatternDetector())
+                ->setPattern('/^\[\d{2}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3}\]\s+(?:LOG|WARN|ERROR|SEVERE)\s*:\s+\S+\s*,\s+\d+>\s+[\d,]+>/m')
                 ->setWeight(0.80),
         ];
     }

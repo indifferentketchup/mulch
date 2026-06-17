@@ -3,15 +3,20 @@
 namespace IndifferentKetchup\CodexPz\Analyser\ProjectZomboid;
 
 use IndifferentKetchup\CodexPz\Analyser\Analyser;
+use IndifferentKetchup\CodexPz\Analyser\NoiseGate;
 use IndifferentKetchup\CodexPz\Analysis\Analysis;
 use IndifferentKetchup\CodexPz\Analysis\AnalysisInterface;
+use IndifferentKetchup\CodexPz\Analysis\Attribution;
 use IndifferentKetchup\CodexPz\Analysis\AttributionConfidence;
 use IndifferentKetchup\CodexPz\Analysis\Insight;
+use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
+use IndifferentKetchup\CodexPz\Analysis\Kind;
 use IndifferentKetchup\CodexPz\Analysis\ModAttribution;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\EngineNoiseExceptionInformation;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\JavaExceptionProblem;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\LuaModRuntimeProblem;
 use IndifferentKetchup\CodexPz\Log\EntryInterface;
+use IndifferentKetchup\CodexPz\Log\Level;
 
 /**
  * Owns ALL "Exception thrown"-shaped entries (the ONE-PRODUCER SEAM, T2): the
@@ -112,7 +117,11 @@ class StackTraceClassificationAnalyser extends Analyser
                 $fileLine,
                 $frames
             );
-            $insight->setEntry($entries[$i])->setFingerprint($fingerprint);
+            $insight
+                ->setEntry($entries[$i])
+                ->setFingerprint($fingerprint)
+                ->setKind($kind)
+                ->setAttribution($attribution !== null ? Attribution::Attributed : Attribution::Unattributed);
             $analysis->addInsight($insight);
         }
 
@@ -346,7 +355,7 @@ class StackTraceClassificationAnalyser extends Analyser
      * other kinds. Then a mod attribution makes it a mod runtime crash.
      * Otherwise it is a generic / property-not-found Java exception.
      */
-    private function classifyKind(string $assembled, ?ModAttribution $attribution): string
+    private function classifyKind(string $assembled, ?ModAttribution $attribution): Kind
     {
         if (
             preg_match('/KahluaThread\.flushErrorMessage/u', $assembled) === 1
@@ -354,19 +363,19 @@ class StackTraceClassificationAnalyser extends Analyser
             || (preg_match('/DebugFileWatcher/u', $assembled) === 1
                 && preg_match('/NoSuchFileException/u', $assembled) === 1)
         ) {
-            return 'engine_noise';
+            return Kind::EngineNoise;
         }
         if ($attribution !== null) {
-            return 'mod_runtime';
+            return Kind::LuaRuntime;
         }
-        return 'java_exception';
+        return Kind::JavaException;
     }
 
     /**
      * @param list<string> $frames
      */
     private function buildInsight(
-        string $kind,
+        Kind $kind,
         string $exceptionClass,
         ?ModAttribution $attribution,
         ?string $causeChain,
@@ -374,11 +383,11 @@ class StackTraceClassificationAnalyser extends Analyser
         array $frames
     ): Insight {
         return match ($kind) {
-            'engine_noise' => (new EngineNoiseExceptionInformation())
+            Kind::EngineNoise => (new EngineNoiseExceptionInformation())
                 ->setExceptionClass($exceptionClass)
                 ->setSignature($this->normaliseSignature($exceptionClass . '|' . ($frames[0] ?? '')))
                 ->setCauseChain($causeChain),
-            'mod_runtime' => (new LuaModRuntimeProblem())
+            Kind::LuaRuntime => (new LuaModRuntimeProblem())
                 ->setExceptionClass($exceptionClass)
                 ->setModAttribution($attribution)
                 ->setCauseChain($causeChain),
@@ -402,6 +411,147 @@ class StackTraceClassificationAnalyser extends Analyser
         $signature = (string) preg_replace('/\d{2,}/u', '<N>', $signature);
         $signature = (string) preg_replace('/\s+/u', ' ', $signature);
         return trim($signature);
+    }
+
+    /**
+     * Post-process the merged analysis to gate bulk-noise insights and dedup
+     * engine-noise rows against adjacent lua-runtime insights.
+     */
+    public function postProcessAnalysis(AnalysisInterface $analysis): AnalysisInterface
+    {
+        foreach ($analysis->getInsights() as $insight) {
+            if ($this->isInsightGated($insight, $analysis)) {
+                $insight->setGated(true);
+            }
+        }
+
+        $this->dedupEngineNoiseAgainstLuaRuntime($analysis);
+
+        $gates = $this->collectNoiseGates($analysis);
+        $analysis->setGatedInsights($gates);
+
+        return $analysis;
+    }
+
+    public function collectNoiseGates(AnalysisInterface $analysis): array
+    {
+        $gates = [];
+        $seen = [];
+        foreach ($analysis->getInsights() as $insight) {
+            if (!$insight->isGated()) {
+                continue;
+            }
+            $fp = $insight->getFingerprint();
+            if (isset($seen[$fp])) {
+                continue;
+            }
+            $seen[$fp] = true;
+            $gates[] = new NoiseGate(
+                fingerprint: $fp,
+                occurrences: $insight->getCounterValue(),
+                reason: $this->gateReason($insight),
+                kind: $insight->getKind()->value,
+                sampleMessage: $insight->getMessage(),
+            );
+        }
+        return $gates;
+    }
+
+    /**
+     * Gate predicate matches all four design clauses.
+     * Attributed insights are never gated regardless of count.
+     */
+    public function isInsightGated(InsightInterface $insight, AnalysisInterface $analysis): bool
+    {
+        if ($insight->getAttribution() === Attribution::Attributed) {
+            return false;
+        }
+
+        $kind = $insight->getKind();
+        $occ = $insight->getCounterValue();
+
+        if ($kind === Kind::EngineNoise) {
+            return true;
+        }
+
+        if ($insight->getAttribution() === Attribution::Unattributed && $kind === Kind::Runtime) {
+            return true;
+        }
+
+        if ($insight->getAttribution() === Attribution::Unattributed && $kind === Kind::JavaException && $occ > 50) {
+            return true;
+        }
+
+        $level = $insight->getEntry()?->getLevel();
+        if ($insight->getAttribution() === Attribution::Unattributed
+            && $level !== null && $level->asString() === 'warning' && $occ > 100) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * When an engine-noise insight shares its exception class with a
+     * lua-runtime insight, gate the engine-noise row (the lua-runtime row
+     * already carries the useful information).
+     */
+    private function dedupEngineNoiseAgainstLuaRuntime(AnalysisInterface $analysis): void
+    {
+        $engineNoiseInsights = [];
+        $luaRuntimeInsights = [];
+
+        foreach ($analysis->getInsights() as $insight) {
+            if ($insight->getKind() === Kind::EngineNoise) {
+                $engineNoiseInsights[] = $insight;
+            } elseif ($insight->getKind() === Kind::LuaRuntime) {
+                $luaRuntimeInsights[] = $insight;
+            }
+        }
+
+        if ($engineNoiseInsights === [] || $luaRuntimeInsights === []) {
+            return;
+        }
+
+        $luaExceptionClasses = [];
+        foreach ($luaRuntimeInsights as $li) {
+            if ($li instanceof LuaModRuntimeProblem) {
+                $luaExceptionClasses[] = $li->getExceptionClass();
+            }
+        }
+
+        if ($luaExceptionClasses === []) {
+            return;
+        }
+
+        foreach ($engineNoiseInsights as $ei) {
+            if ($ei instanceof EngineNoiseExceptionInformation
+                && in_array($ei->getExceptionClass(), $luaExceptionClasses, true)) {
+                $ei->setGated(true);
+            }
+        }
+    }
+
+    private function gateReason(InsightInterface $insight): string
+    {
+        $kind = $insight->getKind();
+        $occ = $insight->getCounterValue();
+
+        if ($kind === Kind::EngineNoise) {
+            return 'engine-noise kind';
+        }
+        if ($insight->getAttribution() === Attribution::Unattributed && $kind === Kind::Runtime) {
+            return 'unattributed runtime';
+        }
+        if ($insight->getAttribution() === Attribution::Unattributed && $kind === Kind::JavaException && $occ > 50) {
+            return sprintf('unattributed java exception (occurrences %d > 50)', $occ);
+        }
+        $level = $insight->getEntry()?->getLevel();
+        if ($insight->getAttribution() === Attribution::Unattributed
+            && $level !== null && $level->asString() === 'warning' && $occ > 100) {
+            return sprintf('unattributed WARN (occurrences %d > 100)', $occ);
+        }
+        return 'unknown';
     }
 
     /** SEC-002: strip control / ANSI bytes, keep \t \n \r. */

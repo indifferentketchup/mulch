@@ -17,6 +17,8 @@ class Analysis implements AnalysisInterface
     protected array $insights = [];
     protected int $iterator = 0;
     protected ?LogInterface $log = null;
+    protected array $gatedInsights = [];
+    protected ?LlmVerdict $llmVerdict = null;
 
     /**
      * Set all insights at once in an array replacing the current insights
@@ -101,6 +103,52 @@ class Analysis implements AnalysisInterface
     public function getInformation(): array
     {
         return $this->getFilteredInsights(InformationInterface::class);
+    }
+
+    public function setLlmVerdict(?LlmVerdict $verdict): static
+    {
+        $this->llmVerdict = $verdict;
+        return $this;
+    }
+
+    public function getLlmVerdict(): ?LlmVerdict
+    {
+        return $this->llmVerdict;
+    }
+
+    public function getRankedInsights(): array
+    {
+        $ranked = array_values(array_filter(
+            $this->getInsights(),
+            static fn(InsightInterface $insight): bool => !$insight->isGated()
+        ));
+
+        $positions = [];
+        foreach ($ranked as $index => $insight) {
+            $positions[spl_object_id($insight)] = $index;
+        }
+
+        usort($ranked, static function (InsightInterface $a, InsightInterface $b) use ($positions): int {
+            $rankCompare = $b->getRankScore() <=> $a->getRankScore();
+            if ($rankCompare !== 0) {
+                return $rankCompare;
+            }
+
+            return $positions[spl_object_id($a)] <=> $positions[spl_object_id($b)];
+        });
+
+        return $ranked;
+    }
+
+    public function setGatedInsights(array $gates): static
+    {
+        $this->gatedInsights = array_values($gates);
+        return $this;
+    }
+
+    public function getGatedInsights(): array
+    {
+        return $this->gatedInsights;
     }
 
     /**
@@ -212,9 +260,15 @@ class Analysis implements AnalysisInterface
      */
     public function jsonSerialize(): array
     {
+        $gated = array_map(
+            static fn(mixed $gate): array => $gate instanceof \JsonSerializable ? $gate->jsonSerialize() : (array) $gate,
+            $this->getGatedInsights(),
+        );
+
         return [
             "problems" => $this->getProblems(),
-            "information" => $this->getInformation()
+            "information" => $this->getInformation(),
+            "gated" => $gated,
         ];
     }
 

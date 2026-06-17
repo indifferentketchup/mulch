@@ -4,6 +4,8 @@ namespace IndifferentKetchup\CodexPz\Analysis\ProjectZomboid;
 
 use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\Problem;
+use IndifferentKetchup\CodexPz\Analysis\Severity;
+use IndifferentKetchup\CodexPz\Analysis\SeverityAwareInsightInterface;
 
 /**
  * Problem emitted by ConnectionFailureAnalyser when a player's
@@ -11,7 +13,7 @@ use IndifferentKetchup\CodexPz\Analysis\Problem;
  * within the same log file. Coalesced by Steam ID so each player produces
  * at most one problem regardless of how many unmatched attempts they have.
  */
-class ConnectionFailureProblem extends Problem
+class ConnectionFailureProblem extends Problem implements SeverityAwareInsightInterface
 {
     private string $steamId = '';
     private string $player = '';
@@ -48,6 +50,11 @@ class ConnectionFailureProblem extends Problem
     public function getUnmatchedAttempts(): int
     {
         return $this->unmatchedAttempts;
+    }
+
+    public function getSeverity(): Severity
+    {
+        return Severity::Low;
     }
 
     public function getMessage(): string

@@ -2,12 +2,19 @@
 
 namespace IndifferentKetchup\CodexPz\Test\Tests\Games\ProjectZomboid\Analyser;
 
+use IndifferentKetchup\CodexPz\Analyser\Analyser;
 use IndifferentKetchup\CodexPz\Analyser\AnalyserInterface;
+use IndifferentKetchup\CodexPz\Analyser\CompositeAnalyser;
 use IndifferentKetchup\CodexPz\Analyser\ProjectZomboid\ErrorContextAnalyser;
+use IndifferentKetchup\CodexPz\Analysis\Analysis;
+use IndifferentKetchup\CodexPz\Analysis\AnalysisInterface;
+use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\ErrorContextProblem;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\ErrorContextTruncatedInformation;
+use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\JavaExceptionProblem;
 use IndifferentKetchup\CodexPz\Log\AnalysableLog;
 use IndifferentKetchup\CodexPz\Log\Entry;
+use IndifferentKetchup\CodexPz\Log\EntryInterface;
 use IndifferentKetchup\CodexPz\Log\Level;
 use IndifferentKetchup\CodexPz\Log\Line;
 use PHPUnit\Framework\TestCase;
@@ -124,5 +131,108 @@ class ErrorContextAnalyserTest extends TestCase
         $information = $analysis->getFilteredInsights(ErrorContextTruncatedInformation::class);
         $this->assertCount(1, $information);
         $this->assertSame(ErrorContextAnalyser::HIT_CAP, $information[0]->getHitCap());
+    }
+
+    /**
+     * A specific problem covering the same entry suppresses the
+     * ErrorContextProblem after composite-merge postProcessAnalysis.
+     */
+    public function testSpecificProblemSuppressesSameEntryErrorContext(): void
+    {
+        // Log with two entries: one ERROR at index 1, one INFO at index 2.
+        $log = $this->makeLog([1], 2);
+
+        // ErrorContextAnalyser produces ErrorContextProblem for the error entry.
+        $ecAnalyser = new ErrorContextAnalyser();
+
+        // A "specific" analyser that produces a JavaExceptionProblem at the
+        // same entry (entry at index 0, which is the first ERROR entry).
+        $specificEntry = null;
+        foreach ($log as $entry) {
+            if ($entry->getLevel()->asInt() <= Level::ERROR->asInt()) {
+                $specificEntry = $entry;
+                break;
+            }
+        }
+        $this->assertNotNull($specificEntry);
+
+        $specificAnalyser = new class ($specificEntry) extends Analyser {
+            private EntryInterface $entry;
+
+            public function __construct(EntryInterface $entry)
+            {
+                $this->entry = $entry;
+            }
+
+            public function analyse(): AnalysisInterface
+            {
+                $analysis = new Analysis();
+                $problem = (new JavaExceptionProblem())
+                    ->setExceptionClass('java.lang.Exception')
+                    ->setEntry($this->entry);
+                $analysis->addInsight($problem);
+                return $analysis;
+            }
+        };
+
+        $composite = new CompositeAnalyser($ecAnalyser, $specificAnalyser);
+        $composite->setLog($log);
+        $result = $composite->analyse();
+
+        $ecpCount = count($result->getFilteredInsights(ErrorContextProblem::class));
+        $this->assertSame(0, $ecpCount,
+            'ErrorContextProblem must be suppressed when a specific problem covers the same entry');
+
+        $specificCount = count($result->getFilteredInsights(JavaExceptionProblem::class));
+        $this->assertSame(1, $specificCount,
+            'The specific problem must remain visible after suppression');
+    }
+
+    /**
+     * A specific problem covering an adjacent entry also suppresses the
+     * ErrorContextProblem after composite-merge postProcessAnalysis.
+     */
+    public function testSpecificProblemSuppressesAdjacentEntryErrorContext(): void
+    {
+        // Log with 3 entries: INFO at 1, ERROR at 2, INFO at 3.
+        $log = $this->makeLog([2], 3);
+
+        $entries = [];
+        foreach ($log as $entry) {
+            $entries[] = $entry;
+        }
+
+        $ecAnalyser = new ErrorContextAnalyser();
+
+        $specificAnalyser = new class ($entries) extends Analyser {
+            private array $entries;
+
+            public function __construct(array $entries)
+            {
+                $this->entries = $entries;
+            }
+
+            public function analyse(): AnalysisInterface
+            {
+                $analysis = new Analysis();
+                $problem = (new JavaExceptionProblem())
+                    ->setExceptionClass('java.lang.Exception')
+                    ->setEntry($this->entries[0] ?? null);
+                $analysis->addInsight($problem);
+                return $analysis;
+            }
+        };
+
+        $composite = new CompositeAnalyser($ecAnalyser, $specificAnalyser);
+        $composite->setLog($log);
+        $result = $composite->analyse();
+
+        $ecpCount = count($result->getFilteredInsights(ErrorContextProblem::class));
+        $this->assertSame(0, $ecpCount,
+            'ErrorContextProblem must be suppressed when a specific problem is adjacent');
+
+        $specificCount = count($result->getFilteredInsights(JavaExceptionProblem::class));
+        $this->assertSame(1, $specificCount,
+            'The specific problem must remain visible after adjacent suppression');
     }
 }

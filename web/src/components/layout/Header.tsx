@@ -12,9 +12,9 @@ export function Header() {
           <img
             src="/ketchup_bottle.png"
             alt=""
-            width={40}
-            height={40}
-            className="h-10 w-10 shrink-0 object-contain"
+            width={28}
+            height={28}
+            className="h-7 w-7 shrink-0 object-contain"
           />
           <span className="flex min-w-0 flex-col leading-none">
             <span className="font-[var(--font-sans)] text-[1.35rem] font-semibold leading-none tracking-[-0.02em] text-[var(--text)]">

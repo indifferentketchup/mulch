@@ -13,15 +13,17 @@ export async function GET(
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
+  const content = log.content ?? "";
+
   return NextResponse.json({
     id: log._id,
-    content: log.content,
+    content,
     source: log.source,
     metadata: log.metadata,
     analysis: log.analysis || null,
     created: log.created instanceof Date ? log.created.toISOString() : log.created,
-    lines: log.content.split("\n").length,
-    bytes: new TextEncoder().encode(log.content).length,
+    lines: content.split("\n").length,
+    bytes: new TextEncoder().encode(content).length,
   });
 }
 

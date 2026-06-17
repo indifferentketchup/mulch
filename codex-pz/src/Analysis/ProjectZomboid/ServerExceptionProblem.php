@@ -5,9 +5,11 @@ namespace IndifferentKetchup\CodexPz\Analysis\ProjectZomboid;
 use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\PatternInsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\Problem;
+use IndifferentKetchup\CodexPz\Analysis\Severity;
+use IndifferentKetchup\CodexPz\Analysis\SeverityAwareInsightInterface;
 use IndifferentKetchup\CodexPz\Pattern\ProjectZomboid\DebugServerPattern;
 
-class ServerExceptionProblem extends Problem implements PatternInsightInterface
+class ServerExceptionProblem extends Problem implements PatternInsightInterface, SeverityAwareInsightInterface
 {
     private string $exceptionType = '';
     private string $body = '';
@@ -31,6 +33,11 @@ class ServerExceptionProblem extends Problem implements PatternInsightInterface
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    public function getSeverity(): Severity
+    {
+        return Severity::Critical;
     }
 
     public function getMessage(): string

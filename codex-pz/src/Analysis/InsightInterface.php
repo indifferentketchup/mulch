@@ -66,6 +66,20 @@ interface InsightInterface extends JsonSerializable
      */
     public function getFingerprint(): string;
 
+    public function getKind(): Kind;
+
+    public function setKind(Kind $kind): static;
+
+    public function getAttribution(): Attribution;
+
+    public function setAttribution(Attribution $attribution): static;
+
+    public function getRankScore(): int;
+
+    public function isGated(): bool;
+
+    public function setGated(?bool $gated): static;
+
     /**
      * Set the related analysis
      *

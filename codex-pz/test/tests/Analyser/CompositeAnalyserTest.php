@@ -4,6 +4,7 @@ namespace IndifferentKetchup\CodexPz\Test\Tests\Analyser;
 
 use IndifferentKetchup\CodexPz\Analysis\Analysis;
 use IndifferentKetchup\CodexPz\Analysis\AnalysisInterface;
+use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\EngineVersionInformation;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\ModLoadInformation;
 use IndifferentKetchup\CodexPz\Analyser\AnalyserInterface;
@@ -53,6 +54,21 @@ class CompositeAnalyserTest extends TestCase
             {
                 return new Analysis();
             }
+
+            public function postProcessAnalysis(AnalysisInterface $analysis): AnalysisInterface
+            {
+                return $analysis;
+            }
+
+            public function collectNoiseGates(AnalysisInterface $analysis): array
+            {
+                return [];
+            }
+
+            public function isInsightGated(InsightInterface $insight, AnalysisInterface $analysis): bool
+            {
+                return false;
+            }
         };
 
         $child2 = new class implements AnalyserInterface {
@@ -67,6 +83,21 @@ class CompositeAnalyserTest extends TestCase
             public function analyse(): AnalysisInterface
             {
                 return new Analysis();
+            }
+
+            public function postProcessAnalysis(AnalysisInterface $analysis): AnalysisInterface
+            {
+                return $analysis;
+            }
+
+            public function collectNoiseGates(AnalysisInterface $analysis): array
+            {
+                return [];
+            }
+
+            public function isInsightGated(InsightInterface $insight, AnalysisInterface $analysis): bool
+            {
+                return false;
             }
         };
 

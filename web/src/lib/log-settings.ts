@@ -6,10 +6,8 @@
 export type LogSettingKey =
   | "fullWidth"
   | "noWrap"
-  | "overflow"
   | "floatingScrollbar"
-  | "hideEngineNoise"
-  | "showAllEntries";
+  | "hideEngineNoise";
 
 export type LogSettingsState = Record<LogSettingKey, boolean>;
 
@@ -23,22 +21,19 @@ export interface LogSettingMeta {
 export const SETTINGS: LogSettingMeta[] = [
   { key: "fullWidth", label: "Full Width", desc: "Remove the centered container to use the full viewport width.", group: "Layout" },
   { key: "noWrap", label: "No Wrap", desc: "Disable line wrapping to show each log line as a single horizontal row.", group: "Layout" },
-  { key: "overflow", label: "Overflow", desc: "Let wide log lines overflow the page width instead of scrolling inside the panel.", group: "Layout" },
   { key: "floatingScrollbar", label: "Floating Scrollbar", desc: "Show a sticky bottom scrollbar for navigating wide, unwrapped log files.", group: "Layout" },
   { key: "hideEngineNoise", label: "Hide Engine Noise", desc: "Filter low-severity engine noise out of the problem panel.", group: "Content" },
-  { key: "showAllEntries", label: "Show All Entries", desc: "Disable smart folding to show every log entry, including info and debug lines.", group: "Content" },
 ];
 
 export const DEFAULT_SETTINGS: LogSettingsState = {
   fullWidth: false,
   noWrap: false,
-  overflow: false,
   floatingScrollbar: false,
-  hideEngineNoise: true,
-  showAllEntries: false,
+  hideEngineNoise: false,
 };
 
 export const SETTINGS_COOKIE_NAME = "IBLOGS_SETTINGS";
+export const SETTINGS_COOKIE_VERSION = 2;
 
 /**
  * Parse the IBLOGS_SETTINGS cookie value (URL-encoded JSON) into a partial
@@ -53,8 +48,16 @@ export function parseSettingsCookie(
   try {
     const parsed = JSON.parse(decodeURIComponent(raw));
     if (parsed && typeof parsed === "object") {
+      const version =
+        typeof (parsed as { version?: unknown }).version === "number"
+          ? (parsed as { version: number }).version
+          : 1;
       const out: Partial<LogSettingsState> = {};
       for (const meta of SETTINGS) {
+        if (meta.key === "hideEngineNoise" && version < SETTINGS_COOKIE_VERSION) {
+          out[meta.key] = false;
+          continue;
+        }
         if (typeof parsed[meta.key] === "boolean") {
           out[meta.key] = parsed[meta.key];
         }

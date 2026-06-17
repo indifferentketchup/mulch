@@ -20,6 +20,15 @@ class JavaExceptionProblem extends Problem implements
     SeverityAwareInsightInterface,
     CauseChainInsightInterface
 {
+    public const array OOM_ERRORS = [
+        'java.lang.OutOfMemoryError',
+        'java.lang.StackOverflowError',
+    ];
+
+    public const array METAID_CORRUPTION = [
+        'java.lang.Exception',
+    ];
+
     private string $exceptionClass = '';
     private string $fileLine = '';
     private ?string $causeChain = null;
@@ -59,6 +68,14 @@ class JavaExceptionProblem extends Problem implements
 
     public function getSeverity(): Severity
     {
+        if (in_array($this->exceptionClass, self::OOM_ERRORS, true)) {
+            return Severity::Critical;
+        }
+        if (str_contains($this->exceptionClass, 'SaveCorruption')
+            || str_contains($this->exceptionClass, 'MetaID')
+            || preg_match('/metaID|saveCorruption/i', $this->exceptionClass) === 1) {
+            return Severity::Critical;
+        }
         return Severity::Medium;
     }
 

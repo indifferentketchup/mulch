@@ -33,16 +33,24 @@
   --info: #56B4E9;
   --info-bg: rgb(86 180 233 / 0.14);
 
-  /* ── severity scale (Okabe-Ito, colorblind-safe) ──
-     critical → brand red, high → orange, medium → amber, low → info */
-  --sev-critical: #FF3838;
-  --sev-critical-bg: rgb(255 56 56 / 0.14);
-  --sev-high: #E97515;
-  --sev-high-bg: rgb(233 117 21 / 0.16);
-  --sev-medium: #E69F00;
-  --sev-medium-bg: rgb(230 159 0 / 0.14);
-  --sev-low: #56B4E9;
-  --sev-low-bg: rgb(86 180 233 / 0.14);
+  /* ── severity scale (WARM ramp) ──
+     critical → brand red mix, high → orange #ff8c42, medium → amber, low → muted, noise → ghost */
+  --sev-critical: color-mix(in srgb, var(--error) 70%, var(--text) 30%);
+  --sev-critical-bg: var(--error-bg);
+  --sev-high: #ff8c42;
+  --sev-high-bg: color-mix(in srgb, #ff8c42 12%, transparent);
+  --sev-medium: #fbbf24;
+  --sev-medium-bg: color-mix(in srgb, #fbbf24 12%, transparent);
+  --sev-low: var(--text-muted);
+  --sev-low-bg: var(--bg);
+  --sev-noise: color-mix(in srgb, var(--text) 52%, var(--bg) 48%);
+  --sev-noise-bg: var(--bg);
+
+  /* ── log entry level colors (single source of truth for log-body rendering) ── */
+  --level-warning: #facc15;
+  --level-error: var(--error);
+  --level-stack: #fb923c;
+  --level-comment: #A4A4A4;
 
   /* error tone (paste/upload failures) = high-severity orange */
   --error: #E97515;
