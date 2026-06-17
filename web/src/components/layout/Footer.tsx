@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="relative z-10 mt-auto border-t border-[var(--border)]">
@@ -11,12 +13,12 @@ export function Footer() {
           >
             github
           </a>
-          <a
+          <Link
             href="/api"
             className="underline decoration-1 underline-offset-2 transition-colors duration-150 hover:text-[var(--text)]"
           >
             api
-          </a>
+          </Link>
         </nav>
         <span className="max-[640px]:order-2">
           based on{" "}

@@ -74,4 +74,14 @@ interface AnalysisInterface extends Iterator, Countable, ArrayAccess, JsonSerial
      * @return InsightInterface[]
      */
     public function getFilteredInsights(string $extendedFrom): array;
+
+    public function setLlmVerdict(?LlmVerdict $verdict): static;
+
+    public function getLlmVerdict(): ?LlmVerdict;
+
+    public function getRankedInsights(): array;
+
+    public function setGatedInsights(array $gates): static;
+
+    public function getGatedInsights(): array;
 }

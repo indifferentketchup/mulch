@@ -16,6 +16,10 @@ abstract class Insight implements InsightInterface
     protected ?EntryInterface $entry = null;
     protected int $counter = 1;
     protected ?string $fingerprint = null;
+    protected Kind $kind = Kind::Unknown;
+    protected Attribution $attribution = Attribution::Unattributed;
+    protected ?int $rank = null;
+    protected ?bool $gated = null;
 
     /**
      * Set the related entry
@@ -96,6 +100,8 @@ abstract class Insight implements InsightInterface
             'counter' => $this->getCounterValue(),
             'entry' => $this->getEntry(),
             'fingerprint' => $this->getFingerprint(),
+            'kind' => $this->getKind()->value,
+            'attribution' => $this->getAttribution()->value,
         ];
 
         if ($this instanceof SeverityAwareInsightInterface) {
@@ -111,7 +117,73 @@ abstract class Insight implements InsightInterface
             $base['causeChain'] = $this->getCauseChain();
         }
 
+        $base['rank'] = $this->getRankScore();
+        $base['gated'] = $this->isGated();
+
         return $base;
+    }
+
+    /**
+     * The computed priority score this insight sorts by (higher = surface first).
+     */
+    public function getRankScore(): int
+    {
+        if ($this->rank !== null) {
+            return $this->rank;
+        }
+
+        return RankCalculator::applyLlmAdjustment(
+            RankCalculator::compute($this),
+            $this->getAnalysis()?->getLlmVerdict(),
+        );
+    }
+
+    public function setRank(?int $rank): static
+    {
+        $this->rank = $rank;
+        return $this;
+    }
+
+    /**
+     * Whether this insight is engine noise routed to the collapsed footer. An
+     * explicit override (set via setGated) wins; otherwise gate engine-noise
+     * insights and high-volume unattributed low-severity chatter.
+     */
+    public function isGated(): bool
+    {
+        return $this->gated ?? false;
+    }
+
+    /**
+     * Force the gate state (analysis pass override). Pass null to fall back to
+     * the default predicate.
+     */
+    public function setGated(?bool $gated): static
+    {
+        $this->gated = $gated;
+        return $this;
+    }
+
+    public function getKind(): Kind
+    {
+        return $this->kind;
+    }
+
+    public function setKind(Kind $kind): static
+    {
+        $this->kind = $kind;
+        return $this;
+    }
+
+    public function getAttribution(): Attribution
+    {
+        return $this->attribution;
+    }
+
+    public function setAttribution(Attribution $attribution): static
+    {
+        $this->attribution = $attribution;
+        return $this;
     }
 
     /**

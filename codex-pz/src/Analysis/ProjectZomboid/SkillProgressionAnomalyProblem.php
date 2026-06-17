@@ -4,13 +4,15 @@ namespace IndifferentKetchup\CodexPz\Analysis\ProjectZomboid;
 
 use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\Problem;
+use IndifferentKetchup\CodexPz\Analysis\Severity;
+use IndifferentKetchup\CodexPz\Analysis\SeverityAwareInsightInterface;
 
 /**
  * Problem emitted by SkillProgressionAnomalyAnalyser when a single skill
  * gained more than the configured threshold between two consecutive
  * snapshots of the same player. Coalesced by (Steam ID, skill).
  */
-class SkillProgressionAnomalyProblem extends Problem
+class SkillProgressionAnomalyProblem extends Problem implements SeverityAwareInsightInterface
 {
     private string $steamId = '';
     private string $player = '';
@@ -83,6 +85,11 @@ class SkillProgressionAnomalyProblem extends Problem
     public function getDelta(): int
     {
         return $this->delta;
+    }
+
+    public function getSeverity(): Severity
+    {
+        return Severity::Low;
     }
 
     public function getMessage(): string

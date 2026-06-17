@@ -1,6 +1,7 @@
 export interface LogDocument {
   _id: string;
-  content: string;
+  content?: string;
+  content_file_id?: string | null;
   source?: string;
   metadata?: MetadataItem[];
   token?: string;
@@ -22,14 +23,18 @@ export interface AnalysisData {
   entries: LogEntry[];
   problems: ProblemData[];
   information: InfoItem[];
+  gated?: GatedRow[];
 }
 
+// Compact: line text is NOT carried here. The client rebuilds each entry's
+// text from the raw `content` using first..last, so the stored/shipped
+// analysis stays small. See analyze.php and LogView.buildItems.
 export interface LogEntry {
   level: string;
   level_int: number;
   prefix: string | null;
-  time: string | null;
-  lines: { number: number; text: string }[];
+  first: number;
+  last: number;
 }
 
 export interface ProblemData {
@@ -38,6 +43,10 @@ export interface ProblemData {
   count: number;
   entry_line: number | null;
   is_noise: boolean;
+  kind: string;
+  attribution: string;
+  rank: number;
+  gated: boolean;
   stack_trace?: string;
   solutions: { message: string }[];
   mod?: {
@@ -46,6 +55,14 @@ export interface ProblemData {
     confidence: string;
     is_direct: boolean;
   };
+}
+
+export interface GatedRow {
+  fingerprint: string;
+  occurrences: number;
+  reason: string;
+  kind: string;
+  sampleMessage: string;
 }
 
 export interface InfoItem {

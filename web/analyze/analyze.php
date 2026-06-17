@@ -46,22 +46,29 @@ $game = match (true) {
 $entries = [];
 $errorCount = 0;
 
+// Compact entry shape: line text is NOT duplicated here. The client already
+// has the raw `content` and slices each entry's text from it by line number,
+// so the stored analysis stays small (avoids duplicating the whole log and
+// blowing past MongoDB's 16 MB document cap). Each entry carries only its
+// level and its first/last source-line numbers.
 foreach ($log as $entry) {
     $level = $entry->getLevel();
-    $entryData = [
+    $first = null;
+    $last = null;
+    foreach ($entry as $line) {
+        $n = $line->getNumber();
+        if ($first === null) {
+            $first = $n;
+        }
+        $last = $n;
+    }
+    $entries[] = [
         'level' => $level->asString(),
         'level_int' => $level->asInt(),
         'prefix' => $entry->getPrefix(),
-        'time' => null,
-        'lines' => [],
+        'first' => $first ?? 0,
+        'last' => $last ?? ($first ?? 0),
     ];
-    foreach ($entry as $line) {
-        $entryData['lines'][] = [
-            'number' => $line->getNumber(),
-            'text' => $line->getText(),
-        ];
-    }
-    $entries[] = $entryData;
     if ($level->asInt() <= \IndifferentKetchup\CodexPz\Log\Level::ERROR->asInt()) {
         $errorCount++;
     }
@@ -95,6 +102,10 @@ if ($log instanceof AnalysableLogInterface) {
             'count' => $problem->getCounterValue(),
             'entry_line' => $entryLine,
             'is_noise' => $problem instanceof EngineNoiseInsightInterface,
+            'kind' => $problem->getKind()->value,
+            'attribution' => $problem->getAttribution()->value,
+            'rank' => $problem->getRankScore(),
+            'gated' => $problem->isGated(),
             'solutions' => [],
         ];
 
@@ -129,9 +140,15 @@ if ($log instanceof AnalysableLogInterface) {
         ];
     }
 
+    $gatedRows = [];
+    foreach ($analysis->getGatedInsights() as $gate) {
+        $gatedRows[] = $gate->jsonSerialize();
+    }
+
     $analysisData = [
         'problems' => $problemList,
         'information' => $infoList,
+        'gated' => $gatedRows,
     ];
 }
 

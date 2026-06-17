@@ -4,6 +4,8 @@ namespace IndifferentKetchup\CodexPz\Analysis\ProjectZomboid;
 
 use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\Problem;
+use IndifferentKetchup\CodexPz\Analysis\Severity;
+use IndifferentKetchup\CodexPz\Analysis\SeverityAwareInsightInterface;
 
 /**
  * Problem emitted by ItemDuplicationAnalyser when a player gains the same
@@ -11,7 +13,7 @@ use IndifferentKetchup\CodexPz\Analysis\Problem;
  * the (Steam ID, item code) tuple so each suspicious group produces one
  * problem regardless of how many events fall inside the window.
  */
-class ItemDuplicationProblem extends Problem
+class ItemDuplicationProblem extends Problem implements SeverityAwareInsightInterface
 {
     private string $steamId = '';
     private string $player = '';
@@ -60,6 +62,11 @@ class ItemDuplicationProblem extends Problem
     public function getEventCount(): int
     {
         return $this->eventCount;
+    }
+
+    public function getSeverity(): Severity
+    {
+        return Severity::Low;
     }
 
     public function getMessage(): string

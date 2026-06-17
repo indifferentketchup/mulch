@@ -5,6 +5,7 @@ namespace IndifferentKetchup\CodexPz\Analyser\ProjectZomboid;
 use IndifferentKetchup\CodexPz\Analyser\Analyser;
 use IndifferentKetchup\CodexPz\Analysis\Analysis;
 use IndifferentKetchup\CodexPz\Analysis\AnalysisInterface;
+use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\ErrorContextProblem;
 use IndifferentKetchup\CodexPz\Analysis\ProjectZomboid\ErrorContextTruncatedInformation;
 use IndifferentKetchup\CodexPz\Log\EntryInterface;
@@ -127,5 +128,93 @@ class ErrorContextAnalyser extends Analyser
             return 'warning';
         }
         return null;
+    }
+
+    /**
+     * Suppress ErrorContextProblem rows when a more specific non-ErrorContext
+     * problem covers the same parsed entry or the immediately adjacent entry.
+     * Runs after CompositeAnalyser has merged all child insights.
+     *
+     * Adjacent means the specific problem's entry is within ±1 position of
+     * the ErrorContextProblem's entry in the log. Since explicit entry indices
+     * are only stored on ErrorContextProblem, we approximate adjacency by
+     * checking whether any specific-problem entry carries a line number within
+     * one line of the ErrorContextProblem entry's first line number.
+     */
+    public function postProcessAnalysis(AnalysisInterface $analysis): AnalysisInterface
+    {
+        $problems = $analysis->getProblems();
+
+        $specificEntries = [];
+        foreach ($problems as $problem) {
+            if ($problem instanceof ErrorContextProblem) {
+                continue;
+            }
+            $entry = $problem->getEntry();
+            if ($entry !== null) {
+                $specificEntries[spl_object_id($entry)] = $this->entryLineNumbers($entry);
+            }
+        }
+
+        if ($specificEntries === []) {
+            return $analysis;
+        }
+
+        $keep = [];
+        foreach ($analysis->getInsights() as $insight) {
+            if ($insight instanceof ErrorContextProblem) {
+                $entry = $insight->getEntry();
+                if ($entry !== null && $this->overlapsSpecificEntry($entry, $specificEntries)) {
+                    continue;
+                }
+            }
+            $keep[] = $insight;
+        }
+
+        $analysis->setInsights($keep);
+        return $analysis;
+    }
+
+    /**
+     * Check whether a given entry overlaps (same object or immediately
+     * adjacent by line number) any specific-problem entry.
+     *
+     * @param array<int, array<int, int>> $specificEntries spl_object_id => [line numbers]
+     */
+    private function overlapsSpecificEntry(EntryInterface $entry, array $specificEntries): bool
+    {
+        $entryId = spl_object_id($entry);
+        if (isset($specificEntries[$entryId])) {
+            return true;
+        }
+
+        $ecpLines = $this->entryLineNumbers($entry);
+        $ecpMin = $ecpLines !== [] ? min($ecpLines) : null;
+        $ecpMax = $ecpLines !== [] ? max($ecpLines) : null;
+
+        foreach ($specificEntries as $otherLines) {
+            $otherMin = $otherLines !== [] ? min($otherLines) : null;
+            $otherMax = $otherLines !== [] ? max($otherLines) : null;
+
+            if ($ecpMin !== null && $otherMin !== null) {
+                if (abs($ecpMin - $otherMin) <= 1 || abs($ecpMax - $otherMax) <= 1) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return list<int>
+     */
+    private function entryLineNumbers(EntryInterface $entry): array
+    {
+        $numbers = [];
+        foreach ($entry->getLines() as $line) {
+            $numbers[] = $line->getNumber();
+        }
+        return $numbers;
     }
 }

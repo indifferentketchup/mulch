@@ -8,6 +8,11 @@ if ($uri === '/analyze' && $method === 'POST') {
     return true;
 }
 
+if ($uri === '/redact' && $method === 'POST') {
+    require __DIR__ . '/redact.php';
+    return true;
+}
+
 if ($uri === '/health' && $method === 'GET') {
     header('Content-Type: application/json');
     echo json_encode(['status' => 'ok']);

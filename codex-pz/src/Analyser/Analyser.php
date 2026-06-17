@@ -2,6 +2,8 @@
 
 namespace IndifferentKetchup\CodexPz\Analyser;
 
+use IndifferentKetchup\CodexPz\Analysis\AnalysisInterface;
+use IndifferentKetchup\CodexPz\Analysis\InsightInterface;
 use IndifferentKetchup\CodexPz\Log\AnalysableLogInterface;
 
 /**
@@ -23,5 +25,20 @@ abstract class Analyser implements AnalyserInterface
     {
         $this->log = $log;
         return $this;
+    }
+
+    public function postProcessAnalysis(AnalysisInterface $analysis): AnalysisInterface
+    {
+        return $analysis;
+    }
+
+    public function collectNoiseGates(AnalysisInterface $analysis): array
+    {
+        return [];
+    }
+
+    public function isInsightGated(InsightInterface $insight, AnalysisInterface $analysis): bool
+    {
+        return false;
     }
 }

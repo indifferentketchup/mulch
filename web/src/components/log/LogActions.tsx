@@ -7,13 +7,15 @@ interface LogActionsProps {
   logId: string;
   lines: number;
   bytes: number;
+  errors: number;
+  buildHash?: string | null;
   canDelete: boolean;
 }
 
 const ghost =
   "inline-flex h-8 items-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg-elevated)] px-3 font-[var(--font-mono)] text-[0.75rem] text-[var(--text-muted)] transition-colors duration-150 hover:border-[var(--text-muted)] hover:text-[var(--text)]";
 
-export function LogActions({ logId, lines, bytes, canDelete }: LogActionsProps) {
+export function LogActions({ logId, lines, bytes, errors, buildHash, canDelete }: LogActionsProps) {
   const [showDelete, setShowDelete] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
@@ -43,11 +45,25 @@ export function LogActions({ logId, lines, bytes, canDelete }: LogActionsProps) 
 
   return (
     <div className="flex shrink-0 flex-wrap items-center gap-2">
+      {errors > 0 && (
+        <span
+          className="inline-flex h-8 items-center gap-1.5 rounded-[var(--radius-md)] border border-[var(--accent-border)] bg-[var(--accent-bg)] px-3 font-[var(--font-mono)] text-[0.75rem] font-medium tabular-nums text-[var(--accent)]"
+          title={`${errors.toLocaleString()} error${errors === 1 ? "" : "s"} detected`}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M12 8v4M12 16h.01" /></svg>
+          {errors.toLocaleString()} {errors === 1 ? "error" : "errors"}
+        </span>
+      )}
       <button
         type="button"
         className={`${ghost} tabular-nums`}
         title="Jump to end of log"
-        onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" })}
+        onClick={() => {
+          const target = document.body.scrollHeight;
+          const current = window.scrollY + window.innerHeight;
+          const distance = target - current;
+          window.scrollTo({ top: target, behavior: distance < 10000 ? "smooth" : "instant" });
+        }}
       >
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7" /></svg>
         {lines.toLocaleString()} lines &middot; {formatBytes(bytes)}
@@ -56,6 +72,11 @@ export function LogActions({ logId, lines, bytes, canDelete }: LogActionsProps) 
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
         raw
       </Link>
+      {buildHash && (
+        <span className="inline-flex h-8 items-center gap-1.5 px-1 font-[var(--font-mono)] text-[0.72rem] text-[var(--text-muted)]" title="Engine build">
+          build <span className="text-[var(--text)]">{buildHash}</span>
+        </span>
+      )}
       {canDelete && (
         <div className="relative">
           <button
